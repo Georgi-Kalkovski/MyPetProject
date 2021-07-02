@@ -26,6 +26,18 @@
 
         public DbSet<Setting> Settings { get; set; }
 
+        public DbSet<Breed> Breeds { get; set; }
+
+        public DbSet<Food> Foods { get; set; }
+
+        public DbSet<FoodType> FoodTypes { get; set; }
+
+        public DbSet<Kingdom> Kingdoms { get; set; }
+
+        public DbSet<Subbreed> Subbreeds { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
