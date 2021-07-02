@@ -1,0 +1,22 @@
+﻿@model MyPetProject.Web.ViewModels.Foods.FoodsListViewModel
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h1>View</h1>
+
+<div>
+    <h4>FoodsListViewModel</h4>
+    <hr />
+    <dl class="row">
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Create">Create</a>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>
