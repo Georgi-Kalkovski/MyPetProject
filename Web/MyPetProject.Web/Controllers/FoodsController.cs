@@ -19,10 +19,9 @@ namespace MyPetProject.Web.Controllers
             return this.View();
         }
 
-        [HttpPost]
+        /*[HttpPost]
         public Task<IActionResult> Create(FoodViewModel inputModel)
         {
-            return this.View();
-        }
+        }*/
     }
 }
