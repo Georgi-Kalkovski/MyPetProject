@@ -10,8 +10,8 @@ using MyPetProject.Data;
 namespace MyPetProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210702103750_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20210705093639_Second")]
+    partial class Second
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -310,7 +310,6 @@ namespace MyPetProject.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
@@ -323,7 +322,6 @@ namespace MyPetProject.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -354,7 +352,7 @@ namespace MyPetProject.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FoodTypeId")
+                    b.Property<int?>("FoodTypeId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
@@ -371,7 +369,7 @@ namespace MyPetProject.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SubbreedId")
+                    b.Property<int?>("SubbreedId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -511,7 +509,7 @@ namespace MyPetProject.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BreedId")
+                    b.Property<int?>("BreedId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
@@ -631,9 +629,7 @@ namespace MyPetProject.Data.Migrations
 
                     b.HasOne("MyPetProject.Data.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -642,15 +638,11 @@ namespace MyPetProject.Data.Migrations
                 {
                     b.HasOne("MyPetProject.Data.Models.FoodType", "FoodType")
                         .WithMany("Foods")
-                        .HasForeignKey("FoodTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("FoodTypeId");
 
                     b.HasOne("MyPetProject.Data.Models.Subbreed", "Subbreed")
                         .WithMany("Foods")
-                        .HasForeignKey("SubbreedId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("SubbreedId");
 
                     b.HasOne("MyPetProject.Data.Models.ApplicationUser", "User")
                         .WithMany()
@@ -685,9 +677,7 @@ namespace MyPetProject.Data.Migrations
                 {
                     b.HasOne("MyPetProject.Data.Models.Breed", "Breed")
                         .WithMany("Subbreeds")
-                        .HasForeignKey("BreedId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("BreedId");
 
                     b.HasOne("MyPetProject.Data.Models.ApplicationUser", "User")
                         .WithMany()

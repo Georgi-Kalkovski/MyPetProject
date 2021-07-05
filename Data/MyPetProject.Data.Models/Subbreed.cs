@@ -25,15 +25,13 @@
 
         public bool IsPet { get; set; }
 
-        [ForeignKey(nameof(Breed))]
-        public int BreedId { get; set; }
+        public int? BreedId { get; set; }
 
-        public Breed Breed { get; set; }
+        public virtual Breed Breed { get; set; }
 
-        [ForeignKey(nameof(User))]
         public string UserId { get; set; }
 
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
         public virtual ICollection<Food> Foods { get; set; }
 

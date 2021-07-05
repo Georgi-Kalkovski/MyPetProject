@@ -22,15 +22,13 @@
         [Required]
         public string Description { get; set; }
 
-        [ForeignKey(nameof(Kingdom))]
         public int KingdomId { get; set; }
 
-        public Kingdom Kingdom { get; set; }
+        public virtual Kingdom Kingdom { get; set; }
 
-        [ForeignKey(nameof(User))]
         public string UserId { get; set; }
 
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
         public virtual ICollection<Subbreed> Subbreeds { get; set; }
     }

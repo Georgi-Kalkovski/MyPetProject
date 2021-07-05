@@ -22,10 +22,9 @@
         [Required]
         public string Description { get; set; }
 
-        [ForeignKey(nameof(User))]
         public string UserId { get; set; }
 
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
         public virtual ICollection<Food> Foods { get; set; }
     }

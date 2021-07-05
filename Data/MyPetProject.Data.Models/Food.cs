@@ -16,19 +16,16 @@
         [Required]
         public string Description { get; set; }
 
-        [ForeignKey(nameof(FoodType))]
-        public int FoodTypeId { get; set; }
+        public int? FoodTypeId { get; set; }
 
-        public FoodType FoodType { get; set; }
+        public virtual FoodType FoodType { get; set; }
 
-        [ForeignKey(nameof(Subbreed))]
-        public int SubbreedId { get; set; }
+        public int? SubbreedId { get; set; }
 
-        public Subbreed Subbreed { get; set; }
+        public virtual Subbreed Subbreed { get; set; }
 
-        [ForeignKey(nameof(User))]
         public string UserId { get; set; }
 
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }

@@ -1,88 +1,172 @@
-﻿namespace MyPetProject.Web.Controllers
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using MyPetProject.Data;
+using MyPetProject.Data.Models;
+
+namespace MyPetProject.Web.Controllers
 {
-    using System.Linq;
-    using System.Threading.Tasks;
-
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
-    using MyPetProject.Data;
-    using MyPetProject.Data.Models;
-
     public class FoodsController : Controller
     {
-        private readonly ApplicationDbContext db;
+        private readonly ApplicationDbContext _context;
 
-        [BindProperty]
-        public Food Food { get; set; }
-
-        public FoodsController(ApplicationDbContext db)
+        public FoodsController(ApplicationDbContext context)
         {
-            this.db = db;
+            _context = context;
         }
 
-        public IActionResult Index()
+        // GET: Foods
+        public async Task<IActionResult> Index()
         {
-            return this.View();
+            var applicationDbContext = _context.Foods.Include(f => f.FoodType).Include(f => f.Subbreed).Include(f => f.User);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        public IActionResult Create(int? id)
+        // GET: Foods/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
-            this.Food = new Food();
             if (id == null)
             {
-                return this.View(this.Food);
+                return NotFound();
             }
 
-            this.Food = this.db.Foods.FirstOrDefault(d => d.Id == id);
-            if (this.Food == null)
+            var food = await _context.Foods
+                .Include(f => f.FoodType)
+                .Include(f => f.Subbreed)
+                .Include(f => f.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (food == null)
             {
-                return this.NotFound();
+                return NotFound();
             }
 
-            return this.View(this.Food);
+            return View(food);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        // GET: Foods/Create
         public IActionResult Create()
         {
-            // Dino = new Dino();
-            if (this.ModelState.IsValid)
-            {
-                if (this.Food.Id == 0)
-                {
-                    this.db.Foods.Add(this.Food);
-                }
-                else
-                {
-                    this.db.Foods.Update(this.Food);
-                }
-
-                this.db.SaveChanges();
-                return this.RedirectToAction("Index");
-            }
-
-            return this.View(this.Food);
+            ViewData["FoodTypeId"] = new SelectList(_context.FoodTypes, "Id", "Description");
+            ViewData["SubbreedId"] = new SelectList(_context.Subbreeds, "Id", "Description");
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            return View();
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        // POST: Foods/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Name,PicUrl,Description,FoodTypeId,SubbreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Food food)
         {
-            return this.Json(new { data = await this.db.Foods.ToListAsync() });
+            if (ModelState.IsValid)
+            {
+                _context.Add(food);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["FoodTypeId"] = new SelectList(_context.FoodTypes, "Id", "Description", food.FoodTypeId);
+            ViewData["SubbreedId"] = new SelectList(_context.Subbreeds, "Id", "Description", food.SubbreedId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", food.UserId);
+            return View(food);
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
+        // GET: Foods/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
-            var foods = await this.db.Foods.FirstOrDefaultAsync(u => u.Id == id);
-            if (foods != null)
+            if (id == null)
             {
-                this.db.Foods.Remove(foods);
-                await this.db.SaveChangesAsync();
-                return this.Json(new { success = true, message = "Delete successful" });
+                return NotFound();
             }
 
-            return this.Json(new { success = false, message = "Error while Deleting" });
+            var food = await _context.Foods.FindAsync(id);
+            if (food == null)
+            {
+                return NotFound();
+            }
+            ViewData["FoodTypeId"] = new SelectList(_context.FoodTypes, "Id", "Description", food.FoodTypeId);
+            ViewData["SubbreedId"] = new SelectList(_context.Subbreeds, "Id", "Description", food.SubbreedId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", food.UserId);
+            return View(food);
+        }
+
+        // POST: Foods/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Name,PicUrl,Description,FoodTypeId,SubbreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Food food)
+        {
+            if (id != food.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(food);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!FoodExists(food.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["FoodTypeId"] = new SelectList(_context.FoodTypes, "Id", "Description", food.FoodTypeId);
+            ViewData["SubbreedId"] = new SelectList(_context.Subbreeds, "Id", "Description", food.SubbreedId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", food.UserId);
+            return View(food);
+        }
+
+        // GET: Foods/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var food = await _context.Foods
+                .Include(f => f.FoodType)
+                .Include(f => f.Subbreed)
+                .Include(f => f.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (food == null)
+            {
+                return NotFound();
+            }
+
+            return View(food);
+        }
+
+        // POST: Foods/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var food = await _context.Foods.FindAsync(id);
+            _context.Foods.Remove(food);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool FoodExists(int id)
+        {
+            return _context.Foods.Any(e => e.Id == id);
         }
     }
 }
