@@ -22,7 +22,7 @@
         [Required]
         public string Description { get; set; }
 
-        public int KingdomId { get; set; }
+        public int? KingdomId { get; set; }
 
         public virtual Kingdom Kingdom { get; set; }
 

@@ -22,5 +22,9 @@
   <ItemGroup>
     <ProjectReference Include="..\MyPetProject.Data.Common\MyPetProject.Data.Common.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Enums\" />
+  </ItemGroup>
   
 </Project>

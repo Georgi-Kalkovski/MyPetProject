@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MyPetProject.Data.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class First : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -238,7 +238,7 @@ namespace MyPetProject.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PicUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    KingdomId = table.Column<int>(type: "int", nullable: false),
+                    KingdomId = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -272,7 +272,7 @@ namespace MyPetProject.Data.Migrations
                     PicUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsPet = table.Column<bool>(type: "bit", nullable: false),
-                    BreedId = table.Column<int>(type: "int", nullable: false),
+                    BreedId = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -337,8 +337,8 @@ namespace MyPetProject.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PicUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FoodTypeId = table.Column<int>(type: "int", nullable: false),
-                    SubbreedId = table.Column<int>(type: "int", nullable: false),
+                    FoodTypeId = table.Column<int>(type: "int", nullable: true),
+                    SubbreedId = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),

@@ -10,8 +10,8 @@ using MyPetProject.Data;
 namespace MyPetProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210705093639_Second")]
-    partial class Second
+    [Migration("20210706095609_First")]
+    partial class First
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -265,7 +265,7 @@ namespace MyPetProject.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("KingdomId")
+                    b.Property<int?>("KingdomId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ModifiedOn")
@@ -608,9 +608,7 @@ namespace MyPetProject.Data.Migrations
                 {
                     b.HasOne("MyPetProject.Data.Models.Kingdom", "Kingdom")
                         .WithMany("Breeds")
-                        .HasForeignKey("KingdomId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("KingdomId");
 
                     b.HasOne("MyPetProject.Data.Models.ApplicationUser", "User")
                         .WithMany()
