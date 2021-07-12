@@ -266,6 +266,10 @@ namespace MyPetProject.Data.Migrations
                     b.Property<int?>("KingdomId")
                         .HasColumnType("int");
 
+                    b.Property<string>("KingdomName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 

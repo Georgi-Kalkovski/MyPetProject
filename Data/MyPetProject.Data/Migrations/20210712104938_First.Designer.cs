@@ -10,7 +10,7 @@ using MyPetProject.Data;
 namespace MyPetProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210706095609_First")]
+    [Migration("20210712104938_First")]
     partial class First
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -267,6 +267,10 @@ namespace MyPetProject.Data.Migrations
 
                     b.Property<int?>("KingdomId")
                         .HasColumnType("int");
+
+                    b.Property<string>("KingdomName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");

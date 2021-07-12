@@ -19,19 +19,12 @@ namespace MyPetProject.Web.Controllers
             _context = context;
         }
 
-        //// GET: Breeds
-        //public async Task<IActionResult> Index()
-        //{
-        //    var applicationDbContext = _context.Breeds.Include(b => b.Kingdom).Include(b => b.User);
-        //    return View(await applicationDbContext.ToListAsync());
-        //}
-        [HttpGet("Kingdoms/{breed}")]
-        public async Task<IActionResult> Index()
+        // GET: Breeds
+        [HttpGet("/Breeds/{name}")]
+        public async Task<IActionResult> Index(string name)
         {
-            var applicationDbContext = _context.Breeds.Include(b => b.Kingdom).Include(b => b.User);
-            var breed = applicationDbContext
-                .Select(x => x.KingdomId);
-
+            var applicationDbContext = _context.Breeds.Include(b => b.User)
+                .Where(x => x.KingdomName == name);
             return this.View(await applicationDbContext.ToListAsync());
         }
 
@@ -44,7 +37,6 @@ namespace MyPetProject.Web.Controllers
             }
 
             var breed = await _context.Breeds
-                .Include(b => b.Kingdom)
                 .Include(b => b.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (breed == null)
@@ -58,7 +50,6 @@ namespace MyPetProject.Web.Controllers
         // GET: Breeds/Create
         public IActionResult Create()
         {
-            ViewData["KingdomId"] = new SelectList(_context.Kingdoms, "Id", "Name");
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
@@ -66,9 +57,9 @@ namespace MyPetProject.Web.Controllers
         // POST: Breeds/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,PicUrl,Description,KingdomId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Breed breed)
+        public async Task<IActionResult> Create([Bind("Name,PicUrl,Description,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Breed breed)
         {
             if (ModelState.IsValid)
             {
@@ -76,7 +67,6 @@ namespace MyPetProject.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KingdomId"] = new SelectList(_context.Kingdoms, "Id", "Name", breed.KingdomId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", breed.UserId);
             return View(breed);
         }
@@ -94,7 +84,6 @@ namespace MyPetProject.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["KingdomId"] = new SelectList(_context.Kingdoms, "Id", "Name", breed.KingdomId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", breed.UserId);
             return View(breed);
         }
@@ -104,7 +93,7 @@ namespace MyPetProject.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,PicUrl,Description,KingdomId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Breed breed)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,PicUrl,Description,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Breed breed)
         {
             if (id != breed.Id)
             {
@@ -131,7 +120,6 @@ namespace MyPetProject.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KingdomId"] = new SelectList(_context.Kingdoms, "Id", "Name", breed.KingdomId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", breed.UserId);
             return View(breed);
         }
@@ -145,7 +133,6 @@ namespace MyPetProject.Web.Controllers
             }
 
             var breed = await _context.Breeds
-                .Include(b => b.Kingdom)
                 .Include(b => b.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (breed == null)

@@ -238,6 +238,7 @@ namespace MyPetProject.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PicUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    KingdomName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     KingdomId = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),

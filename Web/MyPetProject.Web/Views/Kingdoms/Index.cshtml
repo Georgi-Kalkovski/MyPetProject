@@ -16,7 +16,7 @@
             @foreach (var item in Model)
             {
                 <div class="card col-6 col-lg-3 game-card">
-                    <a asp-action="Breeds">
+                    <a asp-action="@item.Name">
                         <img class="card-img-top" src="~/img/kingdoms/@Html.DisplayFor(modelItem => item.PicUrl)" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
