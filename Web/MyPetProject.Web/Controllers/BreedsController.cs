@@ -20,6 +20,7 @@ namespace MyPetProject.Web.Controllers
         }
 
         // GET: Breeds
+        [HttpGet("/Breeds")]
         [HttpGet("/Breeds/{name}")]
         public async Task<IActionResult> Index(string name)
         {
@@ -48,6 +49,7 @@ namespace MyPetProject.Web.Controllers
         }
 
         // GET: Breeds/Create
+        [HttpGet("Breeds/Create")]
         public IActionResult Create()
         {
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
@@ -57,7 +59,7 @@ namespace MyPetProject.Web.Controllers
         // POST: Breeds/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-
+        [HttpPost("Breeds/Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,PicUrl,Description,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Breed breed)
         {
