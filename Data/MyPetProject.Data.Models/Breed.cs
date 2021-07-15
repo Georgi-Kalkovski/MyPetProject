@@ -25,6 +25,9 @@
         [Required]
         public string KingdomName { get; set; }
 
+        [ForeignKey("Kingdom")]
+        public int? KingdomId { get; set; }
+
         public virtual Kingdom Kingdom { get; set; }
 
         public string UserId { get; set; }

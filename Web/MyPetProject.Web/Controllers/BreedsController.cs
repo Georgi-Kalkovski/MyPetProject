@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyPetProject.Data;
+using MyPetProject.Data.Common.Repositories;
 using MyPetProject.Data.Models;
 
 namespace MyPetProject.Web.Controllers
@@ -13,10 +14,11 @@ namespace MyPetProject.Web.Controllers
     public class BreedsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public BreedsController(ApplicationDbContext context)
+        private readonly IDeletableEntityRepository<Kingdom> _repository;
+        public BreedsController(ApplicationDbContext context, IDeletableEntityRepository<Kingdom> repository)
         {
             _context = context;
+            _repository = repository;
         }
 
         // GET: Breeds
@@ -52,6 +54,7 @@ namespace MyPetProject.Web.Controllers
         [HttpGet("Breeds/Create")]
         public IActionResult Create()
         {
+            ViewData["KingdomName"] = new SelectList(_context.Kingdoms, "Name", "Name");
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
@@ -69,6 +72,7 @@ namespace MyPetProject.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["KingdomName"] = new SelectList(_context.Kingdoms, "Name", "Name", breed.KingdomName);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", breed.UserId);
             return View(breed);
         }
