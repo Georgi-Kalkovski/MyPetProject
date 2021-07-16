@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" onclick="OnSubmit();">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -39,15 +39,6 @@
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
-        <script>
-            function OnSubmit() {
-                document.getElementById("KingdomName").addEventListener("click", function (event) {
-                    let thing = event.target.value;
-                    console.log(thing);
-                    location.href = "@Url.Action(thing, "Breeds")";
-                })
-            }
-        </script>
     </div>
 </div>
 

@@ -27,9 +27,9 @@
                         }
                         <div class="card-body">
                             <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-                            <a href="@item.Id" class="btn btn-primary">Details</a>
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                            <a href="@item.Name" class="btn btn-primary">Details</a>
+                            <a asp-action="Edit" asp-route-id="@item.Name" class="btn btn-warning">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Name" class="btn btn-danger">Delete</a>
                         </div>
                     </a>
                 </div>

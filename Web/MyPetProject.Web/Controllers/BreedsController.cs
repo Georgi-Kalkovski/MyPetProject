@@ -14,18 +14,20 @@ namespace MyPetProject.Web.Controllers
     public class BreedsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IDeletableEntityRepository<Kingdom> _repository;
-        public BreedsController(ApplicationDbContext context, IDeletableEntityRepository<Kingdom> repository)
+        public BreedsController(ApplicationDbContext context)
         {
             _context = context;
-            _repository = repository;
         }
 
         // GET: Breeds
-        [HttpGet("/Breeds")]
         [HttpGet("/Breeds/{name}")]
         public async Task<IActionResult> Index(string name)
         {
+            if (name == "Create")
+            {
+                return this.View();
+            }
+
             var applicationDbContext = _context.Breeds.Include(b => b.User)
                 .Where(x => x.KingdomName == name);
             return this.View(await applicationDbContext.ToListAsync());
@@ -51,7 +53,7 @@ namespace MyPetProject.Web.Controllers
         }
 
         // GET: Breeds/Create
-        [HttpGet("Breeds/Create")]
+        [HttpGet("/Breeds/Create/")]
         public IActionResult Create()
         {
             ViewData["KingdomName"] = new SelectList(_context.Kingdoms, "Name", "Name");
@@ -62,7 +64,7 @@ namespace MyPetProject.Web.Controllers
         // POST: Breeds/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Breeds/Create")]
+        [HttpPost("/Breeds/Create/")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,PicUrl,Description,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Breed breed)
         {
@@ -70,7 +72,7 @@ namespace MyPetProject.Web.Controllers
             {
                 _context.Add(breed);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(breed.KingdomName);
             }
             ViewData["KingdomName"] = new SelectList(_context.Kingdoms, "Name", "Name", breed.KingdomName);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", breed.UserId);
@@ -90,6 +92,7 @@ namespace MyPetProject.Web.Controllers
             {
                 return NotFound();
             }
+            ViewData["KingdomName"] = new SelectList(_context.Kingdoms, "Name", "Name");
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", breed.UserId);
             return View(breed);
         }
@@ -124,8 +127,9 @@ namespace MyPetProject.Web.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(breed.KingdomName);
             }
+            ViewData["KingdomName"] = new SelectList(_context.Kingdoms, "Name", "Name", breed.KingdomName);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", breed.UserId);
             return View(breed);
         }
@@ -157,7 +161,7 @@ namespace MyPetProject.Web.Controllers
             var breed = await _context.Breeds.FindAsync(id);
             _context.Breeds.Remove(breed);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(breed.KingdomName);
         }
 
         private bool BreedExists(int id)

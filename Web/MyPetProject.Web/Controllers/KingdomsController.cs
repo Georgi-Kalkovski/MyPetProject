@@ -13,7 +13,6 @@ namespace MyPetProject.Web.Controllers
     public class KingdomsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
         public KingdomsController(ApplicationDbContext context)
         {
             _context = context;
@@ -46,6 +45,7 @@ namespace MyPetProject.Web.Controllers
         }
 
         // GET: Kingdoms/Create
+        [HttpGet("/Create/")]
         public IActionResult Create()
         {
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
@@ -55,7 +55,7 @@ namespace MyPetProject.Web.Controllers
         // POST: Kingdoms/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Kingdoms/Create")]
+        [HttpPost("/Create/")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,PicUrl,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
         {
@@ -70,18 +70,19 @@ namespace MyPetProject.Web.Controllers
         }
 
         // GET: Kingdoms/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        [HttpGet("/Kingdoms/Edit/{name}")]
+        public async Task<IActionResult> Edit(string name)
         {
-            if (id == null)
+            if (name == null)
             {
                 return NotFound();
             }
-
-            var kingdom = await _context.Kingdoms.FindAsync(id);
+            var kingdom = await _context.Kingdoms.FirstOrDefaultAsync(x => x.Name == name);
             if (kingdom == null)
             {
                 return NotFound();
             }
+
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", kingdom.UserId);
             return View(kingdom);
         }
@@ -89,25 +90,30 @@ namespace MyPetProject.Web.Controllers
         // POST: Kingdoms/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("/Kingdoms/Edit/{name}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,PicUrl,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
+        public async Task<IActionResult> Edit(string name, [Bind("Name,PicUrl,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
         {
-            if (id != kingdom.Id)
+            if (name != kingdom.Name)
             {
                 return NotFound();
             }
 
+            var oldName = HttpContext.Request.Path.Value.Split("/").Last();
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var editingName = await _context.Kingdoms.FirstOrDefaultAsync(x=>x.Name == oldName);
+                    _context.Kingdoms.Remove(editingName);
+                    // TO DO: Change breeds KingdomName with the new name and save
                     _context.Update(kingdom);
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!KingdomExists(kingdom.Id))
+                    if (!KingdomExists(kingdom.Name))
                     {
                         return NotFound();
                     }
@@ -123,16 +129,17 @@ namespace MyPetProject.Web.Controllers
         }
 
         // GET: Kingdoms/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [HttpGet("/Kingdoms/Delete/{name}")]
+        public async Task<IActionResult> Delete(string name)
         {
-            if (id == null)
+            if (name == null)
             {
                 return NotFound();
             }
 
             var kingdom = await _context.Kingdoms
                 .Include(k => k.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Name == name);
             if (kingdom == null)
             {
                 return NotFound();
@@ -142,9 +149,9 @@ namespace MyPetProject.Web.Controllers
         }
 
         // POST: Kingdoms/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("/Kingdoms/Delete/{name}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? id, string name)
         {
             var kingdom = await _context.Kingdoms.FindAsync(id);
             _context.Kingdoms.Remove(kingdom);
@@ -152,9 +159,9 @@ namespace MyPetProject.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool KingdomExists(int id)
+        private bool KingdomExists(string name)
         {
-            return _context.Kingdoms.Any(e => e.Id == id);
+            return _context.Kingdoms.Any(e => e.Name == name);
         }
     }
 }
