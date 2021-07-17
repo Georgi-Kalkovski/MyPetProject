@@ -108,8 +108,13 @@
             {
                 try
                 {
-                    var editingName = await this.context.Kingdoms.FirstOrDefaultAsync(x => x.Name == oldName);
-                    this.context.Kingdoms.Remove(editingName);
+                    var editName = await this.context.Kingdoms.FirstOrDefaultAsync(x => x.Name == oldName);
+                    foreach (var breed in this.context.Breeds.Where(x => x.KingdomName == oldName))
+                    {
+                        breed.KingdomName = name;
+                    }
+
+                    this.context.Kingdoms.Remove(editName);
 
                     // TO DO: Change breeds KingdomName with the new name and save
                     this.context.Update(kingdom);

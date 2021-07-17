@@ -20,7 +20,7 @@
                     <a asp-action="@item.Name">
                         @if (!item.PicUrl.StartsWith("http"))
                         {
-                            <img class="card-img-top" src="~/img/breeds/@item.KingdomName/@Html.DisplayFor(modelItem => item.PicUrl)" alt="Card image cap">
+                            <img class="card-img-top" src="~/img/breeds/@Html.DisplayFor(modelItem => item.PicUrl)" alt="Card image cap">
                         }
                         else
                         {
