@@ -23,6 +23,7 @@
         // GET: Kingdoms
         public async Task<IActionResult> Index()
         {
+            var oldName = this.HttpContext.Request.Path.Value.Split("/").Last();
             var applicationDbContext = this.context.Kingdoms.Include(k => k.User).OrderBy(x => x.Name);
             return this.View(await applicationDbContext.ToListAsync());
         }

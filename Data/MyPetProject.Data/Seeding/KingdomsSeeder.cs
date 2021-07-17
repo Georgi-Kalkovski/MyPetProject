@@ -18,9 +18,9 @@
 
             var kingdoms = new Dictionary<string, string>
             {
-                { "Dogs", "dogs.png" },
-                { "Cats", "cats.png" },
-                { "Birds", "birds.png" },
+                { "Dogs", "dog.png" },
+                { "Cats", "cat.png" },
+                { "Birds", "bird.png" },
             };
 
             foreach (var kingdom in kingdoms)
