@@ -16,17 +16,13 @@
                 return;
             }
 
-            var kingdoms = new Dictionary<string, string>
-            {
-                { "Dogs", "dog.png" },
-                { "Cats", "cat.png" },
-                { "Birds", "bird.png" },
-            };
-
-            foreach (var kingdom in kingdoms)
-            {
-                await dbContext.Kingdoms.AddAsync(new Kingdom { Name = kingdom.Key, PicUrl = kingdom.Value });
-            }
+            await dbContext.Kingdoms.AddAsync(new Kingdom { Name = "Dogs", PicUrl = "dog.png", Group = "Mammals", Diet = "Omnivores" });
+            await dbContext.Kingdoms.AddAsync(new Kingdom { Name = "Cats", PicUrl = "cat.png", Group = "Mammals", Diet = "Carnivores" });
+            await dbContext.Kingdoms.AddAsync(new Kingdom { Name = "Sparrows", PicUrl = "sparrow.png", Group = "Birds", Diet = "Herbivores" });
+            await dbContext.Kingdoms.AddAsync(new Kingdom { Name = "Parrots", PicUrl = "parrot.png", Group = "Birds", Diet = "Herbivores" });
+            await dbContext.Kingdoms.AddAsync(new Kingdom { Name = "Sharks", PicUrl = "shark.jpg", Group = "Fish", Diet = "Carnivores" });
+            await dbContext.Kingdoms.AddAsync(new Kingdom { Name = "Lizards", PicUrl = "lizard.png", Group = "Reptiles", Diet = "Carnivores" });
+            await dbContext.Kingdoms.AddAsync(new Kingdom { Name = "Spiders", PicUrl = "spider.png", Group = "Insects", Diet = "Carnivores" });
         }
     }
 }

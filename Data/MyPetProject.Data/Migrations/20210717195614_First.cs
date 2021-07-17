@@ -212,6 +212,8 @@ namespace MyPetProject.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PicUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Group = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Diet = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),

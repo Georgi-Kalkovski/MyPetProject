@@ -19,6 +19,12 @@
         [Required]
         public string PicUrl { get; set; }
 
+        [Required]
+        public string Group { get; set; }
+
+        [Required]
+        public string Diet { get; set; }
+
         public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }

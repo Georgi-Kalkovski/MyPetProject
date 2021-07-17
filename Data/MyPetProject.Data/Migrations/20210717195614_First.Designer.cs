@@ -10,7 +10,7 @@ using MyPetProject.Data;
 namespace MyPetProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210716103311_First")]
+    [Migration("20210717195614_First")]
     partial class First
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -447,6 +447,14 @@ namespace MyPetProject.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Diet")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Group")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");

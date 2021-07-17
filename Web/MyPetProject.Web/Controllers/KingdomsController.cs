@@ -28,6 +28,14 @@
             return this.View(await applicationDbContext.ToListAsync());
         }
 
+        [HttpGet("Kingdoms/{name}")]
+        public async Task<IActionResult> Index(string name)
+        {
+            var oldName = this.HttpContext.Request.Path.Value.Split("/").Last();
+            var applicationDbContext = this.context.Kingdoms.Include(k => k.User).Where(x=>x.Group == name).OrderBy(x => x.Name);
+            return this.View(await applicationDbContext.ToListAsync());
+        }
+
         // GET: Kingdoms/Details/5
         public async Task<IActionResult> Details(int? id)
         {
