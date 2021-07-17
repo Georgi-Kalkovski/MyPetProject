@@ -1,28 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using MyPetProject.Data;
-using MyPetProject.Data.Models;
-
-namespace MyPetProject.Web.Controllers
+﻿namespace MyPetProject.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore;
+    using MyPetProject.Data;
+    using MyPetProject.Data.Models;
+
     public class KingdomsController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        public KingdomsController(ApplicationDbContext context)
+        private readonly ApplicationDbContext context;
+
+        public KingdomsController(ApplicationDbContext inputContext)
         {
-            _context = context;
+            this.context = inputContext;
         }
 
         // GET: Kingdoms
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Kingdoms.Include(k => k.User);
-            return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext = this.context.Kingdoms.Include(k => k.User).OrderBy(x => x.Name);
+            return this.View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Kingdoms/Details/5
@@ -30,26 +32,26 @@ namespace MyPetProject.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var kingdom = await _context.Kingdoms
+            var kingdom = await this.context.Kingdoms
                 .Include(k => k.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (kingdom == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(kingdom);
+            return this.View(kingdom);
         }
 
         // GET: Kingdoms/Create
         [HttpGet("/Create/")]
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
+            this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id");
+            return this.View();
         }
 
         // POST: Kingdoms/Create
@@ -59,14 +61,15 @@ namespace MyPetProject.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,PicUrl,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(kingdom);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(kingdom);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", kingdom.UserId);
-            return View(kingdom);
+
+            this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", kingdom.UserId);
+            return this.View(kingdom);
         }
 
         // GET: Kingdoms/Edit/5
@@ -75,16 +78,17 @@ namespace MyPetProject.Web.Controllers
         {
             if (name == null)
             {
-                return NotFound();
-            }
-            var kingdom = await _context.Kingdoms.FirstOrDefaultAsync(x => x.Name == name);
-            if (kingdom == null)
-            {
-                return NotFound();
+                return this.NotFound();
             }
 
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", kingdom.UserId);
-            return View(kingdom);
+            var kingdom = await this.context.Kingdoms.FirstOrDefaultAsync(x => x.Name == name);
+            if (kingdom == null)
+            {
+                return this.NotFound();
+            }
+
+            this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", kingdom.UserId);
+            return this.View(kingdom);
         }
 
         // POST: Kingdoms/Edit/5
@@ -96,36 +100,39 @@ namespace MyPetProject.Web.Controllers
         {
             if (name != kingdom.Name)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var oldName = HttpContext.Request.Path.Value.Split("/").Last();
-            if (ModelState.IsValid)
+            var oldName = this.HttpContext.Request.Path.Value.Split("/").Last();
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    var editingName = await _context.Kingdoms.FirstOrDefaultAsync(x=>x.Name == oldName);
-                    _context.Kingdoms.Remove(editingName);
-                    // TO DO: Change breeds KingdomName with the new name and save
-                    _context.Update(kingdom);
+                    var editingName = await this.context.Kingdoms.FirstOrDefaultAsync(x => x.Name == oldName);
+                    this.context.Kingdoms.Remove(editingName);
 
-                    await _context.SaveChangesAsync();
+                    // TO DO: Change breeds KingdomName with the new name and save
+                    this.context.Update(kingdom);
+
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!KingdomExists(kingdom.Name))
+                    if (!this.KingdomExists(kingdom.Name))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", kingdom.UserId);
-            return View(kingdom);
+
+            this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", kingdom.UserId);
+            return this.View(kingdom);
         }
 
         // GET: Kingdoms/Delete/5
@@ -134,34 +141,35 @@ namespace MyPetProject.Web.Controllers
         {
             if (name == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var kingdom = await _context.Kingdoms
+            var kingdom = await this.context.Kingdoms
                 .Include(k => k.User)
                 .FirstOrDefaultAsync(m => m.Name == name);
             if (kingdom == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(kingdom);
+            return this.View(kingdom);
         }
 
         // POST: Kingdoms/Delete/5
-        [HttpPost("/Kingdoms/Delete/{name}"), ActionName("Delete")]
+        [HttpPost("/Kingdoms/Delete/{name}")]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int? id, string name)
         {
-            var kingdom = await _context.Kingdoms.FindAsync(id);
-            _context.Kingdoms.Remove(kingdom);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var kingdom = await this.context.Kingdoms.FindAsync(id);
+            this.context.Kingdoms.Remove(kingdom);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool KingdomExists(string name)
         {
-            return _context.Kingdoms.Any(e => e.Name == name);
+            return this.context.Kingdoms.Any(e => e.Name == name);
         }
     }
 }

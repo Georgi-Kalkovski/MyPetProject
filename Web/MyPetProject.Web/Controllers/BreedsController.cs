@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using MyPetProject.Data;
-using MyPetProject.Data.Common.Repositories;
-using MyPetProject.Data.Models;
-
-namespace MyPetProject.Web.Controllers
+﻿namespace MyPetProject.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore;
+    using MyPetProject.Data;
+    using MyPetProject.Data.Common.Repositories;
+    using MyPetProject.Data.Models;
+
     public class BreedsController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        public BreedsController(ApplicationDbContext context)
+        private readonly ApplicationDbContext context;
+
+        public BreedsController(ApplicationDbContext inputContext)
         {
-            _context = context;
+            this.context = inputContext;
         }
 
         // GET: Breeds
@@ -28,7 +30,7 @@ namespace MyPetProject.Web.Controllers
                 return this.View();
             }
 
-            var applicationDbContext = _context.Breeds.Include(b => b.User)
+            var applicationDbContext = this.context.Breeds.Include(b => b.User)
                 .Where(x => x.KingdomName == name);
             return this.View(await applicationDbContext.ToListAsync());
         }
@@ -38,27 +40,27 @@ namespace MyPetProject.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var breed = await _context.Breeds
+            var breed = await this.context.Breeds
                 .Include(b => b.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (breed == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(breed);
+            return this.View(breed);
         }
 
         // GET: Breeds/Create
         [HttpGet("/Breeds/Create/")]
         public IActionResult Create()
         {
-            ViewData["KingdomName"] = new SelectList(_context.Kingdoms, "Name", "Name");
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
+            this.ViewData["KingdomName"] = new SelectList(this.context.Kingdoms, "Name", "Name");
+            this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id");
+            return this.View();
         }
 
         // POST: Breeds/Create
@@ -68,15 +70,16 @@ namespace MyPetProject.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,PicUrl,Description,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Breed breed)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(breed);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(breed.KingdomName);
+                this.context.Add(breed);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(breed.KingdomName);
             }
-            ViewData["KingdomName"] = new SelectList(_context.Kingdoms, "Name", "Name", breed.KingdomName);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", breed.UserId);
-            return View(breed);
+
+            this.ViewData["KingdomName"] = new SelectList(this.context.Kingdoms, "Name", "Name", breed.KingdomName);
+            this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", breed.UserId);
+            return this.View(breed);
         }
 
         // GET: Breeds/Edit/5
@@ -84,17 +87,18 @@ namespace MyPetProject.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var breed = await _context.Breeds.FindAsync(id);
+            var breed = await this.context.Breeds.FindAsync(id);
             if (breed == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            ViewData["KingdomName"] = new SelectList(_context.Kingdoms, "Name", "Name");
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", breed.UserId);
-            return View(breed);
+
+            this.ViewData["KingdomName"] = new SelectList(this.context.Kingdoms, "Name", "Name");
+            this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", breed.UserId);
+            return this.View(breed);
         }
 
         // POST: Breeds/Edit/5
@@ -106,32 +110,34 @@ namespace MyPetProject.Web.Controllers
         {
             if (id != breed.Id)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(breed);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(breed);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BreedExists(breed.Id))
+                    if (!this.BreedExists(breed.Id))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(breed.KingdomName);
+
+                return this.RedirectToAction(breed.KingdomName);
             }
-            ViewData["KingdomName"] = new SelectList(_context.Kingdoms, "Name", "Name", breed.KingdomName);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", breed.UserId);
-            return View(breed);
+
+            this.ViewData["KingdomName"] = new SelectList(this.context.Kingdoms, "Name", "Name", breed.KingdomName);
+            this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", breed.UserId);
+            return this.View(breed);
         }
 
         // GET: Breeds/Delete/5
@@ -139,34 +145,35 @@ namespace MyPetProject.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var breed = await _context.Breeds
+            var breed = await this.context.Breeds
                 .Include(b => b.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (breed == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(breed);
+            return this.View(breed);
         }
 
         // POST: Breeds/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var breed = await _context.Breeds.FindAsync(id);
-            _context.Breeds.Remove(breed);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(breed.KingdomName);
+            var breed = await this.context.Breeds.FindAsync(id);
+            this.context.Breeds.Remove(breed);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(breed.KingdomName);
         }
 
         private bool BreedExists(int id)
         {
-            return _context.Breeds.Any(e => e.Id == id);
+            return this.context.Breeds.Any(e => e.Id == id);
         }
     }
 }
