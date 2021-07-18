@@ -39,7 +39,7 @@
             }
 
             var applicationDbContext = this.context.Breeds.Include(b => b.User)
-                .Where(x => x.KingdomName == name);
+                .Where(x => x.KingdomName == name).OrderBy(x => x.Name);
             return this.View(await applicationDbContext.ToListAsync());
         }
 
@@ -122,10 +122,19 @@
                 return this.NotFound();
             }
 
+            var oldName = this.HttpContext.Request.Path.Value.Split("/").Last();
             if (this.ModelState.IsValid)
             {
                 try
                 {
+                    var editName = await this.context.Breeds.FirstOrDefaultAsync(x => x.Name == oldName);
+                    foreach (var animals in this.context.Breeds.Where(x => x.Name == oldName))
+                    {
+                        animals.Name = name;
+                    }
+
+                    this.context.Breeds.Remove(editName);
+
                     this.context.Update(breed);
                     await this.context.SaveChangesAsync();
                 }

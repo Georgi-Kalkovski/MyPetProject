@@ -1,6 +1,6 @@
 ﻿namespace MyPetProject.Data.Models.Enums
 {
-    public enum Groups
+    public enum GroupEnum
     {
         Mammals = 1,
         Birds = 2,

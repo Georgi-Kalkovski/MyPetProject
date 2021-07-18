@@ -118,7 +118,7 @@
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("/Kingdoms/Edit/{name}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string name, [Bind("Name,PicUrl,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
+        public async Task<IActionResult> Edit(string name, [Bind("Name,PicUrl,Group,Diet,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
         {
             if (name != kingdom.Name)
             {

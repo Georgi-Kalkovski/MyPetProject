@@ -6,8 +6,8 @@ namespace MyPetProject.Data.Models.Enums
 {
     public enum DietEnum
     {
-        Herbivores,
-        Carnivores,
-        Omnivores,
+        Herbivores = 1,
+        Carnivores = 2,
+        Omnivores = 3,
     }
 }

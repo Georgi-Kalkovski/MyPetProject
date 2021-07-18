@@ -19,10 +19,10 @@
         public string PicUrl { get; set; }
 
         [Required]
-        public GroupEnum Group { get; set; }
+        public string Group { get; set; }
 
         [Required]
-        public DietEnum Diet { get; set; }
+        public string Diet { get; set; }
 
         public string UserId { get; set; }
 

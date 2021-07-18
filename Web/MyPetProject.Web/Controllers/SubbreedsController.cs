@@ -32,7 +32,7 @@
             if (name.Contains(" "))
             {
                 var applicationDbContext = this.context.Subbreeds.Include(b => b.User)
-                .Where(x => x.BreedName.Replace("%20", " ") == name);
+                .Where(x => x.BreedName.Replace("%20", " ") == name).OrderBy(x => x.Name);
                 return this.View(await applicationDbContext.ToListAsync());
             }
             else
@@ -79,7 +79,7 @@
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("/Subbreeds/Create/")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,PicUrl,Description,KingdomName,IsPet,BreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Subbreed subbreed)
+        public async Task<IActionResult> Create([Bind("Name,PicUrl,Description,BreedName,KingdomName,IsPet,IsFarm,BreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Subbreed subbreed)
         {
             if (this.ModelState.IsValid)
             {
@@ -120,17 +120,26 @@
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("/Subbreeds/Edit/{name}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string name, [Bind("Name,PicUrl,Description,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Subbreed subbreeds)
+        public async Task<IActionResult> Edit(string name, [Bind("Name,PicUrl,Description,BreedName,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Subbreed subbreeds)
         {
             if (name != subbreeds.Name)
             {
                 return this.NotFound();
             }
 
+            var oldName = this.HttpContext.Request.Path.Value.Split("/").Last();
             if (this.ModelState.IsValid)
             {
                 try
                 {
+                    var editName = await this.context.Subbreeds.FirstOrDefaultAsync(x => x.Name == oldName);
+                    foreach (var animal in this.context.Subbreeds.Where(x => x.Name == oldName))
+                    {
+                        animal.Name = name;
+                    }
+
+                    this.context.Subbreeds.Remove(editName);
+
                     this.context.Update(subbreeds);
                     await this.context.SaveChangesAsync();
                 }
@@ -149,6 +158,7 @@
                 return this.RedirectToAction(subbreeds.BreedName);
             }
 
+            this.ViewData["KingdomName"] = new SelectList(this.context.Kingdoms, "Name", "Name", subbreeds.KingdomName);
             this.ViewData["BreedName"] = new SelectList(this.context.Breeds, "Name", "Name", subbreeds.BreedName);
             this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", subbreeds.UserId);
             return this.View(subbreeds);

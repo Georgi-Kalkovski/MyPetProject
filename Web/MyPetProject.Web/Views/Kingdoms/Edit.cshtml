@@ -24,6 +24,16 @@
                 <span asp-validation-for="PicUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Group" class="control-label"></label>
+                <input asp-for="Group" class="form-control" />
+                <span asp-validation-for="Group" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Diet" class="control-label"></label>
+                <input asp-for="Diet" class="form-control" />
+                <span asp-validation-for="Diet" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -31,6 +41,6 @@
 </div>
 
 <div>
-     <a href="javascript:history.back()">Back to List</a>
+     <a href="javascript:history.back()">Back</a>
 </div>
 
