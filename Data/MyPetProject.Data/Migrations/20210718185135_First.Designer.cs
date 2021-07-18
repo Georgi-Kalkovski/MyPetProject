@@ -10,7 +10,7 @@ using MyPetProject.Data;
 namespace MyPetProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210717195614_First")]
+    [Migration("20210718185135_First")]
     partial class First
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -524,6 +524,10 @@ namespace MyPetProject.Data.Migrations
                     b.Property<int?>("BreedId")
                         .HasColumnType("int");
 
+                    b.Property<string>("BreedName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -539,6 +543,10 @@ namespace MyPetProject.Data.Migrations
 
                     b.Property<bool>("IsPet")
                         .HasColumnType("bit");
+
+                    b.Property<string>("KingdomName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");

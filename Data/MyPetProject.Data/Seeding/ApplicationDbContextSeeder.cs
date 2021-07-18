@@ -29,6 +29,7 @@
                               new SettingsSeeder(),
                               new KingdomsSeeder(),
                               new BreedsSeeder(),
+                              new SubreedsSeeder(),
                           };
 
             foreach (var seeder in seeders)

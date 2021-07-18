@@ -2,9 +2,8 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
     using MyPetProject.Data.Common.Models;
+    using MyPetProject.Data.Models.Enums;
 
     public class Kingdom : BaseDeletableModel<int>
     {
@@ -20,10 +19,10 @@
         public string PicUrl { get; set; }
 
         [Required]
-        public string Group { get; set; }
+        public GroupEnum Group { get; set; }
 
         [Required]
-        public string Diet { get; set; }
+        public DietEnum Diet { get; set; }
 
         public string UserId { get; set; }
 

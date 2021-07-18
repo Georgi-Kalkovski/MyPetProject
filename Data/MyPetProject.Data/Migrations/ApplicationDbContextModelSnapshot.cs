@@ -522,6 +522,10 @@ namespace MyPetProject.Data.Migrations
                     b.Property<int?>("BreedId")
                         .HasColumnType("int");
 
+                    b.Property<string>("BreedName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -537,6 +541,10 @@ namespace MyPetProject.Data.Migrations
 
                     b.Property<bool>("IsPet")
                         .HasColumnType("bit");
+
+                    b.Property<string>("KingdomName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");

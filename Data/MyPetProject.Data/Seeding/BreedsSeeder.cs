@@ -18,8 +18,8 @@ namespace MyPetProject.Data.Seeding
 
             await dbContext.Breeds.AddAsync(new Breed
             {
-                Name = "German Shephard",
-                PicUrl = "german-shephard.jpg",
+                Name = "German Shepherd",
+                PicUrl = "german-shepherd.jpg",
                 Description = "The German Shepherd is a breed of medium to large-sized working dog that originated in Germany. According to the FCI, the breed's English language name is German Shepherd Dog.",
                 KingdomName = "Dogs",
             });

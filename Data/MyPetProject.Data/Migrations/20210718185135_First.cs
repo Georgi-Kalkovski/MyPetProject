@@ -274,6 +274,8 @@ namespace MyPetProject.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PicUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BreedName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    KingdomName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsPet = table.Column<bool>(type: "bit", nullable: false),
                     BreedId = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),

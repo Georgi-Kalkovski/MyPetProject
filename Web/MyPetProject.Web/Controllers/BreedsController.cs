@@ -66,7 +66,7 @@
         [HttpGet("/Breeds/Create/")]
         public IActionResult Create()
         {
-            this.ViewData["KingdomName"] = new SelectList(this.context.Kingdoms, "Name", "Name");
+            this.ViewData["KingdomName"] = new SelectList(this.context.Kingdoms.OrderBy(x => x.Name), "Name", "Name");
             this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id");
             return this.View();
         }

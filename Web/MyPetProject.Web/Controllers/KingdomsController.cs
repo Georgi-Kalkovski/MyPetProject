@@ -81,7 +81,7 @@
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("/Kingdoms/Create/")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,PicUrl,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
+        public async Task<IActionResult> Create([Bind("Name,PicUrl,Group,Diet,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
         {
             if (this.ModelState.IsValid)
             {
@@ -138,7 +138,6 @@
 
                     this.context.Kingdoms.Remove(editName);
 
-                    // TO DO: Change breeds KingdomName with the new name and save
                     this.context.Update(kingdom);
 
                     await this.context.SaveChangesAsync();

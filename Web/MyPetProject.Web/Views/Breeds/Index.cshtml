@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>@ViewContext.HttpContext.Request.Path.ToString().Split("/").Last()</h1>
+<h1>@ViewContext.HttpContext.Request.Path.ToString().Split("/").Last().Replace("%20", " ")</h1>
 
 <p>
     <a asp-action="Create">Create New Breed</a>
@@ -19,7 +19,7 @@
             @foreach (var item in Model)
             {
                 <div class="card col-6 col-lg-3 game-card">
-                    <a asp-action="@item.Name">
+                    <a asp-controller="Subbreeds" asp-action="@item.Name">
                         @if (!item.PicUrl.StartsWith("http"))
                         {
                             <img class="card-img-top" src="~/img/breeds/@Html.DisplayFor(modelItem => item.PicUrl)" alt="Card image cap">

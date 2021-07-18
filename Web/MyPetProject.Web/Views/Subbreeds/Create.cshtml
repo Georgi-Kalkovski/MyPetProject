@@ -28,38 +28,22 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="KingdomName" class="control-label"></label>
+                <select asp-for="KingdomName" asp-items="ViewBag.KingdomName">
+                    <option value="">--Select--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="BreedName" class="control-label"></label>
+                <select asp-for="BreedName" asp-items="ViewBag.BreedName">
+                    <option value="">--Select--</option>
+                </select>
+            </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsPet" /> @Html.DisplayNameFor(model => model.IsPet)
                 </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="BreedId" class="control-label"></label>
-                <select asp-for="BreedId" class ="form-control" asp-items="ViewBag.BreedId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="DeletedOn" class="control-label"></label>
-                <input asp-for="DeletedOn" class="form-control" />
-                <span asp-validation-for="DeletedOn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedOn" class="control-label"></label>
-                <input asp-for="CreatedOn" class="form-control" />
-                <span asp-validation-for="CreatedOn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ModifiedOn" class="control-label"></label>
-                <input asp-for="ModifiedOn" class="form-control" />
-                <span asp-validation-for="ModifiedOn" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -69,6 +53,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a href="javascript:history.back()">Back to List</a>
 </div>
 

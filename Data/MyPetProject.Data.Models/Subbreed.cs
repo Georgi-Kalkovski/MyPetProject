@@ -23,6 +23,12 @@
         [Required]
         public string Description { get; set; }
 
+        [Required]
+        public string BreedName { get; set; }
+
+        [Required]
+        public string KingdomName { get; set; }
+
         public bool IsPet { get; set; }
 
         public int? BreedId { get; set; }
