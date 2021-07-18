@@ -20,7 +20,7 @@
             this.context = inputContext;
         }
 
-        // GET: Kingdoms
+        // GET: Kingdoms{name}
         public async Task<IActionResult> Index()
         {
             var oldName = this.HttpContext.Request.Path.Value.Split("/").Last();
@@ -31,6 +31,11 @@
         [HttpGet("Kingdoms/{name}")]
         public async Task<IActionResult> Index(string name)
         {
+            if (name == "Create")
+            {
+                return this.View();
+            }
+
             var oldName = this.HttpContext.Request.Path.Value.Split("/").Last();
             if (oldName == "Herbivores" || oldName == "Carnivores" || oldName == "Omnivores")
             {
@@ -64,7 +69,7 @@
         }
 
         // GET: Kingdoms/Create
-        [HttpGet("/Create/")]
+        [HttpGet("/Kingdoms/Create/")]
         public IActionResult Create()
         {
             this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id");
@@ -74,7 +79,7 @@
         // POST: Kingdoms/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("/Create/")]
+        [HttpPost("/Kingdoms/Create/")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,PicUrl,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
         {

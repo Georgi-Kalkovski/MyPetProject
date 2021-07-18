@@ -22,6 +22,14 @@
         }
 
         // GET: Breeds
+        public async Task<IActionResult> Index()
+        {
+            var oldName = this.HttpContext.Request.Path.Value.Split("/").Last();
+            var applicationDbContext = this.context.Breeds.Include(b => b.User).OrderBy(x => x.Name);
+            return this.View(await applicationDbContext.ToListAsync());
+        }
+
+        // GET: Breeds/{name}
         [HttpGet("/Breeds/{name}")]
         public async Task<IActionResult> Index(string name)
         {
@@ -36,16 +44,16 @@
         }
 
         // GET: Breeds/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string name)
         {
-            if (id == null)
+            if (name == null)
             {
                 return this.NotFound();
             }
 
             var breed = await this.context.Breeds
                 .Include(b => b.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Name == name);
             if (breed == null)
             {
                 return this.NotFound();
@@ -83,14 +91,15 @@
         }
 
         // GET: Breeds/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        [HttpGet("/Breeds/Edit/{name}")]
+        public async Task<IActionResult> Edit(string name)
         {
-            if (id == null)
+            if (name == null)
             {
                 return this.NotFound();
             }
 
-            var breed = await this.context.Breeds.FindAsync(id);
+            var breed = await this.context.Breeds.FirstOrDefaultAsync(x => x.Name == name);
             if (breed == null)
             {
                 return this.NotFound();
@@ -104,11 +113,11 @@
         // POST: Breeds/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("/Breeds/Edit/{name}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,PicUrl,Description,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Breed breed)
+        public async Task<IActionResult> Edit(string name, [Bind("Name,PicUrl,Description,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Breed breed)
         {
-            if (id != breed.Id)
+            if (name != breed.Name)
             {
                 return this.NotFound();
             }
@@ -122,7 +131,7 @@
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!this.BreedExists(breed.Id))
+                    if (!this.BreedExists(breed.Name))
                     {
                         return this.NotFound();
                     }
@@ -141,16 +150,17 @@
         }
 
         // GET: Breeds/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [HttpGet("/Breeds/Delete/{name}")]
+        public async Task<IActionResult> Delete(string name)
         {
-            if (id == null)
+            if (name == null)
             {
                 return this.NotFound();
             }
 
             var breed = await this.context.Breeds
                 .Include(b => b.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Name == name);
             if (breed == null)
             {
                 return this.NotFound();
@@ -160,20 +170,20 @@
         }
 
         // POST: Breeds/Delete/5
-        [HttpPost]
+        [HttpPost("/Breeds/Delete/{name}")]
         [ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string name)
         {
-            var breed = await this.context.Breeds.FindAsync(id);
+            var breed = await this.context.Breeds.FirstOrDefaultAsync(x => x.Name == name);
             this.context.Breeds.Remove(breed);
             await this.context.SaveChangesAsync();
             return this.RedirectToAction(breed.KingdomName);
         }
 
-        private bool BreedExists(int id)
+        private bool BreedExists(string name)
         {
-            return this.context.Breeds.Any(e => e.Id == id);
+            return this.context.Breeds.Any(e => e.Name == name);
         }
     }
 }
