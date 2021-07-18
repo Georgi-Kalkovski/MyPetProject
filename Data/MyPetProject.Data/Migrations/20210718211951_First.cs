@@ -277,6 +277,7 @@ namespace MyPetProject.Data.Migrations
                     BreedName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     KingdomName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsPet = table.Column<bool>(type: "bit", nullable: false),
+                    IsFarm = table.Column<bool>(type: "bit", nullable: false),
                     BreedId = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),

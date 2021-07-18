@@ -539,6 +539,9 @@ namespace MyPetProject.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsFarm")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsPet")
                         .HasColumnType("bit");
 

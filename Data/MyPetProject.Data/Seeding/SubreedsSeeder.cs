@@ -24,6 +24,7 @@ namespace MyPetProject.Data.Seeding
                 KingdomName = "Dogs",
                 BreedName = "German Shepherd",
                 IsPet = true,
+                IsFarm = true,
             });
             await dbContext.Subbreeds.AddAsync(new Subbreed
             {
@@ -33,6 +34,7 @@ namespace MyPetProject.Data.Seeding
                 KingdomName = "Dogs",
                 BreedName = "German Shepherd",
                 IsPet = true,
+                IsFarm = true,
             });
             await dbContext.Subbreeds.AddAsync(new Subbreed
             {
@@ -42,6 +44,7 @@ namespace MyPetProject.Data.Seeding
                 KingdomName = "Dogs",
                 BreedName = "German Shepherd",
                 IsPet = true,
+                IsFarm = true,
             });
             await dbContext.Subbreeds.AddAsync(new Subbreed
             {
@@ -51,6 +54,7 @@ namespace MyPetProject.Data.Seeding
                 KingdomName = "Dogs",
                 BreedName = "German Shepherd",
                 IsPet = true,
+                IsFarm = true,
             });
             await dbContext.Subbreeds.AddAsync(new Subbreed
             {
@@ -60,6 +64,7 @@ namespace MyPetProject.Data.Seeding
                 KingdomName = "Dogs",
                 BreedName = "German Shepherd",
                 IsPet = true,
+                IsFarm = true,
             });
         }
     }
