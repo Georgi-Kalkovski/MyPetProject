@@ -34,10 +34,10 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Foods" asp-action="Index">Foods</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Kingdoms" asp-action="Index">Kingdoms</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Group">Groups</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Group">Groups</a>
+                            <a id="kingdomId" class="nav-link text-dark" asp-area="" asp-controller="Kingdoms" asp-action="Index">Kingdoms</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home Animals" asp-action="Index">Home Animals</a>
@@ -64,11 +64,16 @@
         </main>
     </div>
 
-   @*@<footer class="border-top footer text-muted">
+   @* @<footer class="border-top footer text-muted">
         <div class="container">
             &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>*@
+    </footer> *@
+
+    @* Custom Script - redirects to Kingdoms *@
+    <script>
+        document.getElementById("kingdomId").onclick = function () { location.href = "/Kingdoms/";}
+    </script>    
 
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
