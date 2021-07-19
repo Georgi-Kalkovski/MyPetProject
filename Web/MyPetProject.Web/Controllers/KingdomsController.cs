@@ -1,17 +1,15 @@
 ﻿namespace MyPetProject.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using MyPetProject.Data;
+    using MyPetProject.Data.Common.Repositories;
     using MyPetProject.Data.Models;
+    using System.Linq;
+    using System.Threading.Tasks;
 
-    public class KingdomsController : Controller
+    public class KingdomsController : BaseController
     {
         private readonly ApplicationDbContext context;
 

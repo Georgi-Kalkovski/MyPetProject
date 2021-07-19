@@ -1,7 +1,5 @@
 ﻿namespace MyPetProject.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -9,7 +7,6 @@
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using MyPetProject.Data;
-    using MyPetProject.Data.Common.Repositories;
     using MyPetProject.Data.Models;
 
     public class BreedsController : Controller
