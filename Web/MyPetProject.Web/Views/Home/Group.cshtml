@@ -13,6 +13,16 @@
         text-decoration: none
     }
 
+    img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: inline-block;
+        text-align: center;
+        line-height: 100px;
+        margin-right: 5px;
+    }
+
     a:link {
         text-decoration: none;
     }
@@ -26,12 +36,10 @@
     }*/
 </style>
 
-<div class="container">
-    <div class="row-cols-2 container-fluid">
-        <div class=" central_text text-center row-cols-4 container-fluid">
+<table class="container-fluid" style="align-content">
+    <tbody class="row-cols-2">
 
-            <h1 style="font-size: 60px; margin-left: auto; margin-right: auto">Groups</h1>
-
+        <tr class="central_text text-center row-cols-2">
             @{
                 for (int i = 1; i <= 8; i++)
                 {
@@ -45,84 +53,88 @@
                     if (i == 7) { item = "Mammals"; }
                     if (i == 8) { item = "Fish"; }
 
-                    <div class="moon_container moon@(i)">
+                    <td class="moon_container moon@(i)">
                         <a href="~/Kingdoms/@(item)">
-                            <img class="moon moon@(i) rounded-circle" src="~/img/groups/@(item.ToLower()).jpg">
+                            <img class="moon moon@(i)" src="~/img/groups/@(item.ToLower()).jpg">
                         </a>
-                    </div>
-                    <div class="moon_container moon@(i)">
+                    </td>
+                    <td class=" moon_container moon@(i)">
                         <a href="~/Kingdoms/@(item)">
                             @if (i == 1) { item = "Insects & Arachnids"; }
                             @if (i == 5) { item = "Reptiles & Amphibians"; }
-                            <h4 class="moon moon@(i)">@(item)</h4>
+                            <h4 class="moon moon@(i)" style="text-align:center">@(item)</h4>
                         </a>
-                    </div>
+                    </td>
                 }
+                <td>
+                    <h1 class="moon_container text-center align-middle" style="font-size: 350%; text-align: center">Groups</h1>
+                </td>
             }
 
+
             @*
-                <!-- OLD PAGE CODE -->
+        <!-- OLD PAGE CODE -->
 
-                <!-- Mammals -->
-                <div class="moon_container moon7">
-                    <a id="insectsImg" href="~/Kingdoms/Mammals"><img class="moon moon7" src="~/img/groups/mammals.jpg"></a>
-                </div>
-                <div class="moon_container moon7">
-                    <a id="insectsH1" href="~/Kingdoms/Mammals"><h1 class="moon moon7"><span> Mammals </span></h1></a>
-                </div>
-
-                <!-- Birds -->
-                <div class="moon_container moon6">
-                    <a id="birdsImg" href="~/Kingdoms/Birds"><img class="moon moon6" src="~/img/groups/birds.png" /></a>
-                </div>
-                <div class="moon_container moon6">
-                    <a id="birdsH1" href="~/Kingdoms/Birds"><h1 class="moon moon6"><span> Birds </span></h1></a>
-                </div>
-
-                <!-- Fish -->
-                <div class="moon_container moon8">
-                    <a id="fishImg" href="~/Kingdoms/Fish"><img class="moon moon8" src="~/img/groups/fish.jpg"></a>
-                </div>
-                <div class="moon_container moon8">
-                    <a id="fishH1" href="~/Kingdoms/Fish"><h1 class="moon moon8"><span> Fish </span></h1></a>
-                </div>
-
-                <!-- Insects & Arachnids -->
-                <div class="moon_container moon1">
-                    <a id="birdsImg" href="~/Kingdoms/Insects"><img class="moon moon1" src="~/img/groups/insects.jpg" /></a>
-                </div>
-                <div class="moon_container moon1">
-                    <a id="birdsH1" href="~/Kingdoms/Insects"><h1 class="moon moon1"><span> Insects & </span><span> Arachnids </span></h1></a>
-                </div>
-
-                <!--  Reptiles & Amphibians -->
-                <div class="moon_container moon5">
-                    <a id="mammalsImg" href="~/Kingdoms/Reptiles"><img class="moon moon5" src="~/img/groups/reptiles.jpg"></a>
-                </div>
-                <div class="moon_container moon5">
-                    <a id="mammalsH1" href="~/Kingdoms/Reptiles"><h1 class="moon moon5"><span> Reptiles & </span><span> Amphibians </span></h1></a>
-                </div>
-
-                <!-- Carnivores -->
-                <div class="moon_container moon2">
-                    <a id="insectsImg" href="~/Kingdoms/Carnivores"><img class="moon moon2" src="~/img/groups/carnivores.jpg"></a>
-                </div>
-                <div class="moon_container moon2">
-                    <a id="insectsH1" href="~/Kingdoms/Carnivores"><h1 class="moon moon2"><span> Carnivores </span></h1></a>
-                </div>
-
-                <div class="moon_container moon4">
-                    <a id="reptilesH1" href="~/Kingdoms/Herbivores"><h1 class="moon moon4"><span> Herbivores </span></h1></a>
-                </div>
-
-                <!-- Omnivores -->
-                <div class="moon_container moon3">
-                    <a id="fishImg" href="~/Kingdoms/Omnivores"><img class="moon moon3" src="~/img/groups/omnivores.jpg"></a>
-                </div>
-                <!-- Omnivores -->
-                <div class="moon_container moon3">
-                    <a id="fishH1" href="~/Kingdoms/Omnivores"><h1 class="moon moon3"><span> Omnivores </span></h1></a>
-                </div>*@
+        <!-- Mammals -->
+        <div class="moon_container moon7">
+            <a id="insectsImg" href="~/Kingdoms/Mammals"><img class="moon moon7" src="~/img/groups/mammals.jpg"></a>
         </div>
-    </div>
-</div>
+        <div class="moon_container moon7">
+            <a id="insectsH1" href="~/Kingdoms/Mammals"><h1 class="moon moon7"><span> Mammals </span></h1></a>
+        </div>
+
+        <!-- Birds -->
+        <div class="moon_container moon6">
+            <a id="birdsImg" href="~/Kingdoms/Birds"><img class="moon moon6" src="~/img/groups/birds.png" /></a>
+        </div>
+        <div class="moon_container moon6">
+            <a id="birdsH1" href="~/Kingdoms/Birds"><h1 class="moon moon6"><span> Birds </span></h1></a>
+        </div>
+
+        <!-- Fish -->
+        <div class="moon_container moon8">
+            <a id="fishImg" href="~/Kingdoms/Fish"><img class="moon moon8" src="~/img/groups/fish.jpg"></a>
+        </div>
+        <div class="moon_container moon8">
+            <a id="fishH1" href="~/Kingdoms/Fish"><h1 class="moon moon8"><span> Fish </span></h1></a>
+        </div>
+
+        <!-- Insects & Arachnids -->
+        <div class="moon_container moon1">
+            <a id="birdsImg" href="~/Kingdoms/Insects"><img class="moon moon1" src="~/img/groups/insects.jpg" /></a>
+        </div>
+        <div class="moon_container moon1">
+            <a id="birdsH1" href="~/Kingdoms/Insects"><h1 class="moon moon1"><span> Insects & </span><span> Arachnids </span></h1></a>
+        </div>
+
+        <!--  Reptiles & Amphibians -->
+        <div class="moon_container moon5">
+            <a id="mammalsImg" href="~/Kingdoms/Reptiles"><img class="moon moon5" src="~/img/groups/reptiles.jpg"></a>
+        </div>
+        <div class="moon_container moon5">
+            <a id="mammalsH1" href="~/Kingdoms/Reptiles"><h1 class="moon moon5"><span> Reptiles & </span><span> Amphibians </span></h1></a>
+        </div>
+
+        <!-- Carnivores -->
+        <div class="moon_container moon2">
+            <a id="insectsImg" href="~/Kingdoms/Carnivores"><img class="moon moon2" src="~/img/groups/carnivores.jpg"></a>
+        </div>
+        <div class="moon_container moon2">
+            <a id="insectsH1" href="~/Kingdoms/Carnivores"><h1 class="moon moon2"><span> Carnivores </span></h1></a>
+        </div>
+
+        <div class="moon_container moon4">
+            <a id="reptilesH1" href="~/Kingdoms/Herbivores"><h1 class="moon moon4"><span> Herbivores </span></h1></a>
+        </div>
+
+        <!-- Omnivores -->
+        <div class="moon_container moon3">
+            <a id="fishImg" href="~/Kingdoms/Omnivores"><img class="moon moon3" src="~/img/groups/omnivores.jpg"></a>
+        </div>
+        <!-- Omnivores -->
+        <div class="moon_container moon3">
+            <a id="fishH1" href="~/Kingdoms/Omnivores"><h1 class="moon moon3"><span> Omnivores </span></h1></a>
+        </div>*@
+        </tr>
+    </tbody>
+</table>
