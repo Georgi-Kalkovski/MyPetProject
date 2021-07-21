@@ -37,11 +37,6 @@
         [HttpGet("/Breeds/{name}")]
         public async Task<IActionResult> Index(string name)
         {
-            if (name == "Create")
-            {
-                return this.View();
-            }
-
             var applicationDbContext = this.breedsRepository
                 .All()
                 .Include(b => b.User)

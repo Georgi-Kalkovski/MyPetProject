@@ -17,7 +17,7 @@
             return this.View();
         }
 
-        public IActionResult Group()
+        public IActionResult Groups()
         {
             return this.View();
         }

@@ -30,13 +30,8 @@
 
         // GET: Subbreeds/{name}
         [HttpGet("/Subbreeds/{name}")]
-        public async Task<IActionResult> Index(string name)
+        public async Task<IActionResult> Index(string name) 
         {
-            if (name == "Create")
-            {
-                return this.View();
-            }
-
             if (name.Contains(" "))
             {
                 var applicationDbContext = this.subbreedsRepository
@@ -49,12 +44,12 @@
             }
             else
             {
-                var applicationDbContext = this.subbreedsRepository
+                var result = this.subbreedsRepository
                     .All()
                     .Include(b => b.User)
                     .Where(x => x.BreedName == name);
 
-                return this.View(await applicationDbContext.ToListAsync());
+                return this.View(await result.ToListAsync());
             }
         }
 

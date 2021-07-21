@@ -38,11 +38,6 @@
         [HttpGet("Kingdoms/{name}")]
         public async Task<IActionResult> Index(string name)
         {
-            if (name == "Create")
-            {
-                return this.View();
-            }
-
             var oldName = this.HttpContext.Request.Path.Value.Split("/").Last();
 
             if (oldName == "Herbivores" || oldName == "Carnivores" || oldName == "Omnivores")

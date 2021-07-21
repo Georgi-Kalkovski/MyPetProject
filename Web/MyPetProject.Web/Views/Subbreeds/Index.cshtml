@@ -6,32 +6,55 @@
 }
 @{
     var name = ViewContext.HttpContext.Request.Path.ToString().Split("/").Last().Replace("%20", " ");
-    <h1>@name</h1>
+    if (!Model.Any())
+    {
+        <div class="text-center">
+            <h1 class="display-4">The @name breed is empty ! :(</h1>
+        </div>
+        <div class="justify-content: center" style="display: flex;justify-content: center">
+            <p> <a asp-action="Create">Create New Breed</a></p>
+            <p style="margin: 0 8px;"> or </p>
+            <p><a href="javascript:history.back()"> Go back to breed </a> </p>
+        </div>
+    }
+    else
+    {
+        <h1>@name</h1>
 
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-    <p>
-        <a href="javascript:history.back()">Back to breeds</a>
-    </p>
-    <table class="table">
-        <tbody>
-            <div class="row mt-2 mb-4">
-                @foreach (var item in Model)
-                {
-                    <div class="card col-6 col-lg-3 game-card">
-                        <a asp-action="@item.Name">
-                            <img class="card-img-top" src="@item.PicUrl" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-                                <a href="@item.Name" class="btn btn-primary">Details</a>
-                                <a asp-action="Edit" asp-route-id="@item.Name" class="btn btn-warning">Edit</a>
-                                <a asp-action="Delete" asp-route-id="@item.Name" class="btn btn-danger">Delete</a>
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+        <p>
+            <a href="javascript:history.back()">Back to breeds</a>
+        </p>
+        <table class="table">
+            <tbody>
+                <div class="row mt-2 mb-4">
+                    @if (!Model.Any())
+                    {
+                        <div class="text-center">
+                            <h1 class="display-4">The @name breed is empty!</h1>
+                        </div>
+                    }
+                    else
+                    {
+                        foreach (var item in Model)
+                        {
+                            <div class="card col-6 col-lg-3 game-card">
+                                <a asp-action="@item.Name">
+                                    <img class="card-img-top" src="@item.PicUrl" alt="Card image cap">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                                        <a href="@item.Name" class="btn btn-primary">Details</a>
+                                        <a asp-action="Edit" asp-route-id="@item.Name" class="btn btn-warning">Edit</a>
+                                        <a asp-action="Delete" asp-route-id="@item.Name" class="btn btn-danger">Delete</a>
+                                    </div>
+                                </a>
                             </div>
-                        </a>
-                    </div>
-                }
-            </div>
-        </tbody>
-    </table>
+                        }
+                    }
+                </div>
+            </tbody>
+        </table>
+    }
 }
