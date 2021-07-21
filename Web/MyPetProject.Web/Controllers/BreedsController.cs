@@ -6,23 +6,30 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
-    using MyPetProject.Data;
+    using MyPetProject.Data.Common.Repositories;
     using MyPetProject.Data.Models;
 
     public class BreedsController : Controller
     {
-        private readonly ApplicationDbContext context;
+        private readonly IDeletableEntityRepository<Breed> breedsRepository;
+        private readonly IDeletableEntityRepository<Kingdom> kingdomsRepository;
 
-        public BreedsController(ApplicationDbContext inputContext)
+        public BreedsController(
+            IDeletableEntityRepository<Breed> breedsRepository,
+            IDeletableEntityRepository<Kingdom> kingdomsRepository)
         {
-            this.context = inputContext;
+            this.breedsRepository = breedsRepository;
+            this.kingdomsRepository = kingdomsRepository;
         }
 
         // GET: Breeds
         public async Task<IActionResult> Index()
         {
-            var oldName = this.HttpContext.Request.Path.Value.Split("/").Last();
-            var applicationDbContext = this.context.Breeds.Include(b => b.User).OrderBy(x => x.Name);
+            var applicationDbContext = this.breedsRepository
+                .All()
+                .Include(b => b.User)
+                .OrderBy(x => x.Name);
+
             return this.View(await applicationDbContext.ToListAsync());
         }
 
@@ -35,12 +42,16 @@
                 return this.View();
             }
 
-            var applicationDbContext = this.context.Breeds.Include(b => b.User)
-                .Where(x => x.KingdomName == name).OrderBy(x => x.Name);
+            var applicationDbContext = this.breedsRepository
+                .All()
+                .Include(b => b.User)
+                .Where(x => x.KingdomName == name)
+                .OrderBy(x => x.Name);
+
             return this.View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Breeds/Details/5
+        // GET: Breeds/Details/{name}
         public async Task<IActionResult> Details(string name)
         {
             if (name == null)
@@ -48,9 +59,11 @@
                 return this.NotFound();
             }
 
-            var breed = await this.context.Breeds
+            var breed = await this.breedsRepository
+                .All()
                 .Include(b => b.User)
                 .FirstOrDefaultAsync(m => m.Name == name);
+
             if (breed == null)
             {
                 return this.NotFound();
@@ -63,31 +76,31 @@
         [HttpGet("/Breeds/Create/")]
         public IActionResult Create()
         {
-            this.ViewData["KingdomName"] = new SelectList(this.context.Kingdoms.OrderBy(x => x.Name), "Name", "Name");
-            this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id");
+            this.ViewData["KingdomName"] = new SelectList(this.kingdomsRepository.All().OrderBy(x => x.Name), "Name", "Name");
+
+            // this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id");
             return this.View();
         }
 
         // POST: Breeds/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("/Breeds/Create/")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,PicUrl,Description,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Breed breed)
         {
             if (this.ModelState.IsValid)
             {
-                this.context.Add(breed);
-                await this.context.SaveChangesAsync();
+                await this.breedsRepository.AddAsync(breed);
+                await this.breedsRepository.SaveChangesAsync();
                 return this.RedirectToAction(breed.KingdomName);
             }
 
-            this.ViewData["KingdomName"] = new SelectList(this.context.Kingdoms, "Name", "Name", breed.KingdomName);
-            this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", breed.UserId);
+            this.ViewData["KingdomName"] = new SelectList(this.kingdomsRepository.All(), "Name", "Name", breed.KingdomName);
+
+            // this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", breed.UserId);
             return this.View(breed);
         }
 
-        // GET: Breeds/Edit/5
+        // GET: Breeds/Edit/{name}
         [HttpGet("/Breeds/Edit/{name}")]
         public async Task<IActionResult> Edit(string name)
         {
@@ -96,20 +109,22 @@
                 return this.NotFound();
             }
 
-            var breed = await this.context.Breeds.FirstOrDefaultAsync(x => x.Name == name);
+            var breed = await this.breedsRepository
+                .All()
+                .FirstOrDefaultAsync(x => x.Name == name);
+
             if (breed == null)
             {
                 return this.NotFound();
             }
 
-            this.ViewData["KingdomName"] = new SelectList(this.context.Kingdoms, "Name", "Name");
-            this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", breed.UserId);
+            this.ViewData["KingdomName"] = new SelectList(this.kingdomsRepository.All(), "Name", "Name");
+
+            // this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", breed.UserId);
             return this.View(breed);
         }
 
-        // POST: Breeds/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Breeds/Edit/{name}
         [HttpPost("/Breeds/Edit/{name}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string name, [Bind("Name,PicUrl,Description,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Breed breed)
@@ -120,20 +135,23 @@
             }
 
             var oldName = this.HttpContext.Request.Path.Value.Split("/").Last();
+
             if (this.ModelState.IsValid)
             {
                 try
                 {
-                    var editName = await this.context.Breeds.FirstOrDefaultAsync(x => x.Name == oldName);
-                    foreach (var animals in this.context.Breeds.Where(x => x.Name == oldName))
+                    var editName = await this.breedsRepository
+                        .All()
+                        .FirstOrDefaultAsync(x => x.Name == oldName);
+
+                    foreach (var animals in this.breedsRepository.All().Where(x => x.Name == oldName))
                     {
                         animals.Name = name;
                     }
 
-                    this.context.Breeds.Remove(editName);
-
-                    this.context.Update(breed);
-                    await this.context.SaveChangesAsync();
+                    this.breedsRepository.Delete(editName);
+                    await this.breedsRepository.AddAsync(breed);
+                    await this.breedsRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -150,12 +168,13 @@
                 return this.RedirectToAction(breed.KingdomName);
             }
 
-            this.ViewData["KingdomName"] = new SelectList(this.context.Kingdoms, "Name", "Name", breed.KingdomName);
-            this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", breed.UserId);
+            this.ViewData["KingdomName"] = new SelectList(this.kingdomsRepository.All(), "Name", "Name", breed.KingdomName);
+
+            // this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", breed.UserId);
             return this.View(breed);
         }
 
-        // GET: Breeds/Delete/5
+        // GET: Breeds/Delete/{name}
         [HttpGet("/Breeds/Delete/{name}")]
         public async Task<IActionResult> Delete(string name)
         {
@@ -164,9 +183,11 @@
                 return this.NotFound();
             }
 
-            var breed = await this.context.Breeds
+            var breed = await this.breedsRepository
+                .All()
                 .Include(b => b.User)
                 .FirstOrDefaultAsync(m => m.Name == name);
+
             if (breed == null)
             {
                 return this.NotFound();
@@ -175,21 +196,27 @@
             return this.View(breed);
         }
 
-        // POST: Breeds/Delete/5
+        // POST: Breeds/Delete/{name}
         [HttpPost("/Breeds/Delete/{name}")]
         [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string name)
         {
-            var breed = await this.context.Breeds.FirstOrDefaultAsync(x => x.Name == name);
-            this.context.Breeds.Remove(breed);
-            await this.context.SaveChangesAsync();
+            var breed = await this.breedsRepository
+                .All()
+                .FirstOrDefaultAsync(x => x.Name == name);
+
+            this.breedsRepository.Delete(breed);
+            await this.breedsRepository.SaveChangesAsync();
             return this.RedirectToAction(breed.KingdomName);
         }
 
+        // Checking if Breed Exist
         private bool BreedExists(string name)
         {
-            return this.context.Breeds.Any(e => e.Name == name);
+            return this.breedsRepository
+                .All()
+                .Any(e => e.Name == name);
         }
     }
 }

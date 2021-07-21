@@ -1,31 +1,40 @@
 ﻿namespace MyPetProject.Web.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using MyPetProject.Data;
     using MyPetProject.Data.Common.Repositories;
     using MyPetProject.Data.Models;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class KingdomsController : BaseController
     {
-        private readonly ApplicationDbContext context;
+        private readonly IDeletableEntityRepository<Kingdom> kingdomsRepository;
+        private readonly IDeletableEntityRepository<Breed> breedsRepository;
 
-        public KingdomsController(ApplicationDbContext inputContext)
+        public KingdomsController(
+            IDeletableEntityRepository<Kingdom> kingdomsRepository,
+            IDeletableEntityRepository<Breed> breedsRepository)
         {
-            this.context = inputContext;
+            this.kingdomsRepository = kingdomsRepository;
+            this.breedsRepository = breedsRepository;
         }
 
-        // GET: Kingdoms{name}
+        // GET: Kingdoms
         public async Task<IActionResult> Index()
         {
-            var oldName = this.HttpContext.Request.Path.Value.Split("/").Last();
-            var applicationDbContext = this.context.Kingdoms.Include(k => k.User).OrderBy(x => x.Name);
+            var applicationDbContext = this.kingdomsRepository
+                .All()
+                .Include(k => k.User)
+                .OrderBy(x => x.Name);
+
             return this.View(await applicationDbContext.ToListAsync());
         }
 
+        // GET: Kingdoms/{name}
         [HttpGet("Kingdoms/{name}")]
         public async Task<IActionResult> Index(string name)
         {
@@ -35,29 +44,42 @@
             }
 
             var oldName = this.HttpContext.Request.Path.Value.Split("/").Last();
+
             if (oldName == "Herbivores" || oldName == "Carnivores" || oldName == "Omnivores")
             {
-                var applicationDbContext = this.context.Kingdoms.Include(k => k.User).Where(x => x.Diet == name).OrderBy(x => x.Name);
+                var applicationDbContext = this.kingdomsRepository
+                    .All()
+                    .Include(k => k.User)
+                    .Where(x => x.Diet == name)
+                    .OrderBy(x => x.Name);
+
                 return this.View(await applicationDbContext.ToListAsync());
             }
             else
             {
-                var applicationDbContext = this.context.Kingdoms.Include(k => k.User).Where(x => x.Group == name).OrderBy(x => x.Name);
+                var applicationDbContext = this.kingdomsRepository
+                    .All()
+                    .Include(k => k.User)
+                    .Where(x => x.Group == name)
+                    .OrderBy(x => x.Name);
+
                 return this.View(await applicationDbContext.ToListAsync());
             }
         }
 
-        // GET: Kingdoms/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Kingdoms/Details/{name}
+        public async Task<IActionResult> Details(string name)
         {
-            if (id == null)
+            if (name == null)
             {
                 return this.NotFound();
             }
 
-            var kingdom = await this.context.Kingdoms
+            var kingdom = await this.kingdomsRepository
+                .All()
                 .Include(k => k.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Name == name);
+
             if (kingdom == null)
             {
                 return this.NotFound();
@@ -70,29 +92,27 @@
         [HttpGet("/Kingdoms/Create/")]
         public IActionResult Create()
         {
-            this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id");
+            // this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id");
             return this.View();
         }
 
         // POST: Kingdoms/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("/Kingdoms/Create/")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,PicUrl,Group,Diet,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
         {
             if (this.ModelState.IsValid)
             {
-                this.context.Add(kingdom);
-                await this.context.SaveChangesAsync();
+                await this.kingdomsRepository.AddAsync(kingdom);
+                await this.kingdomsRepository.SaveChangesAsync();
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", kingdom.UserId);
+            // this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", kingdom.UserId);
             return this.View(kingdom);
         }
 
-        // GET: Kingdoms/Edit/5
+        // GET: Kingdoms/Edit/{name}
         [HttpGet("/Kingdoms/Edit/{name}")]
         public async Task<IActionResult> Edit(string name)
         {
@@ -101,19 +121,20 @@
                 return this.NotFound();
             }
 
-            var kingdom = await this.context.Kingdoms.FirstOrDefaultAsync(x => x.Name == name);
+            var kingdom = await this.kingdomsRepository
+                .All()
+                .FirstOrDefaultAsync(x => x.Name == name);
+
             if (kingdom == null)
             {
                 return this.NotFound();
             }
 
-            this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", kingdom.UserId);
+            // this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", kingdom.UserId);
             return this.View(kingdom);
         }
 
-        // POST: Kingdoms/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Kingdoms/Edit/{name}
         [HttpPost("/Kingdoms/Edit/{name}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string name, [Bind("Name,PicUrl,Group,Diet,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
@@ -124,21 +145,23 @@
             }
 
             var oldName = this.HttpContext.Request.Path.Value.Split("/").Last();
+
             if (this.ModelState.IsValid)
             {
                 try
                 {
-                    var editName = await this.context.Kingdoms.FirstOrDefaultAsync(x => x.Name == oldName);
-                    foreach (var breed in this.context.Breeds.Where(x => x.KingdomName == oldName))
+                    var editName = await this.kingdomsRepository
+                        .All()
+                        .FirstOrDefaultAsync(x => x.Name == oldName);
+
+                    foreach (var breed in this.breedsRepository.All().Where(x => x.KingdomName == oldName))
                     {
                         breed.KingdomName = name;
                     }
 
-                    this.context.Kingdoms.Remove(editName);
-
-                    this.context.Update(kingdom);
-
-                    await this.context.SaveChangesAsync();
+                    this.kingdomsRepository.Delete(editName);
+                    await this.kingdomsRepository.AddAsync(kingdom);
+                    await this.kingdomsRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -155,11 +178,11 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", kingdom.UserId);
+            // this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", kingdom.UserId);
             return this.View(kingdom);
         }
 
-        // GET: Kingdoms/Delete/5
+        // GET: Kingdoms/Delete/{name}
         [HttpGet("/Kingdoms/Delete/{name}")]
         public async Task<IActionResult> Delete(string name)
         {
@@ -168,9 +191,11 @@
                 return this.NotFound();
             }
 
-            var kingdom = await this.context.Kingdoms
+            var kingdom = await this.kingdomsRepository
+                .All()
                 .Include(k => k.User)
                 .FirstOrDefaultAsync(m => m.Name == name);
+
             if (kingdom == null)
             {
                 return this.NotFound();
@@ -179,21 +204,27 @@
             return this.View(kingdom);
         }
 
-        // POST: Kingdoms/Delete/5
+        // POST: Kingdoms/Delete/{name}
         [HttpPost("/Kingdoms/Delete/{name}")]
         [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int? id, string name)
         {
-            var kingdom = await this.context.Kingdoms.FindAsync(id);
-            this.context.Kingdoms.Remove(kingdom);
-            await this.context.SaveChangesAsync();
+            var kingdom = await this.kingdomsRepository
+                .All()
+                .FirstAsync(x => x.Id == id);
+
+            this.kingdomsRepository.Delete(kingdom);
+            await this.kingdomsRepository.SaveChangesAsync();
             return this.RedirectToAction(nameof(this.Index));
         }
 
+        // Checking if Kingdom Exist
         private bool KingdomExists(string name)
         {
-            return this.context.Kingdoms.Any(e => e.Name == name);
+            return this.kingdomsRepository
+                .All()
+                .Any(e => e.Name == name);
         }
     }
 }
