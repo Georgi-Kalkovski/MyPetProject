@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using MyPetProject.Data;
-using MyPetProject.Data.Models;
-
-namespace MyPetProject.Web.Controllers
+﻿namespace MyPetProject.Web.Controllers
 {
-    public class FoodsController : Controller
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore;
+    using MyPetProject.Data;
+    using MyPetProject.Data.Models;
+
+    public class FoodsController : BaseController
     {
         private readonly ApplicationDbContext _context;
 

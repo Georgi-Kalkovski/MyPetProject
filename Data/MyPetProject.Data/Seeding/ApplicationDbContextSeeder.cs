@@ -30,6 +30,7 @@
                               new KingdomsSeeder(),
                               new BreedsSeeder(),
                               new SubreedsSeeder(),
+                              new FoodTypeSeeder(),
                           };
 
             foreach (var seeder in seeders)

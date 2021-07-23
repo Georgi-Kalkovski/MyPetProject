@@ -4,9 +4,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
-    using MyPetProject.Data;
     using MyPetProject.Data.Common.Repositories;
     using MyPetProject.Data.Models;
 
@@ -26,12 +24,12 @@
         // GET: Kingdoms
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = this.kingdomsRepository
+            var result = this.kingdomsRepository
                 .All()
                 .Include(k => k.User)
                 .OrderBy(x => x.Name);
 
-            return this.View(await applicationDbContext.ToListAsync());
+            return this.View(await result.ToListAsync());
         }
 
         // GET: Kingdoms/{name}
@@ -52,13 +50,13 @@
             }
             else
             {
-                var applicationDbContext = this.kingdomsRepository
+                var result = this.kingdomsRepository
                     .All()
                     .Include(k => k.User)
                     .Where(x => x.Group == name)
                     .OrderBy(x => x.Name);
 
-                return this.View(await applicationDbContext.ToListAsync());
+                return this.View(await result.ToListAsync());
             }
         }
 
@@ -70,17 +68,17 @@
                 return this.NotFound();
             }
 
-            var kingdom = await this.kingdomsRepository
+            var result = await this.kingdomsRepository
                 .All()
                 .Include(k => k.User)
                 .FirstOrDefaultAsync(m => m.Name == name);
 
-            if (kingdom == null)
+            if (result == null)
             {
                 return this.NotFound();
             }
 
-            return this.View(kingdom);
+            return this.View(result);
         }
 
         // GET: Kingdoms/Create
@@ -116,17 +114,17 @@
                 return this.NotFound();
             }
 
-            var kingdom = await this.kingdomsRepository
+            var result = await this.kingdomsRepository
                 .All()
                 .FirstOrDefaultAsync(x => x.Name == name);
 
-            if (kingdom == null)
+            if (result == null)
             {
                 return this.NotFound();
             }
 
             // this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", kingdom.UserId);
-            return this.View(kingdom);
+            return this.View(result);
         }
 
         // POST: Kingdoms/Edit/{name}
@@ -186,17 +184,17 @@
                 return this.NotFound();
             }
 
-            var kingdom = await this.kingdomsRepository
+            var result = await this.kingdomsRepository
                 .All()
                 .Include(k => k.User)
                 .FirstOrDefaultAsync(m => m.Name == name);
 
-            if (kingdom == null)
+            if (result == null)
             {
                 return this.NotFound();
             }
 
-            return this.View(kingdom);
+            return this.View(result);
         }
 
         // POST: Kingdoms/Delete/{name}
@@ -205,11 +203,11 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int? id, string name)
         {
-            var kingdom = await this.kingdomsRepository
+            var result = await this.kingdomsRepository
                 .All()
                 .FirstAsync(x => x.Id == id);
 
-            this.kingdomsRepository.Delete(kingdom);
+            this.kingdomsRepository.Delete(result);
             await this.kingdomsRepository.SaveChangesAsync();
             return this.RedirectToAction(nameof(this.Index));
         }

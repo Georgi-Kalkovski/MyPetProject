@@ -1,4 +1,4 @@
-﻿@model MyPetProject.Data.Models.Subbreed
+﻿@model MyPetProject.Data.Models.FoodType
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,8 +6,8 @@
 }
 
 <h1 class="text-warning">Edit</h1>
+<h2>@Model.Name</h2>
 
-<h4>Subbreed</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -27,26 +27,6 @@
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="KingdomName" class="control-label"></label>
-                <input asp-for="KingdomName" class="form-control" />
-                <span asp-validation-for="KingdomName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BreedName" class="control-label"></label>
-                <input asp-for="BreedName" class="form-control" />
-                <span asp-validation-for="BreedName" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsPet" /> @Html.DisplayNameFor(model => model.IsPet)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsFarm" /> @Html.DisplayNameFor(model => model.IsFarm)
-                </label>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

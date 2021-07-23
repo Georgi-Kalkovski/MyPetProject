@@ -2,9 +2,8 @@
 {
     using System.Linq;
 
-    using MyPetProject.Data.Common.Models;
-
     using Microsoft.EntityFrameworkCore;
+    using MyPetProject.Data.Common.Models;
 
     internal static class EntityIndexesConfiguration
     {

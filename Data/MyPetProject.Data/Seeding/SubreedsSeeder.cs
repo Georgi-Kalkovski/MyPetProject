@@ -1,12 +1,11 @@
-﻿using MyPetProject.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyPetProject.Data.Seeding
+﻿namespace MyPetProject.Data.Seeding
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using MyPetProject.Data.Models;
+
     public class SubreedsSeeder : ISeeder
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)

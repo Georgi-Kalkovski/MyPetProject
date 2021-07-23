@@ -9,7 +9,7 @@
     using MyPetProject.Data.Common.Repositories;
     using MyPetProject.Data.Models;
 
-    public class BreedsController : Controller
+    public class BreedsController : BaseController
     {
         private readonly IDeletableEntityRepository<Breed> breedsRepository;
         private readonly IDeletableEntityRepository<Kingdom> kingdomsRepository;
@@ -25,25 +25,25 @@
         // GET: Breeds
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = this.breedsRepository
+            var result = this.breedsRepository
                 .All()
                 .Include(b => b.User)
                 .OrderBy(x => x.Name);
 
-            return this.View(await applicationDbContext.ToListAsync());
+            return this.View(await result.ToListAsync());
         }
 
         // GET: Breeds/{name}
         [HttpGet("/Breeds/{name}")]
         public async Task<IActionResult> Index(string name)
         {
-            var applicationDbContext = this.breedsRepository
+            var result = this.breedsRepository
                 .All()
                 .Include(b => b.User)
                 .Where(x => x.KingdomName == name)
                 .OrderBy(x => x.Name);
 
-            return this.View(await applicationDbContext.ToListAsync());
+            return this.View(await result.ToListAsync());
         }
 
         // GET: Breeds/Details/{name}
@@ -54,17 +54,17 @@
                 return this.NotFound();
             }
 
-            var breed = await this.breedsRepository
+            var result = await this.breedsRepository
                 .All()
                 .Include(b => b.User)
                 .FirstOrDefaultAsync(m => m.Name == name);
 
-            if (breed == null)
+            if (result == null)
             {
                 return this.NotFound();
             }
 
-            return this.View(breed);
+            return this.View(result);
         }
 
         // GET: Breeds/Create
@@ -104,11 +104,11 @@
                 return this.NotFound();
             }
 
-            var breed = await this.breedsRepository
+            var result = await this.breedsRepository
                 .All()
                 .FirstOrDefaultAsync(x => x.Name == name);
 
-            if (breed == null)
+            if (result == null)
             {
                 return this.NotFound();
             }
@@ -116,7 +116,7 @@
             this.ViewData["KingdomName"] = new SelectList(this.kingdomsRepository.All(), "Name", "Name");
 
             // this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", breed.UserId);
-            return this.View(breed);
+            return this.View(result);
         }
 
         // POST: Breeds/Edit/{name}
@@ -178,17 +178,17 @@
                 return this.NotFound();
             }
 
-            var breed = await this.breedsRepository
+            var result = await this.breedsRepository
                 .All()
                 .Include(b => b.User)
                 .FirstOrDefaultAsync(m => m.Name == name);
 
-            if (breed == null)
+            if (result == null)
             {
                 return this.NotFound();
             }
 
-            return this.View(breed);
+            return this.View(result);
         }
 
         // POST: Breeds/Delete/{name}
@@ -197,13 +197,13 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string name)
         {
-            var breed = await this.breedsRepository
+            var result = await this.breedsRepository
                 .All()
                 .FirstOrDefaultAsync(x => x.Name == name);
 
-            this.breedsRepository.Delete(breed);
+            this.breedsRepository.Delete(result);
             await this.breedsRepository.SaveChangesAsync();
-            return this.RedirectToAction(breed.KingdomName);
+            return this.RedirectToAction(result.KingdomName);
         }
 
         // Checking if Breed Exist

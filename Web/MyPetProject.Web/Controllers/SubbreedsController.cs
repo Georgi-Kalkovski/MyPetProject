@@ -1,18 +1,15 @@
 ﻿namespace MyPetProject.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
-    using MyPetProject.Data;
     using MyPetProject.Data.Common.Repositories;
     using MyPetProject.Data.Models;
 
-    public class SubbreedsController : Controller
+    public class SubbreedsController : BaseController
     {
         private readonly IDeletableEntityRepository<Subbreed> subbreedsRepository;
         private readonly IDeletableEntityRepository<Breed> breedsRepository;
@@ -30,17 +27,17 @@
 
         // GET: Subbreeds/{name}
         [HttpGet("/Subbreeds/{name}")]
-        public async Task<IActionResult> Index(string name) 
+        public async Task<IActionResult> Index(string name)
         {
             if (name.Contains(" "))
             {
-                var applicationDbContext = this.subbreedsRepository
+                var result = this.subbreedsRepository
                     .All()
                     .Include(b => b.User)
                     .Where(x => x.BreedName.Replace("%20", " ") == name)
                     .OrderBy(x => x.Name);
 
-                return this.View(await applicationDbContext.ToListAsync());
+                return this.View(await result.ToListAsync());
             }
             else
             {
@@ -116,11 +113,11 @@
                 return this.NotFound();
             }
 
-            var subbreed = await this.subbreedsRepository
+            var result = await this.subbreedsRepository
                 .All()
                 .FirstOrDefaultAsync(x => x.Name == name);
 
-            if (subbreed == null)
+            if (result == null)
             {
                 return this.NotFound();
             }
@@ -128,7 +125,7 @@
             this.ViewData["SubbreedName"] = new SelectList(this.kingdomsRepository.All(), "Name", "Name");
 
             // this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", subbreed.UserId);
-            return this.View(subbreed);
+            return this.View(result);
         }
 
         // POST: Breeds/Edit/{name}
@@ -191,17 +188,17 @@
                 return this.NotFound();
             }
 
-            var subbreeds = await this.subbreedsRepository
+            var result = await this.subbreedsRepository
                 .All()
                 .Include(b => b.User)
                 .FirstOrDefaultAsync(m => m.Name == name);
 
-            if (subbreeds == null)
+            if (result == null)
             {
                 return this.NotFound();
             }
 
-            return this.View(subbreeds);
+            return this.View(result);
         }
 
         // POST: Subbreeds/Delete/{name}
@@ -210,13 +207,13 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string name)
         {
-            var subbreed = await this.subbreedsRepository
+            var result = await this.subbreedsRepository
                 .All()
                 .FirstOrDefaultAsync(x => x.Name == name);
 
-            this.subbreedsRepository.Delete(subbreed);
+            this.subbreedsRepository.Delete(result);
             await this.subbreedsRepository.SaveChangesAsync();
-            return this.RedirectToAction(subbreed.BreedName);
+            return this.RedirectToAction(result.BreedName);
         }
 
         // Checking if Subbreed Exist

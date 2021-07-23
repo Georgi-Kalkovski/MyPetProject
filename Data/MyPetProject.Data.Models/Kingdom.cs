@@ -19,6 +19,9 @@
         public string PicUrl { get; set; }
 
         [Required]
+        public string Description { get; set; }
+
+        [Required]
         public string Group { get; set; }
 
         [Required]
