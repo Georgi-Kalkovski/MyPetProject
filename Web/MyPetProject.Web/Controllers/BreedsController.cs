@@ -11,15 +11,21 @@
 
     public class BreedsController : BaseController
     {
+        private readonly IDeletableEntityRepository<Subbreed> subbreedsRepository;
         private readonly IDeletableEntityRepository<Breed> breedsRepository;
         private readonly IDeletableEntityRepository<Kingdom> kingdomsRepository;
+        private readonly IDeletableEntityRepository<ApplicationUser> applicationsRepository;
 
         public BreedsController(
+            IDeletableEntityRepository<Subbreed> subbreedsRepository,
             IDeletableEntityRepository<Breed> breedsRepository,
-            IDeletableEntityRepository<Kingdom> kingdomsRepository)
+            IDeletableEntityRepository<Kingdom> kingdomsRepository,
+            IDeletableEntityRepository<ApplicationUser> applicationsRepository)
         {
+            this.subbreedsRepository = subbreedsRepository;
             this.breedsRepository = breedsRepository;
             this.kingdomsRepository = kingdomsRepository;
+            this.applicationsRepository = applicationsRepository;
         }
 
         // GET: Breeds
@@ -71,9 +77,8 @@
         [HttpGet("/Breeds/Create/")]
         public IActionResult Create()
         {
+            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id");
             this.ViewData["KingdomName"] = new SelectList(this.kingdomsRepository.All().OrderBy(x => x.Name), "Name", "Name");
-
-            // this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id");
             return this.View();
         }
 
@@ -89,9 +94,9 @@
                 return this.RedirectToAction(breed.KingdomName);
             }
 
+            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", breed.UserId);
             this.ViewData["KingdomName"] = new SelectList(this.kingdomsRepository.All(), "Name", "Name", breed.KingdomName);
 
-            // this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", breed.UserId);
             return this.View(breed);
         }
 
@@ -113,9 +118,9 @@
                 return this.NotFound();
             }
 
+            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", this.breedsRepository.All().Include(x => x.UserId));
             this.ViewData["KingdomName"] = new SelectList(this.kingdomsRepository.All(), "Name", "Name");
 
-            // this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", breed.UserId);
             return this.View(result);
         }
 
@@ -139,9 +144,9 @@
                         .All()
                         .FirstOrDefaultAsync(x => x.Name == oldName);
 
-                    foreach (var animals in this.breedsRepository.All().Where(x => x.Name == oldName))
+                    foreach (var animals in this.subbreedsRepository.All().Where(x => x.BreedName == oldName))
                     {
-                        animals.Name = name;
+                        animals.BreedName = name;
                     }
 
                     this.breedsRepository.Delete(editName);
@@ -163,9 +168,9 @@
                 return this.RedirectToAction(breed.KingdomName);
             }
 
+            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", breed.UserId);
             this.ViewData["KingdomName"] = new SelectList(this.kingdomsRepository.All(), "Name", "Name", breed.KingdomName);
 
-            // this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", breed.UserId);
             return this.View(breed);
         }
 

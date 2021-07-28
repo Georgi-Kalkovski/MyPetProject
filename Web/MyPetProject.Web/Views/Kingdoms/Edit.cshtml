@@ -24,6 +24,11 @@
                 <span asp-validation-for="PicUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Group" class="control-label"></label>
                 <input asp-for="Group" class="form-control" />
                 <span asp-validation-for="Group" class="text-danger"></span>
@@ -32,6 +37,16 @@
                 <label asp-for="Diet" class="control-label"></label>
                 <input asp-for="Diet" class="form-control" />
                 <span asp-validation-for="Diet" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsPet" /> @Html.DisplayNameFor(model => model.IsPet)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsFarm" /> @Html.DisplayNameFor(model => model.IsFarm)
+                </label>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

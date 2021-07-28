@@ -8,7 +8,10 @@
 <h1>@ViewContext.HttpContext.Request.Path.ToString().Split("/").Last().Replace("%20", " ")</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create new Food</a>
+</p>
+<p>
+    <a asp-controller="FoodTypes" asp-action="Index">Back</a>
 </p>
 <table class="table">
     <tbody>

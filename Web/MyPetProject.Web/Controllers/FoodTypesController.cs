@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using MyPetProject.Data.Common.Repositories;
     using MyPetProject.Data.Models;
@@ -12,13 +13,16 @@
     {
         private readonly IDeletableEntityRepository<FoodType> foodtypesRepository;
         private readonly IDeletableEntityRepository<Food> foodsRepository;
+        private readonly IDeletableEntityRepository<ApplicationUser> applicationsRepository;
 
         public FoodTypesController(
             IDeletableEntityRepository<FoodType> foodtypesRepository,
-            IDeletableEntityRepository<Food> foodsRepository)
+            IDeletableEntityRepository<Food> foodsRepository,
+            IDeletableEntityRepository<ApplicationUser> applicationsRepository)
         {
             this.foodtypesRepository = foodtypesRepository;
             this.foodsRepository = foodsRepository;
+            this.applicationsRepository = applicationsRepository;
         }
 
         // GET: FoodTypes
@@ -27,6 +31,20 @@
             var result = this.foodtypesRepository.
                 All()
                 .Include(f => f.User)
+                .OrderBy(x => x.Name);
+
+            return this.View(await result.ToListAsync());
+        }
+
+        // GET: FoodTypes/{name}
+        [HttpGet("/FoodTypes/{name}")]
+        public async Task<IActionResult> Index(string name)
+        {
+            var result = this.foodtypesRepository
+                .All()
+                .Include(b => b.User)
+                .Include(x => x.Foods)
+                .Where(x => x.Name == name)
                 .OrderBy(x => x.Name);
 
             return this.View(await result.ToListAsync());
@@ -57,7 +75,7 @@
         [HttpGet("/FoodTypes/Create/")]
         public IActionResult Create()
         {
-            // this.ViewData["UserId"] = new SelectList(this.foodtypesRepository.Users, "Id", "Id");
+            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id");
             return this.View();
         }
 
@@ -73,12 +91,12 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            // this.ViewData["UserId"] = new SelectList(this.foodtypesRepository.Users, "Id", "Id", foodType.UserId);
+            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", foodType.UserId);
             return this.View(foodType);
         }
 
-        [HttpGet("/FoodTypes/Edit/{name}")]
         // GET: FoodTypes/Edit/{name}
+        [HttpGet("/FoodTypes/Edit/{name}")]
         public async Task<IActionResult> Edit(string name)
         {
             if (name == null)
@@ -95,7 +113,7 @@
                 return this.NotFound();
             }
 
-            // this.ViewData["UserId"] = new SelectList(this.foodtypesRepository.Users, "Id", "Id", foodType.UserId);
+            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", this.foodtypesRepository.All().Include(x => x.UserId));
             return this.View(result);
         }
 
@@ -143,7 +161,7 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            // this.ViewData["UserId"] = new SelectList(this.foodtypesRepository.Users, "Id", "Id", foodType.UserId);
+            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", foodType.UserId);
             return this.View(foodType);
         }
 

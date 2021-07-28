@@ -357,6 +357,10 @@ namespace MyPetProject.Data.Migrations
                     b.Property<int?>("FoodTypeId")
                         .HasColumnType("int");
 
+                    b.Property<string>("FoodTypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -461,6 +465,12 @@ namespace MyPetProject.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsFarm")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPet")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
@@ -541,12 +551,6 @@ namespace MyPetProject.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsFarm")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsPet")
                         .HasColumnType("bit");
 
                     b.Property<string>("KingdomName")

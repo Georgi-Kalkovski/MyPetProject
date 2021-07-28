@@ -1,0 +1,42 @@
+﻿@model IEnumerable<MyPetProject.Data.Models.Kingdom>
+@{
+    ViewData["Title"] = "Home Animals";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Home Animals</h1>
+
+<p>
+    <a asp-action="Create">Create New Kingdom</a>
+</p>
+<p>
+    <a asp-controller="Home" asp-action="Groups">Go To Groups</a>
+</p>
+<table class="table">
+    <tbody>
+        <div class="row mt-2 mb-4">
+
+            @foreach (var item in Model)
+            {
+                <div class="card col-6 col-lg-3 game-card">
+                    <a asp-controller="Breeds" asp-action="@item.Name">
+                        @if (!item.PicUrl.StartsWith("http"))
+                        {
+                            <img class="card-img-top" src="~/img/kingdoms/@Html.DisplayFor(modelItem => item.PicUrl)" alt="Card image cap">
+                        }
+                        else
+                        {
+                            <img class="card-img-top" src="@item.PicUrl" alt="Card image cap">
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                            <a href="@item.Name" class="btn btn-primary">Details</a>
+                            <a asp-action="Edit" asp-route-id="@item.Name" class="btn btn-warning">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Name" class="btn btn-danger">Delete</a>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </tbody>
+</table>

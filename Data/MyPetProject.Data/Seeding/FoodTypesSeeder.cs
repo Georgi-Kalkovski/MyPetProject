@@ -6,7 +6,7 @@
 
     using MyPetProject.Data.Models;
 
-    public class FoodTypeSeeder : ISeeder
+    public class FoodTypesSeeder : ISeeder
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {

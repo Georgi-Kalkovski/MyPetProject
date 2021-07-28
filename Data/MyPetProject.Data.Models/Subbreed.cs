@@ -29,10 +29,6 @@
         [Required]
         public string KingdomName { get; set; }
 
-        public bool IsPet { get; set; }
-
-        public bool IsFarm { get; set; }
-
         public int? BreedId { get; set; }
 
         public virtual Breed Breed { get; set; }

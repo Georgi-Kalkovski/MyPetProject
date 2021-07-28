@@ -16,6 +16,9 @@
         [Required]
         public string Description { get; set; }
 
+        [Required]
+        public string FoodTypeName { get; set; }
+
         public int? FoodTypeId { get; set; }
 
         public virtual FoodType FoodType { get; set; }

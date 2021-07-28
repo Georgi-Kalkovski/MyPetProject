@@ -10,7 +10,7 @@ using MyPetProject.Data;
 namespace MyPetProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210723114424_First")]
+    [Migration("20210728110635_First")]
     partial class First
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -359,6 +359,10 @@ namespace MyPetProject.Data.Migrations
                     b.Property<int?>("FoodTypeId")
                         .HasColumnType("int");
 
+                    b.Property<string>("FoodTypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -463,6 +467,12 @@ namespace MyPetProject.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsFarm")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPet")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
@@ -543,12 +553,6 @@ namespace MyPetProject.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsFarm")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsPet")
                         .HasColumnType("bit");
 
                     b.Property<string>("KingdomName")

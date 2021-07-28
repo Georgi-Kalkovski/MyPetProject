@@ -7,165 +7,226 @@
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using MyPetProject.Data;
+    using MyPetProject.Data.Common.Repositories;
     using MyPetProject.Data.Models;
 
     public class FoodsController : BaseController
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IDeletableEntityRepository<FoodType> foodtypesRepository;
+        private readonly IDeletableEntityRepository<Food> foodsRepository;
+        private readonly IDeletableEntityRepository<Subbreed> subbreedsRepository;
+        private readonly IDeletableEntityRepository<ApplicationUser> applicationsRepository;
 
-        public FoodsController(ApplicationDbContext context)
+        public FoodsController(
+            IDeletableEntityRepository<FoodType> foodtypesRepository,
+            IDeletableEntityRepository<Food> foodsRepository,
+            IDeletableEntityRepository<Subbreed> subbreedsRepository,
+            IDeletableEntityRepository<ApplicationUser> applicationsRepository)
         {
-            _context = context;
+            this.foodtypesRepository = foodtypesRepository;
+            this.foodsRepository = foodsRepository;
+            this.subbreedsRepository = subbreedsRepository;
+            this.applicationsRepository = applicationsRepository;
         }
 
         // GET: Foods
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Foods.Include(f => f.FoodType).Include(f => f.Subbreed).Include(f => f.User);
-            return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext = this.foodsRepository
+                .All()
+                .Include(f => f.FoodType)
+                .Include(f => f.Subbreed)
+                .Include(f => f.User);
+
+            return this.View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Foods/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Foods/{name}
+        [HttpGet("/Foods/{name}")]
+        public async Task<IActionResult> Index(string name)
         {
-            if (id == null)
+            var result = this.foodsRepository
+                .All()
+                .Include(b => b.User)
+                .Where(x => x.FoodTypeName == name)
+                .OrderBy(x => x.Name);
+
+            return this.View(await result.ToListAsync());
+        }
+
+        // GET: Foods/Details/{name}
+        public async Task<IActionResult> Details(string name)
+        {
+            if (name == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var food = await _context.Foods
+            var result = await this.foodsRepository
+                .All()
                 .Include(f => f.FoodType)
                 .Include(f => f.Subbreed)
                 .Include(f => f.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (food == null)
+                .FirstOrDefaultAsync(m => m.Name == name);
+
+            if (result == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(food);
+            return this.View(result);
         }
 
         // GET: Foods/Create
+        [HttpGet("/Foods/Create/")]
         public IActionResult Create()
         {
-            ViewData["FoodTypeId"] = new SelectList(_context.FoodTypes, "Id", "Description");
-            ViewData["SubbreedId"] = new SelectList(_context.Subbreeds, "Id", "Description");
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
+            this.ViewData["FoodTypeId"] = new SelectList(this.foodtypesRepository.All(), "Id", "Description");
+            this.ViewData["SubbreedId"] = new SelectList(this.subbreedsRepository.All(), "Id", "Description");
+            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id");
+            this.ViewData["FoodTypeName"] = new SelectList(this.foodtypesRepository.All().OrderBy(x => x.Name), "Name", "Name");
+            return this.View();
         }
 
         // POST: Foods/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("/Foods/Create/")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,PicUrl,Description,FoodTypeId,SubbreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Food food)
+        public async Task<IActionResult> Create([Bind("Name,PicUrl,Description,FoodTypeName,FoodTypeId,SubbreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Food food)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(food);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await this.foodsRepository.AddAsync(food);
+                await this.foodsRepository.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            ViewData["FoodTypeId"] = new SelectList(_context.FoodTypes, "Id", "Description", food.FoodTypeId);
-            ViewData["SubbreedId"] = new SelectList(_context.Subbreeds, "Id", "Description", food.SubbreedId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", food.UserId);
-            return View(food);
+
+            this.ViewData["FoodTypeId"] = new SelectList(this.foodtypesRepository.All(), "Id", "Description", food.FoodTypeId);
+            this.ViewData["SubbreedId"] = new SelectList(this.subbreedsRepository.All(), "Id", "Description", food.SubbreedId);
+            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", food.UserId);
+            this.ViewData["FoodTypeName"] = new SelectList(this.foodtypesRepository.All(), "Name", "Name", food.FoodTypeName);
+            return this.View(food);
         }
 
-        // GET: Foods/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        // GET: Foods/Edit/{name}
+        [HttpGet("/Foods/Edit/{name}")]
+        public async Task<IActionResult> Edit(string name)
         {
-            if (id == null)
+            if (name == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var food = await _context.Foods.FindAsync(id);
-            if (food == null)
+            var result = await this.foodsRepository
+                 .All()
+                 .FirstOrDefaultAsync(x => x.Name == name);
+
+            if (result == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            ViewData["FoodTypeId"] = new SelectList(_context.FoodTypes, "Id", "Description", food.FoodTypeId);
-            ViewData["SubbreedId"] = new SelectList(_context.Subbreeds, "Id", "Description", food.SubbreedId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", food.UserId);
-            return View(food);
+
+            this.ViewData["FoodTypeId"] = new SelectList(this.foodtypesRepository.All(), "Id", "Description", this.foodsRepository.All().Include(x => x.FoodTypeId));
+            this.ViewData["SubbreedId"] = new SelectList(this.subbreedsRepository.All(), "Id", "Description", this.foodsRepository.All().Include(x => x.SubbreedId));
+            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", this.foodsRepository.All().Include(x => x.UserId));
+            this.ViewData["FoodTypeName"] = new SelectList(this.foodtypesRepository.All(), "Name", "Name");
+            return this.View(result);
         }
 
-        // POST: Foods/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        // POST: Foods/Edit/{name}
+        [HttpPost("/Foods/Edit/{name}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,PicUrl,Description,FoodTypeId,SubbreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Food food)
+        public async Task<IActionResult> Edit(string name, [Bind("Name,PicUrl,Description,FoodTypeName,FoodTypeId,SubbreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Food food)
         {
-            if (id != food.Id)
+            if (name != food.Name)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            var oldName = this.HttpContext.Request.Path.Value.Split("/").Last();
+
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(food);
-                    await _context.SaveChangesAsync();
+                    var editName = await this.foodsRepository
+                        .All()
+                        .FirstOrDefaultAsync(x => x.Name == oldName);
+
+                    foreach (var currentFood in this.foodsRepository.All().Where(x => x.Name == oldName))
+                    {
+                        currentFood.Name = name;
+                    }
+
+                    this.foodsRepository.Delete(editName);
+                    await this.foodsRepository.AddAsync(food);
+                    await this.foodsRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FoodExists(food.Id))
+                    if (!this.FoodExists(food.Name))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            ViewData["FoodTypeId"] = new SelectList(_context.FoodTypes, "Id", "Description", food.FoodTypeId);
-            ViewData["SubbreedId"] = new SelectList(_context.Subbreeds, "Id", "Description", food.SubbreedId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", food.UserId);
-            return View(food);
+
+            this.ViewData["FoodTypeId"] = new SelectList(this.foodtypesRepository.All(), "Id", "Description", food.FoodTypeId);
+            this.ViewData["SubbreedId"] = new SelectList(this.subbreedsRepository.All(), "Id", "Description", food.SubbreedId);
+            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", food.UserId);
+            this.ViewData["FoodTypeName"] = new SelectList(this.foodtypesRepository.All(), "Name", "Name", food.FoodTypeName);
+            return this.View(food);
         }
 
-        // GET: Foods/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: Foods/Delete/{name}
+        [HttpGet("/Foods/Delete/{name}")]
+        public async Task<IActionResult> Delete(string name)
         {
-            if (id == null)
+            if (name == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var food = await _context.Foods
+            var food = await this.foodsRepository
+                .All()
                 .Include(f => f.FoodType)
                 .Include(f => f.Subbreed)
                 .Include(f => f.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Name == name);
+
             if (food == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(food);
+            return this.View(food);
         }
 
-        // POST: Foods/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: Foods/Delete/{name}
+        [HttpPost("/Foods/Delete/{name}")]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? id, string name)
         {
-            var food = await _context.Foods.FindAsync(id);
-            _context.Foods.Remove(food);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var result = await this.foodsRepository
+                .All()
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            this.foodsRepository.Delete(result);
+            await this.foodsRepository.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
-        private bool FoodExists(int id)
+        private bool FoodExists(string name)
         {
-            return _context.Foods.Any(e => e.Id == id);
+            return this.foodsRepository
+                .All()
+                .Any(e => e.Name == name);
         }
     }
 }

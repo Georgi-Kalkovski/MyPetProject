@@ -2,8 +2,8 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
     using MyPetProject.Data.Common.Models;
-    using MyPetProject.Data.Models.Enums;
 
     public class Kingdom : BaseDeletableModel<int>
     {
@@ -26,6 +26,12 @@
 
         [Required]
         public string Diet { get; set; }
+
+        [Required]
+        public bool IsPet { get; set; }
+
+        [Required]
+        public bool IsFarm { get; set; }
 
         public string UserId { get; set; }
 

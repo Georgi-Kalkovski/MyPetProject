@@ -20,10 +20,10 @@
                 @foreach (var item in Model)
                 {
                     <div class="card col-6 col-lg-3 game-card">
-                        <a asp-controller="Breeds" asp-action="@item.Name">
+                        <a asp-controller="Foods" asp-action="@item.Name">
                             @if (!item.PicUrl.StartsWith("http"))
                             {
-                                <img class="card-img-top" src="~/img/kingdoms/@Html.DisplayFor(modelItem => item.PicUrl)" alt="Card image cap">
+                                <img class="card-img-top" src="~/img/foodtypes/@Html.DisplayFor(modelItem => item.PicUrl)" alt="Card image cap">
                             }
                             else
                             {

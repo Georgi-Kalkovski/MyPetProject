@@ -1,8 +1,8 @@
 ﻿namespace MyPetProject.Data.Configurations
 {
-    using MyPetProject.Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    using MyPetProject.Data.Models;
 
     public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
     {
