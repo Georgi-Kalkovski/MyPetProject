@@ -1,0 +1,30 @@
+﻿h4 {
+    border-radius: 10px;
+    border-radius: 15px;
+    border-color: black;
+    background-color: black;
+    color: white;
+    text-decoration: none
+}
+
+img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    line-height: 100px;
+    margin-right: 5px;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+/*
+    body {
+        background-color: coral;
+    }*/

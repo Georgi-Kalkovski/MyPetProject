@@ -25,11 +25,11 @@
         [Required]
         public string KingdomName { get; set; }
 
-        [ForeignKey("Kingdom")]
         public int? KingdomId { get; set; }
 
         public virtual Kingdom Kingdom { get; set; }
 
+        [ForeignKey(nameof(User))]
         public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }

@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    using System.ComponentModel.DataAnnotations.Schema;
     using MyPetProject.Data.Common.Models;
 
     public class Kingdom : BaseDeletableModel<int>
@@ -33,6 +33,7 @@
         [Required]
         public bool IsFarm { get; set; }
 
+        [ForeignKey(nameof(User))]
         public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }

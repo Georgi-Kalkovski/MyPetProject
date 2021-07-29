@@ -10,7 +10,7 @@ using MyPetProject.Data;
 namespace MyPetProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210728110635_First")]
+    [Migration("20210729093940_First")]
     partial class First
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
