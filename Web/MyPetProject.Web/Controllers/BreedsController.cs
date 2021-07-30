@@ -85,10 +85,12 @@
         // POST: Breeds/Create
         [HttpPost("/Breeds/Create/")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,PicUrl,Description,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Breed breed)
+        public async Task<IActionResult> Create(
+            [Bind("Name,PicUrl,Description,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Breed breed)
         {
             if (this.ModelState.IsValid)
             {
+                breed.UserId = this.User.Claims.ToList()[0].Value;
                 await this.breedsRepository.AddAsync(breed);
                 await this.breedsRepository.SaveChangesAsync();
                 return this.RedirectToAction(breed.KingdomName);
@@ -127,7 +129,8 @@
         // POST: Breeds/Edit/{name}
         [HttpPost("/Breeds/Edit/{name}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string name, [Bind("Name,PicUrl,Description,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Breed breed)
+        public async Task<IActionResult> Edit(
+            string name, [Bind("Name,PicUrl,Description,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Breed breed)
         {
             if (name != breed.Name)
             {

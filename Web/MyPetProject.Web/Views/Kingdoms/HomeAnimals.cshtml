@@ -6,12 +6,16 @@
 
 <h1>Home Animals</h1>
 
-<p>
-    <a asp-action="Create">Create New Kingdom</a>
-</p>
+@if (this.User.Claims.Any())
+{
+    <p>
+        <a asp-action="Create">Create New Kingdom</a>
+    </p>
+}
 <p>
     <a href="javascript:history.back()">Go Back</a>
 </p>
+
 <table class="table">
     <tbody>
         <div class="row mt-2 mb-4">
@@ -31,8 +35,18 @@
                         <div class="card-body">
                             <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
                             <a href="@item.Name" class="btn btn-primary">Details</a>
-                            <a asp-action="Edit" asp-route-id="@item.Name" class="btn btn-warning">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@item.Name" class="btn btn-danger">Delete</a>
+                            @{
+                                var userId = "";
+                                if (this.User.Claims.Any())
+                                {
+                                    userId = this.User.Claims.ToList()[0].Value;
+                                    if (item.UserId == userId)
+                                    {
+                                        <a asp-action="Edit" asp-route-id="@item.Name" class="btn btn-warning">Edit</a>
+                                        <a asp-action="Delete" asp-route-id="@item.Name" class="btn btn-danger">Delete</a>
+                                    }
+                                }
+                            }
                         </div>
                     </a>
                 </div>

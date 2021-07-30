@@ -4,32 +4,66 @@
     ViewData["Title"] = "Foods";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{
+    var name = ViewContext.HttpContext.Request.Path.ToString().Split("/").Last().Replace("%20", " ");
 
-<h1>@ViewContext.HttpContext.Request.Path.ToString().Split("/").Last().Replace("%20", " ")</h1>
-
-<p>
-    <a asp-action="Create">Create new Food</a>
-</p>
-<p>
-    <a href="javascript:history.back()">Go Back</a>
-</p>
-<table class="table">
-    <tbody>
-        <div class="row mt-2 mb-4">
-            @foreach (var item in Model)
-            {
-            <div class="card col-6 col-lg-3 game-card">
-                <img class="card-img-top" src="@Html.DisplayFor(modelItem => item.PicUrl)" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-                    <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Description</a>
-                    <a href="@item.Name" class="btn btn-primary">Details</a>
-                    <a asp-action="Edit" asp-route-id="@item.Name" class="btn btn-warning">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@item.Name" class="btn btn-danger">Delete</a>
-                </div>
-            </div>
-            }
+    if (!Model.Any())
+    {
+        <div class="text-center">
+            <h1 class="display-4">The @name food is empty ! :(</h1>
         </div>
-    </tbody>
-</table>
+        <div class="justify-content: center" style="display: flex;justify-content: center">
+            @if (this.User.Claims.Any())
+            {
+                <p> <a asp-action="Create">Create New Food</a></p>
+                <p style="margin: 0 8px;"> or </p>
+            }
+            <p><a href="javascript:history.back()">Go Back</a></p>
+        </div>
+    }
+    else
+    {
+        <h1>@name</h1>
+
+        @if (this.User.Claims.Any())
+        {
+            <p>
+                <a asp-action="Create">Create New Food</a>
+            </p>
+        }
+        <p>
+            <a href="javascript:history.back()">Go Back</a>
+        </p>
+
+        <table class="table">
+            <tbody>
+                <div class="row mt-2 mb-4">
+                    @foreach (var item in Model)
+                    {
+                        <div class="card col-6 col-lg-3 game-card">
+                            <img class="card-img-top" src="@Html.DisplayFor(modelItem => item.PicUrl)" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                                <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Description</a>
+                                <a href="@item.Name" class="btn btn-primary">Details</a>
+                                @{
+                                    var userId = "";
+                                    if (this.User.Claims.Any())
+                                    {
+                                        userId = this.User.Claims.ToList()[0].Value;
+                                        if (item.UserId == userId)
+                                        {
+                                            <a asp-action="Edit" asp-route-id="@item.Name" class="btn btn-warning">Edit</a>
+                                            <a asp-action="Delete" asp-route-id="@item.Name" class="btn btn-danger">Delete</a>
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </tbody>
+        </table>
+    }
+}

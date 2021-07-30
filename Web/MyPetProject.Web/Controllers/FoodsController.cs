@@ -91,10 +91,12 @@
         // POST: Foods/Create
         [HttpPost("/Foods/Create/")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,PicUrl,Description,FoodTypeName,FoodTypeId,SubbreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Food food)
+        public async Task<IActionResult> Create(
+            [Bind("Name,PicUrl,Description,FoodTypeName,FoodTypeId,SubbreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Food food)
         {
             if (this.ModelState.IsValid)
             {
+                food.UserId = this.User.Claims.ToList()[0].Value;
                 await this.foodsRepository.AddAsync(food);
                 await this.foodsRepository.SaveChangesAsync();
                 return this.RedirectToAction(nameof(this.Index));
@@ -135,7 +137,8 @@
         // POST: Foods/Edit/{name}
         [HttpPost("/Foods/Edit/{name}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string name, [Bind("Name,PicUrl,Description,FoodTypeName,FoodTypeId,SubbreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Food food)
+        public async Task<IActionResult> Edit(
+            string name, [Bind("Name,PicUrl,Description,FoodTypeName,FoodTypeId,SubbreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Food food)
         {
             if (name != food.Name)
             {

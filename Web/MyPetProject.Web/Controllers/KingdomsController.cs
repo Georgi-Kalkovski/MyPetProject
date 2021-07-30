@@ -13,16 +13,16 @@
     {
         private readonly IDeletableEntityRepository<Kingdom> kingdomsRepository;
         private readonly IDeletableEntityRepository<Breed> breedsRepository;
-        private readonly IDeletableEntityRepository<ApplicationUser> applicationsRepository;
+        private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
 
         public KingdomsController(
             IDeletableEntityRepository<Kingdom> kingdomsRepository,
             IDeletableEntityRepository<Breed> breedsRepository,
-            IDeletableEntityRepository<ApplicationUser> applicationsRepository)
+            IDeletableEntityRepository<ApplicationUser> usersRepository)
         {
             this.kingdomsRepository = kingdomsRepository;
             this.breedsRepository = breedsRepository;
-            this.applicationsRepository = applicationsRepository;
+            this.usersRepository = usersRepository;
         }
 
         // GET: Kingdoms
@@ -113,23 +113,29 @@
         [HttpGet("/Kingdoms/Create/")]
         public IActionResult Create()
         {
-            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id");
+            this.ViewData["UserId"] = new SelectList(this.usersRepository.All(), "Id", "Id");
             return this.View();
         }
 
         // POST: Kingdoms/Create
         [HttpPost("/Kingdoms/Create/")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,PicUrl,Description,Group,Diet,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
+        public async Task<IActionResult> Create(
+            [Bind("Name,PicUrl,Description,Group,Diet,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
         {
             if (this.ModelState.IsValid)
             {
+                if (this.User.Claims.ToList()[0].Value != null)
+                {
+                    kingdom.UserId = this.User.Claims.ToList()[0].Value;
+                }
+
                 await this.kingdomsRepository.AddAsync(kingdom);
                 await this.kingdomsRepository.SaveChangesAsync();
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", kingdom.UserId);
+            this.ViewData["UserId"] = new SelectList(this.usersRepository.All(), "Id", "Id", kingdom.UserId);
             return this.View(kingdom);
         }
 
@@ -151,14 +157,15 @@
                 return this.NotFound();
             }
 
-            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", this.kingdomsRepository.All().Include(x => x.UserId));
+            this.ViewData["UserId"] = new SelectList(this.usersRepository.All(), "Id", "Id", this.kingdomsRepository.All().Include(x => x.UserId));
             return this.View(result);
         }
 
         // POST: Kingdoms/Edit/{name}
         [HttpPost("/Kingdoms/Edit/{name}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string name, [Bind("Name,PicUrl,Description,Group,Diet,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
+        public async Task<IActionResult> Edit(
+            string name, [Bind("Name,PicUrl,Description,Group,Diet,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
         {
             if (name != kingdom.Name)
             {
@@ -199,7 +206,7 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", kingdom.UserId);
+            this.ViewData["UserId"] = new SelectList(this.usersRepository.All(), "Id", "Id", kingdom.UserId);
             return this.View(kingdom);
         }
 

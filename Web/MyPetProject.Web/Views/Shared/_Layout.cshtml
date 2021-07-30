@@ -25,12 +25,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        @*<li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Settings" asp-action="Index">Settings</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </li>*@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="FoodTypes" asp-action="Index">Food Types</a>
                         </li>
@@ -62,11 +56,11 @@
         </main>
     </div>
 
-   @* @<footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+   <footer class="border-top footer text-muted">
+        <div class="container text-center">
+            &copy; @DateTime.UtcNow.Year - @GlobalConstants.SystemName
         </div>
-    </footer> *@
+    </footer>
 
     @* Custom Script - redirects to Kingdoms *@
     <script>

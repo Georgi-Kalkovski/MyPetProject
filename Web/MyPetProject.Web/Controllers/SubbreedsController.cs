@@ -87,10 +87,12 @@
         // POST: Subbreeds/Create
         [HttpPost("/Subbreeds/Create/")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,PicUrl,Description,BreedName,KingdomName,IsPet,IsFarm,BreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Subbreed subbreed)
+        public async Task<IActionResult> Create(
+            [Bind("Name,PicUrl,Description,BreedName,KingdomName,IsPet,IsFarm,BreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Subbreed subbreed)
         {
             if (this.ModelState.IsValid)
             {
+                subbreed.UserId = this.User.Claims.ToList()[0].Value;
                 await this.subbreedsRepository.AddAsync(subbreed);
                 await this.subbreedsRepository.SaveChangesAsync();
                 return this.RedirectToAction(subbreed.BreedName);
@@ -131,7 +133,8 @@
         // POST: Breeds/Edit/{name}
         [HttpPost("/Subbreeds/Edit/{name}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string name, [Bind("Name,PicUrl,Description,BreedName,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Subbreed subbreeds)
+        public async Task<IActionResult> Edit(
+            string name, [Bind("Name,PicUrl,Description,BreedName,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Subbreed subbreeds)
         {
             if (name != subbreeds.Name)
             {

@@ -78,6 +78,23 @@ body {
     CUSTOM CSS BELOW
 */
 
+.card-img-top {
+    justify-content: center;
+}
+
+.card-body {
+    mt:auto
+}
+
+div.card.style {
+    display: flex;
+    flex-flow: column;
+}
+
+.card polymer-element.style {
+    margin-top: auto;
+}
+
 .transparent_square {
     width: 100%;
     height: auto;
