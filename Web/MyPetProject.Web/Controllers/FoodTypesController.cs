@@ -75,6 +75,11 @@
         [HttpGet("/FoodTypes/Create/")]
         public IActionResult Create()
         {
+            if (!this.User.Claims.Any())
+            {
+                return this.Redirect("/Home/ErrorPage");
+            }
+
             this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id");
             return this.View();
         }
@@ -101,6 +106,11 @@
         [HttpGet("/FoodTypes/Edit/{name}")]
         public async Task<IActionResult> Edit(string name)
         {
+            if (!this.User.Claims.Any())
+            {
+                return this.Redirect("/Home/ErrorPage");
+            }
+
             if (name == null)
             {
                 return this.NotFound();
@@ -113,6 +123,11 @@
             if (result == null)
             {
                 return this.NotFound();
+            }
+
+            if (this.User.Claims.ToList()[0].Value != result.UserId)
+            {
+                return this.Redirect("/Home/ErrorPage");
             }
 
             this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", this.foodtypesRepository.All().Include(x => x.UserId));
@@ -172,6 +187,11 @@
         [HttpGet("/FoodTypes/Delete/{name}")]
         public async Task<IActionResult> Delete(string name)
         {
+            if (!this.User.Claims.Any())
+            {
+                return this.Redirect("/Home/ErrorPage");
+            }
+
             if (name == null)
             {
                 return this.NotFound();
@@ -185,6 +205,11 @@
             if (result == null)
             {
                 return this.NotFound();
+            }
+
+            if (this.User.Claims.ToList()[0].Value != result.UserId)
+            {
+                return this.Redirect("/Home/ErrorPage");
             }
 
             return this.View(result);

@@ -81,6 +81,11 @@
         [HttpGet("/Foods/Create/")]
         public IActionResult Create()
         {
+            if (!this.User.Claims.Any())
+            {
+                return this.Redirect("/Home/ErrorPage");
+            }
+
             this.ViewData["FoodTypeId"] = new SelectList(this.foodtypesRepository.All(), "Id", "Description");
             this.ViewData["SubbreedId"] = new SelectList(this.subbreedsRepository.All(), "Id", "Description");
             this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id");
@@ -113,6 +118,11 @@
         [HttpGet("/Foods/Edit/{name}")]
         public async Task<IActionResult> Edit(string name)
         {
+            if (!this.User.Claims.Any())
+            {
+                return this.Redirect("/Home/ErrorPage");
+            }
+
             if (name == null)
             {
                 return this.NotFound();
@@ -125,6 +135,11 @@
             if (result == null)
             {
                 return this.NotFound();
+            }
+
+            if (this.User.Claims.ToList()[0].Value != result.UserId)
+            {
+                return this.Redirect("/Home/ErrorPage");
             }
 
             this.ViewData["FoodTypeId"] = new SelectList(this.foodtypesRepository.All(), "Id", "Description", this.foodsRepository.All().Include(x => x.FoodTypeId));
@@ -190,24 +205,34 @@
         [HttpGet("/Foods/Delete/{name}")]
         public async Task<IActionResult> Delete(string name)
         {
+            if (!this.User.Claims.Any())
+            {
+                return this.Redirect("/Home/ErrorPage");
+            }
+
             if (name == null)
             {
                 return this.NotFound();
             }
 
-            var food = await this.foodsRepository
+            var result = await this.foodsRepository
                 .All()
                 .Include(f => f.FoodType)
                 .Include(f => f.Subbreed)
                 .Include(f => f.User)
                 .FirstOrDefaultAsync(m => m.Name == name);
 
-            if (food == null)
+            if (result == null)
             {
                 return this.NotFound();
             }
 
-            return this.View(food);
+            if (this.User.Claims.ToList()[0].Value != result.UserId)
+            {
+                return this.Redirect("/Home/ErrorPage");
+            }
+
+            return this.View(result);
         }
 
         // POST: Foods/Delete/{name}

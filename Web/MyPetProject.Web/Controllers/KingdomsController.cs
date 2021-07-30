@@ -113,6 +113,11 @@
         [HttpGet("/Kingdoms/Create/")]
         public IActionResult Create()
         {
+            if (!this.User.Claims.Any())
+            {
+                return this.Redirect("/Home/ErrorPage");
+            }
+
             this.ViewData["UserId"] = new SelectList(this.usersRepository.All(), "Id", "Id");
             return this.View();
         }
@@ -143,6 +148,11 @@
         [HttpGet("/Kingdoms/Edit/{name}")]
         public async Task<IActionResult> Edit(string name)
         {
+            if (!this.User.Claims.Any())
+            {
+                return this.Redirect("/Home/ErrorPage");
+            }
+
             if (name == null)
             {
                 return this.NotFound();
@@ -155,6 +165,11 @@
             if (result == null)
             {
                 return this.NotFound();
+            }
+
+            if (this.User.Claims.ToList()[0].Value != result.UserId)
+            {
+                return this.Redirect("/Home/ErrorPage");
             }
 
             this.ViewData["UserId"] = new SelectList(this.usersRepository.All(), "Id", "Id", this.kingdomsRepository.All().Include(x => x.UserId));
@@ -214,6 +229,11 @@
         [HttpGet("/Kingdoms/Delete/{name}")]
         public async Task<IActionResult> Delete(string name)
         {
+            if (!this.User.Claims.Any())
+            {
+                return this.Redirect("/Home/ErrorPage");
+            }
+
             if (name == null)
             {
                 return this.NotFound();
@@ -227,6 +247,11 @@
             if (result == null)
             {
                 return this.NotFound();
+            }
+
+            if (this.User.Claims.ToList()[0].Value != result.UserId)
+            {
+                return this.Redirect("/Home/ErrorPage");
             }
 
             return this.View(result);

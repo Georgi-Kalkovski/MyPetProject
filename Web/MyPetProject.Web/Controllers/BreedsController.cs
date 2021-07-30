@@ -77,6 +77,11 @@
         [HttpGet("/Breeds/Create/")]
         public IActionResult Create()
         {
+            if (!this.User.Claims.Any())
+            {
+                return this.Redirect("/Home/ErrorPage");
+            }
+
             this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id");
             this.ViewData["KingdomName"] = new SelectList(this.kingdomsRepository.All().OrderBy(x => x.Name), "Name", "Name");
             return this.View();
@@ -106,6 +111,11 @@
         [HttpGet("/Breeds/Edit/{name}")]
         public async Task<IActionResult> Edit(string name)
         {
+            if (!this.User.Claims.Any())
+            {
+                return this.Redirect("/Home/ErrorPage");
+            }
+
             if (name == null)
             {
                 return this.NotFound();
@@ -118,6 +128,11 @@
             if (result == null)
             {
                 return this.NotFound();
+            }
+
+            if (this.User.Claims.ToList()[0].Value != result.UserId)
+            {
+                return this.Redirect("/Home/ErrorPage");
             }
 
             this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", this.breedsRepository.All().Include(x => x.UserId));
@@ -181,6 +196,11 @@
         [HttpGet("/Breeds/Delete/{name}")]
         public async Task<IActionResult> Delete(string name)
         {
+            if (!this.User.Claims.Any())
+            {
+                return this.Redirect("/Home/ErrorPage");
+            }
+
             if (name == null)
             {
                 return this.NotFound();
@@ -194,6 +214,11 @@
             if (result == null)
             {
                 return this.NotFound();
+            }
+
+            if (this.User.Claims.ToList()[0].Value != result.UserId)
+            {
+                return this.Redirect("/Home/ErrorPage");
             }
 
             return this.View(result);
