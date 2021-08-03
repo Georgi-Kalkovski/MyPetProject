@@ -139,7 +139,8 @@
                 return this.Redirect("/Home/ErrorPage");
             }
 
-            this.ViewData["SubbreedName"] = new SelectList(this.kingdomsRepository.All(), "Name", "Name");
+            this.ViewData["KingdomName"] = new SelectList(this.kingdomsRepository.All().OrderBy(x => x.Name), "Name", "Name");
+            this.ViewData["BreedName"] = new SelectList(this.breedsRepository.All().OrderBy(x => x.Name), "Name", "Name");
 
             // this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", subbreed.UserId);
             return this.View(result);
@@ -149,9 +150,9 @@
         [HttpPost("/Subbreeds/Edit/{name}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(
-            string name, [Bind("Name,PicUrl,Description,BreedName,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Subbreed subbreeds)
+            string name, [Bind("Name,PicUrl,Description,BreedName,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Subbreed subbreed)
         {
-            if (name != subbreeds.Name)
+            if (name != subbreed.Name)
             {
                 return this.NotFound();
             }
@@ -172,12 +173,13 @@
                     }
 
                     this.subbreedsRepository.Delete(editName);
-                    await this.subbreedsRepository.AddAsync(subbreeds);
+                    subbreed.UserId = this.User.Claims.ToList()[0].Value;
+                    await this.subbreedsRepository.AddAsync(subbreed);
                     await this.subbreedsRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!this.SubbreedExists(subbreeds.Name))
+                    if (!this.SubbreedExists(subbreed.Name))
                     {
                         return this.NotFound();
                     }
@@ -187,14 +189,14 @@
                     }
                 }
 
-                return this.RedirectToAction(subbreeds.BreedName);
+                return this.RedirectToAction(subbreed.BreedName);
             }
 
-            this.ViewData["KingdomName"] = new SelectList(this.kingdomsRepository.All(), "Name", "Name", subbreeds.KingdomName);
-            this.ViewData["BreedName"] = new SelectList(this.breedsRepository.All(), "Name", "Name", subbreeds.BreedName);
+            this.ViewData["KingdomName"] = new SelectList(this.kingdomsRepository.All(), "Name", "Name", subbreed.KingdomName);
+            this.ViewData["BreedName"] = new SelectList(this.breedsRepository.All(), "Name", "Name", subbreed.BreedName);
 
             // this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", subbreeds.UserId);
-            return this.View(subbreeds);
+            return this.View(subbreed);
         }
 
         // GET: Subbreeds/Delete/{name}

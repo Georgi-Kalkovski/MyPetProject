@@ -161,6 +161,7 @@
                     }
 
                     this.foodtypesRepository.Delete(editName);
+                    foodType.UserId = this.User.Claims.ToList()[0].Value;
                     await this.foodtypesRepository.AddAsync(foodType);
                     await this.foodtypesRepository.SaveChangesAsync();
                 }

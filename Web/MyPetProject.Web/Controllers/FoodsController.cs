@@ -176,6 +176,7 @@
                     }
 
                     this.foodsRepository.Delete(editName);
+                    food.UserId = this.User.Claims.ToList()[0].Value;
                     await this.foodsRepository.AddAsync(food);
                     await this.foodsRepository.SaveChangesAsync();
                 }

@@ -126,7 +126,7 @@
         [HttpPost("/Kingdoms/Create/")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            [Bind("Name,PicUrl,Description,Group,Diet,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
+            [Bind("Name,PicUrl,Description,Group,Diet,IsPet,IsFarm,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
         {
             if (this.ModelState.IsValid)
             {
@@ -180,7 +180,7 @@
         [HttpPost("/Kingdoms/Edit/{name}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(
-            string name, [Bind("Name,PicUrl,Description,Group,Diet,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
+            string name, [Bind("Name,PicUrl,Description,Group,Diet,IsPet,IsFarm,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
         {
             if (name != kingdom.Name)
             {
@@ -203,6 +203,7 @@
                     }
 
                     this.kingdomsRepository.Delete(editName);
+                    kingdom.UserId = this.User.Claims.ToList()[0].Value;
                     await this.kingdomsRepository.AddAsync(kingdom);
                     await this.kingdomsRepository.SaveChangesAsync();
                 }

@@ -168,6 +168,7 @@
                     }
 
                     this.breedsRepository.Delete(editName);
+                    breed.UserId = this.User.Claims.ToList()[0].Value;
                     await this.breedsRepository.AddAsync(breed);
                     await this.breedsRepository.SaveChangesAsync();
                 }
