@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea asp-for="Description" type="text" class="form-control" style="height: calc(2.5em + 4.75rem + 2px);" placeholder="Description of the breed..."></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">

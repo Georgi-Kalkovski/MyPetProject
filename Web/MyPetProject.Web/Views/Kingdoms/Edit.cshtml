@@ -15,38 +15,48 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" class="form-control" placeholder="Name of the kingdom..." />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PicUrl" class="control-label"></label>
-                <input asp-for="PicUrl" class="form-control" />
+                <input asp-for="PicUrl" class="form-control" placeholder="Url Picture of the kingdom..." />
                 <span asp-validation-for="PicUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea asp-for="Description" type="text" class="form-control" style="height: calc(2.5em + 4.75rem + 2px);" placeholder="Description of the kingdom..."></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Group" class="control-label"></label>
-                <input asp-for="Group" class="form-control" />
+                <select asp-for="Group">
+                    <option value="">--Select--</option>
+                    <option value="Mammals">Mammals</option>
+                    <option value="Birds">Birds</option>
+                    <option value="Fish">Fish</option>
+                    <option value="Reptiles">Reptiles</option>
+                    <option value="Insects">Insects</option>
+                </select>
                 <span asp-validation-for="Group" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Diet" class="control-label"></label>
-                <input asp-for="Diet" class="form-control" />
+                <select asp-for="Diet">
+                    <option value="">--Select--</option>
+                    <option value="Herbivores">Herbivores</option>
+                    <option value="Carnivores">Carnivores</option>
+                    <option value="Omnivores">Omnivores</option>
+                </select>
                 <span asp-validation-for="Diet" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsPet" /> @Html.DisplayNameFor(model => model.IsPet)
-                </label>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="IsPet" asp-for="IsPet">
+                <label class="form-check-label" for="IsPet">Is Pet</label>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsFarm" /> @Html.DisplayNameFor(model => model.IsFarm)
-                </label>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="IsFarm" asp-for="IsFarm">
+                <label class="form-check-label" for="IsFarm">Is Farm</label>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
