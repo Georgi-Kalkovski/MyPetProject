@@ -1,21 +1,29 @@
 ﻿@model IEnumerable<MyPetProject.Data.Models.Food>
 
 @{
-    ViewData["Title"] = "Foods";
+    var modelName = "Food";
+    var nextModelName = "";
+
+    var sectionCount = ViewContext.HttpContext.Request.Path.ToString().Split("/").Length;
+    var lastSection = ViewContext.HttpContext.Request.Path.ToString().Split("/").Last();
+
+    if (lastSection.Contains("%20"))
+    {
+        lastSection = lastSection.Replace("%20", " ");
+    }
+
+    ViewData["Title"] = modelName + "s";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
-@{
-    var name = ViewContext.HttpContext.Request.Path.ToString().Split("/").Last().Replace("%20", " ");
 
     if (!Model.Any())
     {
         <div class="text-center">
-            <h1 class="display-4">The @name food is empty ! :(</h1>
+            <h1 class="display-4">The @(modelName + " " + lastSection) is empty ! :(</h1>
         </div>
         <div class="justify-content: center" style="display: flex;justify-content: center">
             @if (this.User.Claims.Any())
             {
-                <p> <a asp-action="Create">Create New Food</a></p>
+                <p> <a asp-action="Create">Create New @(lastSection + " " + modelName)</a></p>
                 <p style="margin: 0 8px;"> or </p>
             }
             <p><a href="javascript:history.back()">Go Back</a></p>
@@ -23,12 +31,19 @@
     }
     else
     {
-        <h1>@name</h1>
+        if (sectionCount == 2)
+        {
+            <h1>@(modelName + "s")</h1>
+        }
+        if (sectionCount == 3)
+        {
+            <h1>@(lastSection)</h1>
+        }
 
         @if (this.User.Claims.Any())
         {
             <p>
-                <a asp-action="Create">Create New Food</a>
+                <a asp-action="Create">Create New @(modelName)</a>
             </p>
         }
         <p>
@@ -38,28 +53,43 @@
         <table class="table">
             <tbody>
                 <div class="row mt-2 mb-4">
+
                     @foreach (var item in Model)
                     {
                         <div class="card col-6 col-lg-3 game-card">
-                            <img class="card-img-top" src="@Html.DisplayFor(modelItem => item.PicUrl)" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-                                <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
-                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Description</a>
-                                <a href="@item.Name" class="btn btn-primary">Details</a>
-                                @{
-                                    var userId = "";
-                                    if (this.User.Claims.Any())
+                            <a asp-controller="@(nextModelName)" asp-action="@item.Name">
+                                @if (!item.PicUrl.StartsWith("http"))
+                                {
+                                    if (!item.PicUrl.EndsWith(".jpg") && !item.PicUrl.EndsWith(".png") && !item.PicUrl.EndsWith(".jpeg"))
                                     {
-                                        userId = this.User.Claims.ToList()[0].Value;
-                                        if (item.UserId == userId)
-                                        {
-                                            <a asp-action="Edit" asp-route-id="@item.Name" class="btn btn-warning">Edit</a>
-                                            <a asp-action="Delete" asp-route-id="@item.Name" class="btn btn-danger">Delete</a>
-                                        }
+                                        <img class="card-img-top" src="~/img/no-image.png" alt="Card image cap">
+                                    }
+                                    else
+                                    {
+                                        <img class="card-img-top" src="~/img/@(modelName + "s")/@Html.DisplayFor(modelItem => item.PicUrl)" alt="Card image cap">
                                     }
                                 }
-                            </div>
+                                else
+                                {
+                                    <img class="card-img-top" src="@item.PicUrl" alt="Card image cap">
+                                }
+                                <div class="card-body">
+                                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                                    <a href="@item.Name" class="btn btn-primary">Details</a>
+                                    @{
+                                        var userId = "";
+                                        if (this.User.Claims.Any())
+                                        {
+                                            userId = this.User.Claims.ToList()[0].Value;
+                                            if (item.UserId == userId)
+                                            {
+                                                <a asp-action="Edit" asp-route-id="@item.Name" class="btn btn-warning">Edit</a>
+                                                <a asp-action="Delete" asp-route-id="@item.Name" class="btn btn-danger">Delete</a>
+                                            }
+                                        }
+                                    }
+                                </div>
+                            </a>
                         </div>
                     }
                 </div>
