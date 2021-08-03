@@ -3,48 +3,87 @@
 @{
     ViewData["Title"] = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
 
-<h1 class="text-danger">Delete</h1>
+    var name = @Html.DisplayFor(model => model.Name);
+    var description = @Html.DisplayFor(model => model.Description);
+    var group = @Html.DisplayFor(model => model.Group);
+    var diet = @Html.DisplayFor(model => model.Diet);
+    var isPet = @Html.DisplayFor(model => model.IsPet);
+    var isFarm = @Html.DisplayFor(model => model.IsFarm);
 
-<div>
-    <h4>Kingdom</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PicUrl)
-        </dt>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class="card col-6 col-lg-3 game-card">
-            @{
-                var item = Html.DisplayFor(model => model.PicUrl);
-                var itemCheck = Html.ValueFor(model => model.PicUrl);
+    <h1 class="text-danger">Delete</h1>
 
-                @if (!itemCheck.StartsWith("http"))
+    <div>
+        <h4>@Model.Name</h4>
+        <hr />
+        <div class="row">
+            <div class="col-sm-1">
+                Name
+            </div>
+            <div class="col-sm-10">
+                <h3>@name</h3>
+            </div>
+            <p>
+            <div class="card col-6 col-lg-3 game-card">
+                @if (!Model.PicUrl.StartsWith("http"))
                 {
-                    <img class="card-img-top" src="~/img/kingdoms/@item" alt="Card image cap">
+                    if (!Model.PicUrl.EndsWith(".jpg") && !Model.PicUrl.EndsWith(".png") && !Model.PicUrl.EndsWith(".jpeg"))
+                    {
+                        <img class="card-img-top" src="~/img/no-image.png" alt="Card image cap">
+                    }
+                    else
+                    {
+                        <img class="card-img-top" src="~/img/@(Model.Name + "s")/@Html.DisplayFor(modelItem => Model.PicUrl)" alt="Card image cap">
+                    }
                 }
                 else
                 {
-                    <img class="card-img-top" src="@item" alt="Card image cap">
+                    <img class="card-img-top" src="@Model.PicUrl" alt="Card image cap">
                 }
-            }
-        </dd>
-    </dl>
+            </div>
+            </p>
+            <div class="col-sm-1">
+                Group
+            </div>
+            <div class="col-sm-10">
+                @group
+            </div>
+            <p>
+            <div class="col-sm-1">
+                Diet
+            </div>
+            <div class="col-sm-10">
+                @diet
+            </div>
+            </p>
+            <div class="col-sm-1">
+                Is Pet Animal
+            </div>
+            <div class="col-sm-10">
+                @isPet
+            </div>
+            <p>
+            <div class="col-sm-1">
+                Is Farm Animal
+            </div>
+            <div class="col-sm-10">
+                @isFarm
+            </div>
+            </p>
+            <div class="col-sm-1">
+                Description
+            </div>
+            <div class="col-sm-3">
+                @description
+            </div>
+        </div>
 
-    <h3 class="text-danger">Are you sure you want to delete this?</h3>
+        <h3 class="text-danger">Are you sure you want to delete this?</h3>
 
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a href="javascript:history.back()">Go Back</a>
-    </form>
-</div>
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            <a href="javascript:history.back()">Go Back</a>
+        </form>
+    </div>
+}
