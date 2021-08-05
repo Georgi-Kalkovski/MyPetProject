@@ -1,0 +1,71 @@
+﻿@model IEnumerable<MyPetProject.Data.Models.Kingdom>
+
+@{
+    ViewData["Title"] = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+<style>
+    .table-bordered {
+        background-color: #ffffff;
+    }
+
+    .img-thumbnail {
+        width: 200px;
+        height: auto;
+    }
+</style>
+
+
+
+<table id="example" class="table table-striped table-bordered" style="width:100%">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Group</th>
+            <th>Diet</th>
+            <th>Is Pet Animal</th>
+            <th>Is Farm Animal</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @if (!item.PicUrl.StartsWith("http"))
+                {
+                    if (!item.PicUrl.EndsWith(".jpg") && !item.PicUrl.EndsWith(".png") && !item.PicUrl.EndsWith(".jpeg"))
+                    {
+                        <img class="rounded-sm img-thumbnail" src="~/img/no-image.png" alt="Card image cap">
+                    }
+                    else
+                    {
+                        <img class="rounded-sm img-thumbnail" src="~/img/kingdoms/@item.PicUrl" alt="Card image cap">
+                    }
+                }
+                else
+                {
+                    <img class="rounded-sm img-thumbnail" src="@item.PicUrl" alt="Card image cap">
+                }
+            </td>
+            <td>@item.Name</td>
+            <td>@item.Group</td>
+            <td>@item.Diet</td>
+            <td><input type="checkbox" asp-for="@item.IsPet"></td>
+            <td><input type="checkbox" asp-for="@item.IsFarm"></td>
+            <td>@item.Description</td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts
+{
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatables/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/js/datatable.js"></script>
+}

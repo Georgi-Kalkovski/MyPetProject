@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
 </head>
 <body>
     <header>
@@ -41,7 +42,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Kingdoms" asp-action="FarmAnimals">Farm Animals</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Search" asp-action="Index">Search Animals</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Search">Search Animals</a>
                         </li>
                     </ul>
                 </div>
@@ -56,7 +57,7 @@
         </main>
     </div>
 
-   <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted">
         <div class="container text-center">
             &copy; @DateTime.UtcNow.Year - @GlobalConstants.SystemName
         </div>
@@ -64,8 +65,8 @@
 
     @* Custom Script - redirects to Kingdoms *@
     <script>
-        document.getElementById("kingdomId").onclick = function () { location.href = "/Kingdoms/";}
-    </script>    
+        document.getElementById("kingdomId").onclick = function () { location.href = "/Kingdoms/"; }
+    </script>
 
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
