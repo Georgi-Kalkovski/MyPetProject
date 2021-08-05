@@ -15,6 +15,19 @@
         width: 200px;
         height: auto;
     }
+
+    th {
+        text-align: center;
+    }
+
+    td {
+        text-align: center;
+    }
+    #overflow {
+        padding: 15px;
+        height: 100px;
+        overflow-y: scroll;
+    }
 </style>
 
 
@@ -26,8 +39,8 @@
             <th>Name</th>
             <th>Group</th>
             <th>Diet</th>
-            <th>Is Pet Animal</th>
-            <th>Is Farm Animal</th>
+            <th>Pet Animal</th>
+            <th>Farm Animal</th>
             <th>Description</th>
         </tr>
     </thead>
@@ -55,9 +68,9 @@
             <td>@item.Name</td>
             <td>@item.Group</td>
             <td>@item.Diet</td>
-            <td><input type="checkbox" asp-for="@item.IsPet"></td>
-            <td><input type="checkbox" asp-for="@item.IsFarm"></td>
-            <td>@item.Description</td>
+            <td>@if(item.IsPet.Equals(true)) { <span>✔</span>}</td>
+            <td>@if(item.IsFarm.Equals(true)) { <span>✔</span>}</td>
+            <td><div class="table table-striped" style="text-align: left;" id="overflow">@item.Description</div></td>
         </tr>
         }
     </tbody>
