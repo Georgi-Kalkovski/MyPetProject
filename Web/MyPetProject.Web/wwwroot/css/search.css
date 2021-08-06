@@ -1,0 +1,81 @@
+﻿.table-bordered {
+    background-color: #ffffff;
+}
+
+.img-thumbnail {
+    width: 125px;
+}
+
+img:hover {
+    transform: scale(2);
+    position: absolute;
+}
+
+th {
+    text-align: center;
+}
+
+td {
+    text-align: center;
+}
+
+.scroller::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+.scroller {
+    padding: 15px;
+    height: 100px;
+    overflow-y: auto;
+}
+
+.scroller::-webkit-scrollbar-track {
+    background: white;
+}
+
+.scroller::-webkit-scrollbar-thumb {
+    background: #ddd;
+    visibility: hidden;
+}
+
+.scroller:hover::-webkit-scrollbar-thumb {
+    visibility: visible;
+}
+
+span {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#kingdoms_filter {
+    float: left;
+}
+
+#breeds_filter {
+    float: left;
+}
+
+#subbreeds_filter {
+    float: left;
+}
+
+#foodtypes_filter {
+    float: left;
+}
+
+#foods_filter {
+    float: left;
+}
+
+#secondMenu a {
+    text-decoration: none;
+}
+
+#secondMenu a:hover span {
+    background-color: #cccccc;
+}
+
+#secondMenu a:focus span {
+    background-color: #cccccc;
+}

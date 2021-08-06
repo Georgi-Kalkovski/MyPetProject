@@ -107,77 +107,31 @@ div.card.style {
     position: absolute;
 }
 
-.moon_container {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 20%;
-    transform: translate(-50%, -50%);
+
+/* Back to top button */
+.back-to-top {
+    position: fixed;
+    display: none;
+    background: #1b6ec2;
+    color: #fff;
+    width: 44px;
+    height: 44px;
+    text-align: center;
+    line-height: 1;
+    font-size: 16px;
+    border-radius: 50%;
+    right: 15px;
+    bottom: 15px;
+    transition: background 0.5s;
+    z-index: 11;
 }
 
-.moon {
-    width: 100%;
-    height: auto;
-    position: relative;
-    left: 175%;
+.back-to-top i {
+    padding-top: 12px;
+    color: #fff;
 }
 
-.moon_container.moon1 {
-    transform: translate(-50%, -50%);
-}
-
-.moon_container.moon2 {
-    transform: translate(-50%, -50%) rotate(45deg);
-}
-
-.moon_container.moon3 {
-    transform: translate(-50%, -50%) rotate(90deg);
-}
-
-.moon_container.moon4 {
-    transform: translate(-50%, -50%) rotate(135deg);
-}
-
-.moon_container.moon5 {
-    transform: translate(-50%, -50%) rotate(180deg);
-}
-
-.moon_container.moon6 {
-    transform: translate(-50%, -50%) rotate(225deg);
-}
-
-.moon_container.moon7 {
-    transform: translate(-50%, -50%) rotate(270deg);
-}
-
-.moon_container.moon8 {
-    transform: translate(-50%, -50%) rotate(315deg);
-}
-
-.moon.moon2 {
-    transform: rotate(-45deg);
-}
-
-.moon.moon3 {
-    transform: rotate(-90deg);
-}
-
-.moon.moon4 {
-    transform: rotate(-135deg);
-}
-
-.moon.moon5 {
-    transform: rotate(-180deg);
-}
-
-.moon.moon6 {
-    transform: rotate(-225deg);
-}
-
-.moon.moon7 {
-    transform: rotate(-270deg);
-}
-
-.moon.moon8 {
-    transform: rotate(-315deg);
+.back-to-top i:hover {
+    background: #3ac162;
+    color: #fff;
 }

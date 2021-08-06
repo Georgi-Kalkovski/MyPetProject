@@ -61,12 +61,11 @@
         <div class="container text-center">
             &copy; @DateTime.UtcNow.Year - @GlobalConstants.SystemName
         </div>
-    </footer>
 
-    @* Custom Script - redirects to Kingdoms *@
-    <script>
-        document.getElementById("kingdomId").onclick = function () { location.href = "/Kingdoms/"; }
-    </script>
+        <!-- Back to top button -->
+        <a href="#" class="back-to-top" style="display: flex; align-items: center; justify-content: center; text-decoration:none;"><h3>⮝</h3></a>
+
+    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
@@ -74,6 +73,8 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
     <script src="~/js/main.js" asp-append-version="true"></script>
+
+
     @await this.RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
