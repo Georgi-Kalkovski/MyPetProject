@@ -63,7 +63,7 @@
         </div>
 
         <!-- Back to top button -->
-        <a onclick="backtotop()" href="#" id="backToTop" style="display: flex; align-items: center; justify-content: center; text-decoration:none;"><h3>⮝</h3></a>
+        <a onclick="scrollFunction()" href="#" id="backToTop"><h3 style="margin-bottom:-20px;">⮝</h3></a>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
@@ -72,7 +72,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
     <script src="~/js/main.js" asp-append-version="true"></script>
-
+    <script src="~/js/backtotop.js" asp-append-version="true"></script>
 
     @await this.RenderSectionAsync("Scripts", required: false)
 </body>
