@@ -1,21 +1,21 @@
 ﻿@using MyPetProject.Web.ViewModels.Search;
 @model SearchViewModel;
-
+@using MyPetProject.Data.Models.Enums
 @{
     ViewData["Title"] = "Search";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <head>
-    <link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href="~/css/search.css" rel="stylesheet" />
 </head>
 
-<body>
+<div class="container-fluid">
+    <!-- Tables -->
     <div id="tables" class="carousel slide" data-interval="false">
 
         <!-- Indicators -->
-        <div id="secondMenu" class="carousel-indicators" style="margin-bottom: -40px">
+        <div id="secondMenu" class="carousel-indicators" style="margin-bottom: -40px; margin-right: -40px;">
             <a data-target="#tables" data-slide-to="0" class="active"><span class="table table-striped table-bordered">Kingdoms</span></a>
             <a data-target="#tables" data-slide-to="1"><span class="table table-striped table-bordered">Breeds</span></a>
             <a data-target="#tables" data-slide-to="2"><span class="table table-striped table-bordered">Subbreeds</span></a>
@@ -24,154 +24,301 @@
         </div>
 
         <!-- The slideshow -->
-        <div class="carousel-fade" style="position: relative;">
+        <div class="carousel-fade" style="position:relative;">
+
             <div class="carousel-item active">
+                <div class="row">
+                    <!-- Kingdoms Sidebar -->
+                    <div class="col-sm-2">
+                        <nav class="card-group-item check table table-bordered" data-spy="affix" data-offset-top="10" style="margin-bottom: -40px;">
 
-                @* Kingdoms Search *@
-
-                <table id="kingdoms" class="table table-striped table-bordered" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Group</th>
-                            <th>Diet</th>
-                            <th>Pet Animal</th>
-                            <th>Farm Animal</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.Kingdoms)
-                        {
-                            <tr>
-                                <td>
-                                    @if (!item.PicUrl.StartsWith("http"))
+                            <!-- Groups -->
+                            <header class="card-header">
+                                <h6 class="title">Groups</h6>
+                            </header>
+                            <div class="filter-content">
+                                <div class="card-header">
+                                    @foreach (var group in Enum.GetNames(typeof(GroupEnum)))
                                     {
-                                        if (!item.PicUrl.EndsWith(".jpg") && !item.PicUrl.EndsWith(".png") && !item.PicUrl.EndsWith(".jpeg"))
-                                        {
-                                            <img class="rounded-sm img-thumbnail" src="~/img/no-image.png" alt="Card image cap">
-                                        }
-                                        else
-                                        {
-                                            <img class="rounded-sm img-thumbnail" src="~/img/kingdoms/@item.PicUrl" alt="Card image cap">
-                                        }
+                                        var counter = Model.Kingdoms.Where(x => x.Group == group).Count();
+                                        <div class="custom-control custom-checkbox" style="box-shadow: none;">
+                                            <span class="float-right badge round" style="color:black; margin-right:-10px;">@counter</span>
+                                            <input type="checkbox" class="custom-control-input" id="@group" onclick="checkItem(@group, 2, 'kingdoms')" checked>
+                                            <label class="custom-control-label" for="@group">@group</label>
+                                        </div>
                                     }
-                                    else
-                                    {
-                                        <img class="rounded-sm img-thumbnail" src="@item.PicUrl" alt="Card image cap">
-                                    }
-                                </td>
-                                <td>@item.Name</td>
-                                <td>@item.Group</td>
-                                <td>@item.Diet</td>
-                                <td>
-                                    @if (item.IsPet.Equals(true))
-                                    {<span>✔</span>}
-                                </td>
-                                <td>
-                                    @if (item.IsFarm.Equals(true))
-                                    {<span>✔</span>}
-                                </td>
-                                <td><div class="table table-striped scroller" style="text-align: left;">@item.Description</div></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                                </div>
+                            </div>
 
+                            <!-- Diets -->
+                            <header class="card-header">
+                                <h6 class="title">Diets</h6>
+                            </header>
+                            <div class="filter-content">
+                                <div class="card-body">
+                                    @foreach (var diet in Enum.GetNames(typeof(DietEnum)))
+                                    {
+                                        var counter = Model.Kingdoms.Where(x => x.Diet == diet).Count();
+                                        <div class="custom-control custom-checkbox" style="box-shadow: none;">
+                                            <span class="float-right badge round" style="color:black; margin-right:-10px">@counter</span>
+                                            <input type="checkbox" class="custom-control-input" id="@diet" onclick="checkItem(@diet, 3, 'kingdoms')" checked>
+                                            <label class="custom-control-label" for="@diet">@diet</label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Habitat -->
+                            <header class="card-header">
+                            </header>
+                            <header class="card-header">
+                                <h6 class="title">Habitat</h6>
+                            </header>
+                            <div class="filter-content">
+                                <div class="card-body">
+                                    @{
+                                        var petCount = Model.Kingdoms.Where(x => x.IsPet == true).Count();
+                                        var farmCount = Model.Kingdoms.Where(x => x.IsFarm == true).Count();
+                                        var nonCount = Model.Kingdoms.Where(x => x.IsPet == false && x.IsFarm == false).Count();
+                                        <div class="custom-control custom-checkbox" style="box-shadow: none;">
+                                            <span class="float-right badge round" style="color:black; margin-right:-10px">@petCount</span>
+                                            <input type="checkbox" class="custom-control-input" id="petAnimal" onclick="checkTheAnimal(petAnimal, 4)">
+                                            <label class="custom-control-label" for="petAnimal">Are Pets</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox" style="box-shadow: none;">
+                                            <span class="float-right badge round" style="color:black; margin-right:-10px">@farmCount</span>
+                                            <input type="checkbox" class="custom-control-input" id="farmAnimal" onclick="checkTheAnimal(farmAnimal, 5)">
+                                            <label class="custom-control-label" for="farmAnimal">In Farm</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox" style="box-shadow: none;">
+                                            <span class="float-right badge round" style="color:black; margin-right:-10px">@nonCount</span>
+                                            <input type="checkbox" class="custom-control-input" id="wildAnimal" onclick="checkForWild(wildAnimal, 4, 5)">
+                                            <label class="custom-control-label" for="wildAnimal">Are Wild</label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </nav> <!-- card-group-item.// -->
+                    </div>
+
+                    @* Kingdoms Search *@
+                    <div class="col-sm-10">
+                        <table id="kingdoms" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Group</th>
+                                    <th>Diet</th>
+                                    <th>Pet Animal</th>
+                                    <th>Farm Animal</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Kingdoms)
+                                {
+                                    <tr>
+                                        <td>
+                                            @if (!item.PicUrl.StartsWith("http"))
+                                            {
+                                                if (!item.PicUrl.EndsWith(".jpg") && !item.PicUrl.EndsWith(".png") && !item.PicUrl.EndsWith(".jpeg"))
+                                                {
+                                                    <img class="rounded-sm img-thumbnail" src="~/img/no-image.png" alt="Card image cap">
+                                                }
+                                                else
+                                                {
+                                                    <img class="rounded-sm img-thumbnail" src="~/img/kingdoms/@item.PicUrl" alt="Card image cap">
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <img class="rounded-sm img-thumbnail" src="@item.PicUrl" alt="Card image cap">
+                                            }
+                                        </td>
+                                        <td>@item.Name</td>
+                                        <td>@item.Group</td>
+                                        <td>@item.Diet</td>
+                                        <td>
+                                            @if (item.IsPet.Equals(true))
+                                            {<span>✔</span>}
+                                        </td>
+                                        <td>
+                                            @if (item.IsFarm.Equals(true))
+                                            {<span>✔</span>}
+                                        </td>
+                                        <td><div class="table table-striped scroller" style="text-align: left;">@item.Description</div></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
+
             <div class="carousel-item">
+                <div class="row">
+                    <!-- Breeds Sidebar -->
+                    <div class="col-sm-2">
+                        <nav class="card-group-item check table table-bordered" data-spy="affix" data-offset-top="10" style="margin-bottom: -40px;">
 
-                @* Breeds Search *@
-
-                <table id="breeds" class="table table-striped table-bordered" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Kingdoms Name</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.Breeds)
-                        {
-                            <tr>
-                                <td>
-                                    @if (!item.PicUrl.StartsWith("http"))
+                            <!-- Kingdoms Names -->
+                            <header class="card-header">
+                                <h6 class="title">Kingdom Names</h6>
+                            </header>
+                            <div class="filter-content">
+                                <div class="card-header">
+                                    @foreach (var kingdomName in Model.Breeds.Select(x => x.KingdomName).Distinct())
                                     {
-                                        if (!item.PicUrl.EndsWith(".jpg") && !item.PicUrl.EndsWith(".png") && !item.PicUrl.EndsWith(".jpeg"))
-                                        {
-                                            <img class="rounded-sm img-thumbnail" src="~/img/no-image.png" alt="Card image cap">
-                                        }
-                                        else
-                                        {
-                                            <img class="rounded-sm img-thumbnail" src="~/img/breeds/@item.PicUrl" alt="Card image cap">
-                                        }
+                                        var counter = Model.Breeds.Where(x => x.KingdomName == kingdomName).Count();
+                                        var id = (kingdomName).Replace(" ", "_");
+                                        <div class="custom-control custom-checkbox" style="box-shadow: none;">
+                                            <span class="float-right badge round" style="color:black; margin-right:-10px;">@counter</span>
+                                            <input type="checkbox" class="custom-control-input" id="@(id + "123")" onclick="checkItem(@(id + "123"), 2, 'breeds')" checked>
+                                            <label class="custom-control-label" for="@(id + "123")">@kingdomName</label>
+                                        </div>
                                     }
-                                    else
-                                    {
-                                        <img class="rounded-sm img-thumbnail" src="@item.PicUrl" alt="Card image cap">
-                                    }
-                                </td>
-                                <td>@item.Name</td>
-                                <td>@item.KingdomName</td>
-                                <td><div class="table table-striped scroller" style="text-align: left;">@item.Description</div></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
 
+                    @* Breeds Search *@
+                    <div class="col-sm-10">
+                        <table id="breeds" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Kingdoms Name</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Breeds)
+                                {
+                                    <tr>
+                                        <td>
+                                            @if (!item.PicUrl.StartsWith("http"))
+                                            {
+                                                if (!item.PicUrl.EndsWith(".jpg") && !item.PicUrl.EndsWith(".png") && !item.PicUrl.EndsWith(".jpeg"))
+                                                {
+                                                    <img class="rounded-sm img-thumbnail" src="~/img/no-image.png" alt="Card image cap">
+                                                }
+                                                else
+                                                {
+                                                    <img class="rounded-sm img-thumbnail" src="~/img/breeds/@item.PicUrl" alt="Card image cap">
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <img class="rounded-sm img-thumbnail" src="@item.PicUrl" alt="Card image cap">
+                                            }
+                                        </td>
+                                        <td>@item.Name</td>
+                                        <td>@item.KingdomName</td>
+                                        <td><div class="table table-striped scroller" style="text-align: left;">@item.Description</div></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
+
             <div class="carousel-item">
+                <div class="row">
+                    <!-- Subbreeds Sidebar -->
+                    <div class="col-sm-2">
+                        <nav class="card-group-item check table table-bordered" data-spy="affix" data-offset-top="10" style="margin-bottom: -40px;">
 
-                @* Subbreed Search *@
-
-                <table id="subbreeds" class="table table-striped table-bordered" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Kingdoms Name</th>
-                            <th>Breeds Name</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.Subbreeds)
-                        {
-                            <tr>
-                                <td>
-                                    @if (!item.PicUrl.StartsWith("http"))
+                            <!-- Kingdoms Names -->
+                            <header class="card-header">
+                                <h6 class="title">Kingdom Names</h6>
+                            </header>
+                            <div class="filter-content">
+                                <div class="card-header">
+                                    @foreach (var kingdomName in Model.Subbreeds.Select(x => x.KingdomName).Distinct())
                                     {
-                                        if (!item.PicUrl.EndsWith(".jpg") && !item.PicUrl.EndsWith(".png") && !item.PicUrl.EndsWith(".jpeg"))
-                                        {
-                                            <img class="rounded-sm img-thumbnail" src="~/img/no-image.png" alt="Card image cap">
-                                        }
-                                        else
-                                        {
-                                            <img class="rounded-sm img-thumbnail" src="~/img/subbreeds/@item.PicUrl" alt="Card image cap">
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <img class="rounded-sm img-thumbnail" src="@item.PicUrl" alt="Card image cap">
-                                    }
-                                </td>
-                                <td>@item.Name</td>
-                                <td>@item.KingdomName</td>
-                                <td>@item.BreedName</td>
-                                <td><div class="table table-striped scroller" style="text-align: left;">@item.Description</div></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
 
+                                        var counter = Model.Subbreeds.Where(x => x.KingdomName == kingdomName).Count();
+                                        var id = (kingdomName).Replace(" ", "_");
+                                        <div class="custom-control custom-checkbox" style="box-shadow: none;">
+                                            <span class="float-right badge round" style="color:black; margin-right:-10px;">@counter</span>
+                                            <input type="checkbox" class="custom-control-input" id="@(id + "234")" onclick="checkItem(@(id + "234"), 2,'subbreeds')" checked>
+                                            <label class="custom-control-label" for="@(id + "234")">@kingdomName</label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <!-- Breeds Names -->
+                            <header class="card-header">
+                                <h6 class="title">Breed Names</h6>
+                            </header>
+                            <div class="filter-content">
+                                <div class="card-header">
+                                    @foreach (var breedsName in Model.Subbreeds.Select(x => x.BreedName).Distinct())
+                                    {
+                                        var counter = Model.Subbreeds.Where(x => x.BreedName == breedsName).Count();
+                                        var id = (breedsName).Replace(" ", "_");
+                                        <div class="custom-control custom-checkbox" style="box-shadow: none;">
+                                            <span class="float-right badge round" style="color:black; margin-right:-10px;">@counter</span>
+                                            <input type="checkbox" class="custom-control-input" id="@id" onclick="checkItem(@id, 3, 'subbreeds')" checked>
+                                            <label class="custom-control-label" for="@id">@breedsName</label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+
+                    @* Subbreed Search *@
+                    <div class="col-sm-10">
+                        <table id="subbreeds" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Kingdoms Name</th>
+                                    <th>Breeds Name</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Subbreeds)
+                                {
+                                    <tr>
+                                        <td>
+                                            @if (!item.PicUrl.StartsWith("http"))
+                                            {
+                                                if (!item.PicUrl.EndsWith(".jpg") && !item.PicUrl.EndsWith(".png") && !item.PicUrl.EndsWith(".jpeg"))
+                                                {
+                                                    <img class="rounded-sm img-thumbnail" src="~/img/no-image.png" alt="Card image cap">
+                                                }
+                                                else
+                                                {
+                                                    <img class="rounded-sm img-thumbnail" src="~/img/subbreeds/@item.PicUrl" alt="Card image cap">
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <img class="rounded-sm img-thumbnail" src="@item.PicUrl" alt="Card image cap">
+                                            }
+                                        </td>
+                                        <td>@item.Name</td>
+                                        <td>@item.KingdomName</td>
+                                        <td>@item.BreedName</td>
+                                        <td><div class="table table-striped scroller" style="text-align: left;">@item.Description</div></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <div class="carousel-item">
 
+            <div class="carousel-item">
                 @* FoodTypes Search *@
-
                 <table id="foodtypes" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
@@ -207,54 +354,80 @@
                         }
                     </tbody>
                 </table>
-
             </div>
+
             <div class="carousel-item">
+                <div class="row">
+                    <!-- Foods Sidebar -->
+                    <div class="col-sm-2">
+                        <nav class="card-group-item check table table-bordered" data-spy="affix" data-offset-top="10" style="margin-bottom: -40px;">
 
-                @* Foods Search *@
-
-                <table id="foods" class="table table-striped table-bordered" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Food Type</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.Foods)
-                        {
-                            <tr>
-                                <td>
-                                    @if (!item.PicUrl.StartsWith("http"))
+                            <!-- Breeds Names -->
+                            <header class="card-header">
+                                <h6 class="title">Breed Names</h6>
+                            </header>
+                            <div class="filter-content">
+                                <div class="card-header">
+                                    @foreach (var foodsName in Model.Foods.Select(x => x.FoodTypeName).Distinct())
                                     {
-                                        if (!item.PicUrl.EndsWith(".jpg") && !item.PicUrl.EndsWith(".png") && !item.PicUrl.EndsWith(".jpeg"))
-                                        {
-                                            <img class="rounded-sm img-thumbnail" src="~/img/no-image.png" alt="Card image cap">
-                                        }
-                                        else
-                                        {
-                                            <img class="rounded-sm img-thumbnail" src="~/img/foodtypes/@item.PicUrl" alt="Card image cap">
-                                        }
+                                        var counter = Model.Foods.Where(x => x.FoodTypeName == foodsName).Count();
+                                        var id = (foodsName).Replace(" ", "_");
+                                        <div class="custom-control custom-checkbox" style="box-shadow: none;">
+                                            <span class="float-right badge round" style="color:black; margin-right:-10px;">@counter</span>
+                                            <input type="checkbox" class="custom-control-input" id="@id" onclick="checkItem(@id, 2, 'foods')" checked>
+                                            <label class="custom-control-label" for="@id">@foodsName</label>
+                                        </div>
                                     }
-                                    else
-                                    {
-                                        <img class="rounded-sm img-thumbnail" src="@item.PicUrl" alt="Card image cap">
-                                    }
-                                </td>
-                                <td>@item.Name</td>
-                                <td>@item.FoodTypeName</td>
-                                <td><div class="table table-striped scroller" style="text-align: left;">@item.Description</div></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
 
+                    @* Foods Search *@
+                    <div class="col-sm-10">
+                        <table id="foods" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Food Type</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Foods)
+                                {
+                                    <tr>
+                                        <td>
+                                            @if (!item.PicUrl.StartsWith("http"))
+                                            {
+                                                if (!item.PicUrl.EndsWith(".jpg") && !item.PicUrl.EndsWith(".png") && !item.PicUrl.EndsWith(".jpeg"))
+                                                {
+                                                    <img class="rounded-sm img-thumbnail" src="~/img/no-image.png" alt="Card image cap">
+                                                }
+                                                else
+                                                {
+                                                    <img class="rounded-sm img-thumbnail" src="~/img/foodtypes/@item.PicUrl" alt="Card image cap">
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <img class="rounded-sm img-thumbnail" src="@item.PicUrl" alt="Card image cap">
+                                            }
+                                        </td>
+                                        <td>@item.Name</td>
+                                        <td>@item.FoodTypeName</td>
+                                        <td><div class="table table-striped scroller" style="text-align: left;">@item.Description</div></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</body>
+</div>
 
 @section Scripts
 {
@@ -265,4 +438,6 @@
     <script src="~/js/subbreeds.js"></script>
     <script src="~/js/foodtypes.js"></script>
     <script src="~/js/foods.js"></script>
+    <script src="~/js/sidebar.js"></script>
+    <script src="~/js/breedsubbreed.js"></script>
 }

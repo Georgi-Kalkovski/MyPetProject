@@ -5,15 +5,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-inverse navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3" data-spy="affix" data-offset-top="10">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -57,14 +57,13 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted navbar-fixed-bottom" style="margin-bottom: -90px">
         <div class="container text-center">
             &copy; @DateTime.UtcNow.Year - @GlobalConstants.SystemName
         </div>
 
         <!-- Back to top button -->
-        <a href="#" class="back-to-top" style="display: flex; align-items: center; justify-content: center; text-decoration:none;"><h3>⮝</h3></a>
-
+        <a onclick="backtotop()" href="#" id="backToTop" style="display: flex; align-items: center; justify-content: center; text-decoration:none;"><h3>⮝</h3></a>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>

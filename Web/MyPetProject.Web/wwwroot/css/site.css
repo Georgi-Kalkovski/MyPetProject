@@ -107,9 +107,13 @@ div.card.style {
     position: absolute;
 }
 
+nav {
+    position: sticky;
+    top: 0;
+}
 
 /* Back to top button */
-.back-to-top {
+#backToTop {
     position: fixed;
     display: none;
     background: #1b6ec2;
@@ -126,12 +130,12 @@ div.card.style {
     z-index: 11;
 }
 
-.back-to-top i {
-    padding-top: 12px;
-    color: #fff;
-}
+    #backToTop i {
+        padding-top: 12px;
+        color: #fff;
+    }
 
-.back-to-top i:hover {
-    background: #3ac162;
-    color: #fff;
-}
+        #backToTop i:hover {
+            background: #3ac162;
+            color: #fff;
+        }

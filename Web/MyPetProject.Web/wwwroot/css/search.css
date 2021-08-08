@@ -3,11 +3,12 @@
 }
 
 .img-thumbnail {
-    width: 125px;
+    width: 50px;
+    height:auto;
 }
 
 img:hover {
-    transform: scale(2);
+    transform: scale(4);
     position: absolute;
 }
 
