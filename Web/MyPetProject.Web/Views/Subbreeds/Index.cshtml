@@ -15,14 +15,6 @@
     ViewData["Title"] = modelName + "s";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    <style>
-        a {
-            color: #4e9aff;
-        }
-    </style>
-
-    <body class="text-white bg-dark">
-
         @if (!Model.Any())
         {
             <div class="text-center">
@@ -112,5 +104,4 @@
                 </tbody>
             </table>
         }
-    </body>
 }

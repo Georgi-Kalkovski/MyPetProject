@@ -111,7 +111,7 @@ div.card.style {
 #backToTop {
     position: fixed;
     display: none;
-    background: #1b6ec2;
+    background: #0051ba;
     color: #fff;
     width: 44px;
     height: 44px;
@@ -198,5 +198,18 @@ div a span paginate_button a:current{
 /* Pages background color and text color*/
 body, html, footer, main {
     color: white;
-    background-color: #555;
+    background-color: #ffc107;
+}
+
+.btn-primary {
+background-color: #0051ba;
+}
+
+a {
+    color:#0051ba;
+}
+
+.table {
+    --bs-table-accent-bg: #5486b6;
+    --bs-table-striped-bg: #b8cde0;
 }
