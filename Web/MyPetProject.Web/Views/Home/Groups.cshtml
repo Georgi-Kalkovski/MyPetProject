@@ -8,8 +8,14 @@
     <link href="~/css/groups.css" rel="stylesheet" />
 }
 
-<table>
-    <tbody class="row-cols-3">
+<style>
+    table td, table th {
+        background-color: #555;
+    }
+</style>
+
+<table style="border-collapse: collapse;">
+    <tbody class="row-cols-sm-2">
         <tr class="central_text text-center">
             @{
                 for (int i = 1; i <= 8; i++)
@@ -33,12 +39,12 @@
                         <a href="~/Kingdoms/@(item)">
                             @if (i == 1) { item = "Insects & Arachnids"; }
                             @if (i == 5) { item = "Reptiles & Amphibians"; }
-                            <h4 class="moon moon@(i)" style="text-align:center">@(item)</h4>
+                            <h5 class="moon moon@(i)" style="text-align:center">@(item)</h5>
                         </a>
                     </td>
                 }
                 <td>
-                    <h1 class="moon_container text-center align-middle" style="font-size: 250%;">Groups</h1>
+                    <h1 class="moon_container text-center align-middle" style="font-size: 450%; ">Groups</h1>
                 </td>
             }
         </tr>

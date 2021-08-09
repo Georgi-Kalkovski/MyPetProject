@@ -89,6 +89,7 @@
         }
 
         // GET: Kingdoms/Details/{name}
+        [HttpGet("/Kingdoms/Details/{name}")]
         public async Task<IActionResult> Details(string name)
         {
             if (name == null)

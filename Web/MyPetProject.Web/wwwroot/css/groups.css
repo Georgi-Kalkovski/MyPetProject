@@ -1,4 +1,4 @@
-﻿h4 {
+﻿h5 {
     border-radius: 10px;
     border-radius: 15px;
     border-color: black;
@@ -34,7 +34,7 @@ a:hover {
     left: 50%;
     top: 50%;
     width: 20%;
-    transform: translate(-50%, -50%);
+    transform: translate(-60%, -50%);
 }
 
 .moon {
@@ -44,34 +44,35 @@ a:hover {
     left: 175%;
 }
 
+/*Insects*/
 .moon_container.moon1 {
     transform: translate(-50%, -50%);
 }
-
+/*Carnivores*/
 .moon_container.moon2 {
     transform: translate(-50%, -50%) rotate(45deg);
 }
-
+/*Omnivores*/
 .moon_container.moon3 {
     transform: translate(-50%, -50%) rotate(90deg);
 }
-
+/*Herbivores*/
 .moon_container.moon4 {
     transform: translate(-50%, -50%) rotate(135deg);
 }
-
+/*Reptiles*/
 .moon_container.moon5 {
     transform: translate(-50%, -50%) rotate(180deg);
 }
-
+/*Birds*/
 .moon_container.moon6 {
     transform: translate(-50%, -50%) rotate(225deg);
 }
-
+/*Mammals*/
 .moon_container.moon7 {
     transform: translate(-50%, -50%) rotate(270deg);
 }
-
+/*Fish*/
 .moon_container.moon8 {
     transform: translate(-50%, -50%) rotate(315deg);
 }

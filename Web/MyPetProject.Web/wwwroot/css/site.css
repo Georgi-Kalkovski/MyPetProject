@@ -194,3 +194,9 @@ div a span paginate_button a:current{
     background-color: dodgerblue;
     color: white;
 }
+
+/* Pages background color and text color*/
+body, html, footer, main {
+    color: white;
+    background-color: #555;
+}
