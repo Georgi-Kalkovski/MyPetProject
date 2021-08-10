@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Globals
  */
 
@@ -54,4 +54,16 @@ body {
 .nav-masthead .active {
   color: #fff;
   border-bottom-color: #fff;
+}
+
+
+[type=checkbox]:checked::after {
+    content: "✔";
+    color: white;
+    position: relative;
+    margin-bottom: -10px;
+}
+
+[type=checkbox]:disabled::before {
+    border: none;
 }

@@ -9,7 +9,6 @@
 <head>
     <link href="~/css/search.css" rel="stylesheet" />
 </head>
-
 <div class="container-fluid">
     <!-- Tables -->
     <div id="tables" class="carousel slide" data-interval="false">
@@ -26,11 +25,11 @@
         <!-- The slideshow -->
         <div class="carousel-fade" style="position:relative;">
 
-            <div class="carousel-item active">
+            <div class="carousel-item active container">
                 <div class="row">
                     <!-- Kingdoms Sidebar -->
                     <div class="col-sm-2">
-                        <nav class="card-group-item check table table-bordered" data-spy="affix" data-offset-top="10" style="margin-bottom: -40px;">
+                        <nav class="nav flexing card-group-item check table table-bordered" data-spy="affix" data-offset-top="10" style="margin-bottom: -40px;">
 
                             <!-- Groups -->
                             <header class="card-header">
@@ -98,7 +97,7 @@
                                     }
                                 </div>
                             </div>
-                        </nav> <!-- card-group-item.// -->
+                        </nav>
                     </div>
 
                     @* Kingdoms Search *@
@@ -118,7 +117,8 @@
                             <tbody>
                                 @foreach (var item in Model.Kingdoms)
                                 {
-                                    <tr>
+
+                                    <tr onclick="document.location = '../Breeds/@item.Name';">
                                         <td>
                                             @if (!item.PicUrl.StartsWith("http"))
                                             {
@@ -160,7 +160,7 @@
                 <div class="row">
                     <!-- Breeds Sidebar -->
                     <div class="col-sm-2">
-                        <nav class="card-group-item check table table-bordered" data-spy="affix" data-offset-top="10" style="margin-bottom: -40px;">
+                        <nav class="nav flexing card-group-item check table table-bordered" data-spy="affix" data-offset-top="10" style="margin-bottom: -40px;">
 
                             <!-- Kingdoms Names -->
                             <header class="card-header">
@@ -230,7 +230,7 @@
                 <div class="row">
                     <!-- Subbreeds Sidebar -->
                     <div class="col-sm-2">
-                        <nav class="card-group-item check table table-bordered" data-spy="affix" data-offset-top="10" style="margin-bottom: -40px;">
+                        <nav class="nav flexing card-group-item check table table-bordered" data-spy="affix" data-offset-top="10" style="margin-bottom: -40px;">
 
                             <!-- Kingdoms Names -->
                             <header class="card-header">
@@ -360,7 +360,7 @@
                 <div class="row">
                     <!-- Foods Sidebar -->
                     <div class="col-sm-2">
-                        <nav class="card-group-item check table table-bordered" data-spy="affix" data-offset-top="10" style="margin-bottom: -40px;">
+                        <nav class="nav flexing card-group-item check table table-bordered" data-spy="affix" data-offset-top="10" style="margin-bottom: -40px;">
 
                             <!-- Breeds Names -->
                             <header class="card-header">

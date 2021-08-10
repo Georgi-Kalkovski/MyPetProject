@@ -104,3 +104,7 @@ a:hover {
 .moon.moon8 {
     transform: rotate(-315deg);
 }
+
+table td, table th {
+    background-color: #ffc107;
+}

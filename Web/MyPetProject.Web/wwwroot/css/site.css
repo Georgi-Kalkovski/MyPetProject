@@ -136,14 +136,6 @@ div.card.style {
     color: #fff;
 }
 
-
-/* Search Sidebar */
-.nav {
-    position: sticky;
-    top: 0;
-}
-
-
 /* Search menu */
 #secondMenu a.active span {
     background: #cccccc;
@@ -177,18 +169,18 @@ div.card.style {
     transition: background-color .3s;
 }
 
-    .dataTables_paginate a:hover {
-        color: black;
-        float: left;
-        padding: 8px 16px;
-        text-decoration: none;
-        transition: background-color .3s;
-    }
+.dataTables_paginate a:hover {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+}
 
-    .dataTables_paginate a:current {
-        background-color: dodgerblue;
-        color: white;
-    }
+.dataTables_paginate a:current {
+    background-color: dodgerblue;
+    color: white;
+}
 
 div a span paginate_button a:current{
     background-color: dodgerblue;
@@ -196,9 +188,9 @@ div a span paginate_button a:current{
 }
 
 /* Pages background color and text color*/
-body, html, footer, main {
-    color: white;
+body, html, main {
     background-color: #ffc107;
+    color:black;
 }
 
 .btn-primary {
@@ -212,4 +204,52 @@ a {
 .table {
     --bs-table-accent-bg: #5486b6;
     --bs-table-striped-bg: #b8cde0;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+td:hover {
+    cursor: pointer;
+}
+
+
+.flexing {
+    flex-flow: column
+}
+
+.dataTables_paginate a.current {
+    border-radius: 25px;
+    background-color: #0051ba;
+    color: white;
+}
+
+.dataTables_paginate a.disabled {
+    color: grey;
+}
+
+.dropdownMenu {
+    font-family: var(--bs-font-sans-serif);
+    font-weight: 700;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999 !important;
+}
+
+.sticky + .content {
+    padding-top: 60px;
+}
+
+.content {
+    padding: 16px;
+}
+
+.nav {
+    position: sticky;
+    top: 0;
 }

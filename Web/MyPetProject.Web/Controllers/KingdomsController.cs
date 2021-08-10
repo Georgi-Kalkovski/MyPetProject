@@ -48,6 +48,18 @@
             return this.View(await result.ToListAsync());
         }
 
+        [HttpGet("/WildAnimals")]
+        public async Task<IActionResult> WildAnimals()
+        {
+            var result = this.kingdomsRepository
+                .All()
+                .Include(k => k.User)
+                .Where(a => a.IsPet == false && a.IsFarm == false)
+                .OrderBy(x => x.Name);
+
+            return this.View(await result.ToListAsync());
+        }
+
         [HttpGet("/FarmAnimals")]
         public async Task<IActionResult> FarmAnimals()
         {

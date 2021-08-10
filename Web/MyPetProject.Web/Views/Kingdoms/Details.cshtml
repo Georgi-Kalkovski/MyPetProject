@@ -5,35 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-<meta name="generator" content="Hugo 0.84.0">
-<title>Cover Template · Bootstrap v5.0</title>
-
-
-
 @section Scripts
 {
     <link href="~/css/details.css" rel="stylesheet" />
 }
-<style>
-    a {
-        color: #4e9aff;
-    }
-
-    [type=checkbox]:checked::after {
-        content: "✔";
-        color: white;
-        position: relative;
-        margin-bottom: -10px;
-    }
-
-    [type=checkbox]:disabled::before {
-        border: none;
-    }
-</style>
 
 @{
     var modelName = "Kingdoms";
@@ -46,57 +21,55 @@
     var isPet = @Html.DisplayFor(model => model.IsPet);
     var isFarm = @Html.DisplayFor(model => model.IsFarm);
 
-    <body class="text-white bg-dark">
-        <div class="d-flex h-100 text-center">
-            <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div class="d-flex h-100 text-center">
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
 
-                <main class="px-5">
+            <main class="card px-5 nav flexing" style="border-radius: 50px;">
 
-                    <h3>Kingdom</h3>
-                    <h1>@name</h1>
-                    <p class="lead mx-auto d-block" style="max-width: 70%; height: auto;">
-                        @if (!Model.PicUrl.StartsWith("http"))
+                <h3>Kingdom</h3>
+                <h1>@name</h1>
+                <p class="lead mx-auto d-block" style="max-width: 70%; height: auto;">
+                    @if (!Model.PicUrl.StartsWith("http"))
+                    {
+                        if (!Model.PicUrl.EndsWith(".jpg") && !Model.PicUrl.EndsWith(".png") && !Model.PicUrl.EndsWith(".jpeg"))
                         {
-                            if (!Model.PicUrl.EndsWith(".jpg") && !Model.PicUrl.EndsWith(".png") && !Model.PicUrl.EndsWith(".jpeg"))
-                            {
-                                <img class="card-img" src="~/img/no-image.png" alt="Card image cap">
-                            }
-                            else
-                            {
-                                <img class="card-img" src="~/img/@modelName/@picture" alt="Card image cap">
-                            }
+                            <img class="card-img" src="~/img/no-image.png" alt="Card image cap">
                         }
                         else
                         {
-                            <img class="card-img" src="@picture" alt="Card image cap">
+                            <img class="card-img" src="~/img/@modelName/@picture" alt="Card image cap">
                         }
-                    </p>
-                    <p class="lead">Group: <a href="~/@modelName/@group">@group</a>  |  Diet: <a href="~/@modelName/@diet">@diet</a></p>
-                    <p class="lead">
-                        Is it <a href="~/HomeAnimals">Pet</a> Animal ? : @isPet
-                    </p>
-                    <p class="lead">
-                        Is it <a href="~/FarmAnimals">Farm</a> Animal ? : @isFarm
-                    </p>
-                    <p class="lead">@description</p>
+                    }
+                    else
+                    {
+                        <img class="card-img" src="@picture" alt="Card image cap">
+                    }
+                </p>
+                <p class="lead">Group: <a href="~/@modelName/@group">@group</a>  |  Diet: <a href="~/@modelName/@diet">@diet</a></p>
+                <p class="lead">
+                    Is it <a href="~/HomeAnimals">Pet</a> Animal ? : @isPet
+                </p>
+                <p class="lead">
+                    Is it <a href="~/FarmAnimals">Farm</a> Animal ? : @isFarm
+                </p>
+                <p class="lead">@description</p>
 
-                    <p class="lead">
-                        <a asp-action="Index" class="btn btn-primary">Go Back</a>
-                        @{
-                            var userId = "";
-                            if (this.User.Claims.Any())
+                <p class="lead">
+                    <a asp-action="Index" class="btn btn-primary">Go Back</a>
+                    @{
+                        var userId = "";
+                        if (this.User.Claims.Any())
+                        {
+                            userId = this.User.Claims.ToList()[0].Value;
+                            if (Model.UserId == userId)
                             {
-                                userId = this.User.Claims.ToList()[0].Value;
-                                if (Model.UserId == userId)
-                                {
-                                    <a asp-action="Edit" asp-route-id="@name" class="btn btn-warning">Edit</a>
-                                    <a asp-action="Delete" asp-route-id="@name" class="btn btn-danger">Delete</a>
-                                }
+                                <a asp-action="Edit" asp-route-id="@name" class="btn btn-warning">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@name" class="btn btn-danger">Delete</a>
                             }
                         }
-                    </p>
-                </main>
-            </div>
+                    }
+                </p>
+            </main>
         </div>
-    </body>
+    </div>
 }

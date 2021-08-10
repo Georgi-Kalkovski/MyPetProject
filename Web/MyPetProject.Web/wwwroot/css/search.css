@@ -74,9 +74,13 @@ span {
 }
 
 #secondMenu a:hover span {
-    background-color: #cccccc;
+    background-color: #5486b6;
 }
 
 #secondMenu a:focus span {
-    background-color: #cccccc;
+    background-color: #0051ba;
+}
+
+#secondMenu a.active span {
+    background-color: #5486b6;
 }

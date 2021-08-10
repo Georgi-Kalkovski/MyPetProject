@@ -96,3 +96,10 @@ function checkForWild(el, num1, num2) {
         }
     }
 }
+
+$(window).on('scroll', function (event) {
+    var scrollValue = $(window).scrollTop();
+    if (scrollValue == settings.scrollTopPx || scrollValue > 70) {
+        $('.nav').addClass('fixed-top');
+    }
+});

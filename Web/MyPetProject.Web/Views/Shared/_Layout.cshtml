@@ -13,7 +13,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-inverse navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3" data-spy="affix" data-offset-top="10">
+        <nav onclick="scrollDown()" id="navBar" class="navbar navbar-inverse navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3" data-spy="affix" data-offset-top="10">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -27,22 +27,38 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="FoodTypes" asp-action="Index">Food Types</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Groups">Groups</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Kingdoms" asp-action="Index">Kingdoms</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Kingdoms" asp-action="HomeAnimals">Home Animals</a>
+                        <li class="dropdown">
+                            <button class="btn dropdown-toggle nav-link text-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="dropdownMenu">Animals</span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Kingdoms" asp-action="HomeAnimals">Home Animals</a>
+                                <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Kingdoms" asp-action="FarmAnimals">Farm Animals</a>
+                                <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Kingdoms" asp-action="WildAnimals">Wild Animals</a>
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Kingdoms" asp-action="FarmAnimals">Farm Animals</a>
+                        <li class="dropdown">
+                            <button class="btn dropdown-toggle nav-link text-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="dropdownMenu">Foods</span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="FoodTypes" asp-action="Index">Food Types</a>
+                                <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Foods" asp-action="Index">Foods</a>
+                            </div>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Search">Search</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ErrorPage">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ErrorPage">Contact Us</a>
                         </li>
                     </ul>
                 </div>
@@ -50,14 +66,14 @@
         </nav>
     </header>
 
-    <div class="container">
+    <div class="container content">
         <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
             @this.RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted navbar-fixed-bottom" style="margin-bottom: -90px">
+    <footer class="border-top footer text-muted navbar-fixed-bottom" style="margin-bottom: -90px; background-color: white;">
         <div class="container text-center">
             &copy; @DateTime.UtcNow.Year - @GlobalConstants.SystemName
         </div>
@@ -72,7 +88,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
     <script src="~/js/main.js" asp-append-version="true"></script>
-    <script src="~/js/backtotop.js" asp-append-version="true"></script>
+    <script src="~/js/customjs.js" asp-append-version="true"></script>
 
     @await this.RenderSectionAsync("Scripts", required: false)
 </body>
