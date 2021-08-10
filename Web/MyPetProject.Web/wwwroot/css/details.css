@@ -59,7 +59,14 @@ body {
 
 [type=checkbox]:checked::after {
     content: "✔";
-    color: white;
+    color: black;
+    position: relative;
+    margin-bottom: -10px;
+}
+
+[type=checkbox]::after {
+    content: "✘";
+    color: black;
     position: relative;
     margin-bottom: -10px;
 }

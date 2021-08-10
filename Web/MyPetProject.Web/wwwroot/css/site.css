@@ -83,7 +83,7 @@ body {
 }
 
 .card-body {
-    mt:auto
+    mt: auto
 }
 
 div.card.style {
@@ -182,7 +182,7 @@ div.card.style {
     color: white;
 }
 
-div a span paginate_button a:current{
+div a span paginate_button a:current {
     background-color: dodgerblue;
     color: white;
 }
@@ -190,15 +190,15 @@ div a span paginate_button a:current{
 /* Pages background color and text color*/
 body, html, main {
     background-color: #ffc107;
-    color:black;
+    color: black;
 }
 
 .btn-primary {
-background-color: #0051ba;
+    background-color: #0051ba;
 }
 
 a {
-    color:#0051ba;
+    color: #0051ba;
 }
 
 .table {
@@ -216,7 +216,7 @@ td:hover {
 
 
 .flexing {
-    flex-flow: column
+    flex-flow: column;
 }
 
 .dataTables_paginate a.current {
@@ -241,15 +241,12 @@ td:hover {
     z-index: 9999 !important;
 }
 
-.sticky + .content {
-    padding-top: 60px;
-}
 
 .content {
-    padding: 16px;
+    padding-top: 70px;
 }
 
 .nav {
     position: sticky;
-    top: 0;
+    top: 70px;
 }

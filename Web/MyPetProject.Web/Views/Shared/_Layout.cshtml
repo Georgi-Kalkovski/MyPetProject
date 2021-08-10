@@ -13,7 +13,7 @@
 </head>
 <body>
     <header>
-        <nav onclick="scrollDown()" id="navBar" class="navbar navbar-inverse navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3" data-spy="affix" data-offset-top="10">
+        <nav onclick="scrollDown()" id="navBar" class="navbar navbar-inverse navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3 sticky" data-spy="affix" data-offset-top="10">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -73,7 +73,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted navbar-fixed-bottom" style="margin-bottom: -90px; background-color: white;">
+    <footer class="page-footer border-top footer text-muted navbar-fixed-bottom" style="margin-bottom: -90px; background-color: white;">
         <div class="container text-center">
             &copy; @DateTime.UtcNow.Year - @GlobalConstants.SystemName
         </div>
