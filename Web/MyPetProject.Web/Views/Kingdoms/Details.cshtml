@@ -13,13 +13,14 @@
 @{
     var modelName = "Kingdoms";
 
-    var name = @Html.DisplayFor(model => model.Name);
-    var picture = @Html.DisplayFor(model => model.PicUrl);
-    var description = @Html.DisplayFor(model => model.Description);
-    var group = @Html.DisplayFor(model => model.Group);
-    var diet = @Html.DisplayFor(model => model.Diet);
-    var isPet = @Html.DisplayFor(model => model.IsPet);
-    var isFarm = @Html.DisplayFor(model => model.IsFarm);
+    var name = Model.Name;
+    var picture = Model.PicUrl;
+    var description = Model.Description;
+    var group = Model.Group;
+    var diet = Model.Diet;
+    var isPet = Model.IsPet;
+    var isFarm = Model.IsFarm;
+    var user = Model.UserId;
 
     <div class="d-flex h-100 text-center">
         <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
@@ -29,9 +30,9 @@
                 <h3>Kingdom</h3>
                 <h1>@name</h1>
                 <p class="lead mx-auto d-block" style="max-width: 70%; height: auto;">
-                    @if (!Model.PicUrl.StartsWith("http"))
+                    @if (!picture.StartsWith("http"))
                     {
-                        if (!Model.PicUrl.EndsWith(".jpg") && !Model.PicUrl.EndsWith(".png") && !Model.PicUrl.EndsWith(".jpeg"))
+                        if (!picture.EndsWith(".jpg") && !picture.EndsWith(".png") && !picture.EndsWith(".jpeg"))
                         {
                             <img class="card-img" src="~/img/no-image.png" alt="Card image cap">
                         }
@@ -47,10 +48,16 @@
                 </p>
                 <p class="lead">Group: <a href="~/@modelName/@group">@group</a>  |  Diet: <a href="~/@modelName/@diet">@diet</a></p>
                 <p class="lead">
-                    Is it <a href="~/HomeAnimals">Pet</a> Animal ? : @isPet
+                    Is it <a href="~/HomeAnimals">Pet</a> Animal ? : @if (@isPet)
+                    {<span style="color:green">✔</span>}
+                    else
+                    { <span style="color:darkred">✘</span>}
                 </p>
                 <p class="lead">
-                    Is it <a href="~/FarmAnimals">Farm</a> Animal ? : @isFarm
+                    Is it <a href="~/FarmAnimals">Farm</a> Animal ? :@if (isFarm)
+                    {<span style="color:green">✔</span>}
+                    else
+                    { <span style="color:darkred">✘</span>}
                 </p>
                 <p class="lead">@description</p>
 
@@ -61,7 +68,7 @@
                         if (this.User.Claims.Any())
                         {
                             userId = this.User.Claims.ToList()[0].Value;
-                            if (Model.UserId == userId)
+                            if (user == userId)
                             {
                                 <a asp-action="Edit" asp-route-id="@name" class="btn btn-warning">Edit</a>
                                 <a asp-action="Delete" asp-route-id="@name" class="btn btn-danger">Delete</a>

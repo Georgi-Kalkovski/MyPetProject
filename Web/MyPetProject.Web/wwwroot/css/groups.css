@@ -1,10 +1,10 @@
 ﻿h5 {
-    border-radius: 10px;
     border-radius: 15px;
     border-color: black;
     background-color: black;
     color: white;
-    text-decoration: none
+    text-decoration: none;
+       font-size: 1.5vw;
 }
 
 img {
@@ -14,7 +14,6 @@ img {
     display: inline-block;
     text-align: center;
     line-height: 100px;
-    margin-right: 5px;
 }
 
 a:link {
@@ -24,17 +23,31 @@ a:link {
 a:hover {
     text-decoration: none;
 }
-/*
-    body {
-        background-color: coral;
-    }*/
 
 .moon_container {
     position: absolute;
     left: 50%;
+    top: 90%;
+    width: 18%;
+    transform: translate(-60%, -60%);
+    padding: inherit;
+    font-size: 100%;
+}
+
+span h1 {
+    border-radius: 1em;
+    padding: 1em;
+    position: absolute;
     top: 50%;
-    width: 20%;
-    transform: translate(-60%, -50%);
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    font-size: 3.5vw;
+}
+
+.central_text {
+    max-width: 800px;
+    min-width: 400px;
 }
 
 .moon {

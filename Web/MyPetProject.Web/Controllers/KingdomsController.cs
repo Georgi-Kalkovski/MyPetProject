@@ -1,6 +1,7 @@
 ﻿namespace MyPetProject.Web.Controllers
 {
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -31,42 +32,6 @@
             var result = this.kingdomsRepository
                 .All()
                 .Include(k => k.User)
-                .OrderBy(x => x.Name);
-
-            return this.View(await result.ToListAsync());
-        }
-
-        [HttpGet("/HomeAnimals")]
-        public async Task<IActionResult> HomeAnimals()
-        {
-            var result = this.kingdomsRepository
-                .All()
-                .Include(k => k.User)
-                .Where(a => a.IsPet == true)
-                .OrderBy(x => x.Name);
-
-            return this.View(await result.ToListAsync());
-        }
-
-        [HttpGet("/WildAnimals")]
-        public async Task<IActionResult> WildAnimals()
-        {
-            var result = this.kingdomsRepository
-                .All()
-                .Include(k => k.User)
-                .Where(a => a.IsPet == false && a.IsFarm == false)
-                .OrderBy(x => x.Name);
-
-            return this.View(await result.ToListAsync());
-        }
-
-        [HttpGet("/FarmAnimals")]
-        public async Task<IActionResult> FarmAnimals()
-        {
-            var result = this.kingdomsRepository
-                .All()
-                .Include(k => k.User)
-                .Where(a => a.IsFarm == true)
                 .OrderBy(x => x.Name);
 
             return this.View(await result.ToListAsync());
@@ -143,9 +108,9 @@
         {
             if (this.ModelState.IsValid)
             {
-                if (this.User.Claims.ToList()[0].Value != null)
+                if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) != null)
                 {
-                    kingdom.UserId = this.User.Claims.ToList()[0].Value;
+                    kingdom.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 }
 
                 await this.kingdomsRepository.AddAsync(kingdom);
@@ -180,7 +145,7 @@
                 return this.NotFound();
             }
 
-            if (this.User.Claims.ToList()[0].Value != result.UserId)
+            if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) != result.UserId)
             {
                 return this.Redirect("/Home/ErrorPage");
             }
@@ -215,8 +180,8 @@
                         breed.KingdomName = name;
                     }
 
-                    this.kingdomsRepository.Delete(editName);
-                    kingdom.UserId = this.User.Claims.ToList()[0].Value;
+                    this.kingdomsRepository.HardDelete(editName);
+                    kingdom.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                     await this.kingdomsRepository.AddAsync(kingdom);
                     await this.kingdomsRepository.SaveChangesAsync();
                 }
@@ -263,7 +228,7 @@
                 return this.NotFound();
             }
 
-            if (this.User.Claims.ToList()[0].Value != result.UserId)
+            if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) != result.UserId)
             {
                 return this.Redirect("/Home/ErrorPage");
             }

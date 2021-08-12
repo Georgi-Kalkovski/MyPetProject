@@ -55,6 +55,7 @@
         }
 
         // GET: Foods/Details/{name}
+        [HttpGet("/Foods/Details/{name}")]
         public async Task<IActionResult> Details(string name)
         {
             if (name == null)
@@ -175,7 +176,7 @@
                         currentFood.Name = name;
                     }
 
-                    this.foodsRepository.Delete(editName);
+                    this.foodsRepository.HardDelete(editName);
                     food.UserId = this.User.Claims.ToList()[0].Value;
                     await this.foodsRepository.AddAsync(food);
                     await this.foodsRepository.SaveChangesAsync();

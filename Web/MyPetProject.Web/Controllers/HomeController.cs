@@ -50,6 +50,55 @@
             return this.View();
         }
 
+        public IActionResult About()
+        {
+            return this.View();
+        }
+
+        public IActionResult Contact()
+        {
+            return this.View();
+        }
+
+        // GET: /HomeAnimals
+        [HttpGet("/HomeAnimals")]
+        public async Task<IActionResult> HomeAnimals()
+        {
+            var result = this.kingdomsRepository
+                .All()
+                .Include(k => k.User)
+                .Where(a => a.IsPet == true)
+                .OrderBy(x => x.Name);
+
+            return this.View(await result.ToListAsync());
+        }
+
+        // GET: /FarmAnimals
+        [HttpGet("/FarmAnimals")]
+        public async Task<IActionResult> FarmAnimals()
+        {
+            var result = this.kingdomsRepository
+                .All()
+                .Include(k => k.User)
+                .Where(a => a.IsFarm == true)
+                .OrderBy(x => x.Name);
+
+            return this.View(await result.ToListAsync());
+        }
+
+        // GET: /WildAnimals
+        [HttpGet("/WildAnimals")]
+        public async Task<IActionResult> WildAnimals()
+        {
+            var result = this.kingdomsRepository
+                .All()
+                .Include(k => k.User)
+                .Where(a => a.IsPet == false && a.IsFarm == false)
+                .OrderBy(x => x.Name);
+
+            return this.View(await result.ToListAsync());
+        }
+
         public async Task<IActionResult> SearchAsync()
         {
             var searchResult = new SearchViewModel();
@@ -61,12 +110,6 @@
             searchResult.Foods = this.foodsRepository.All();
 
             return this.View(searchResult);
-
-            //var result = this.kingdomsRepository
-            //    .All()
-            //    .OrderBy(x => x.Name);
-            //
-            //return this.View(await result.ToListAsync());
         }
 
         public IActionResult ErrorPage()

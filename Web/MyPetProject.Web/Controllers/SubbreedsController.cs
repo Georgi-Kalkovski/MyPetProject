@@ -1,6 +1,7 @@
 ﻿namespace MyPetProject.Web.Controllers
 {
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,17 @@
             this.subbreedsRepository = subbreedsRepository;
             this.breedsRepository = breedsRepository;
             this.kingdomsRepository = kingdomsRepository;
+        }
+
+        // GET: Subbreeds
+        public async Task<IActionResult> Index()
+        {
+            var result = this.subbreedsRepository
+                .All()
+                .Include(k => k.User)
+                .OrderBy(x => x.Name);
+
+            return this.View(await result.ToListAsync());
         }
 
         // GET: Subbreeds/{name}
@@ -51,6 +63,7 @@
         }
 
         // GET: Subbreeds/Details/{name}
+        [HttpGet("/Subbreeds/Details/{name}")]
         public async Task<IActionResult> Details(string name)
         {
             if (name == null)
@@ -58,18 +71,25 @@
                 return this.NotFound();
             }
 
-            var subbreed = await this.subbreedsRepository
+            var result = await this.subbreedsRepository
                 .All()
                 .Include(s => s.Breed)
                 .Include(s => s.User)
                 .FirstOrDefaultAsync(m => m.Name == name);
 
-            if (subbreed == null)
+            if (result == null)
             {
                 return this.NotFound();
             }
 
-            return this.View(subbreed);
+            var list = this.kingdomsRepository.All().ToList();
+
+            this.ViewData["Group"] = list.FirstOrDefault(x => x.Name == result.KingdomName).Group;
+            this.ViewData["Diet"] = list.FirstOrDefault(x => x.Name == result.KingdomName).Diet;
+            this.ViewData["IsPet"] = list.FirstOrDefault(x => x.Name == result.KingdomName).IsPet;
+            this.ViewData["IsFarm"] = list.FirstOrDefault(x => x.Name == result.KingdomName).IsFarm;
+
+            return this.View(result);
         }
 
         // GET: Subbreeds/Create
@@ -97,7 +117,7 @@
         {
             if (this.ModelState.IsValid)
             {
-                subbreed.UserId = this.User.Claims.ToList()[0].Value;
+                subbreed.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 await this.subbreedsRepository.AddAsync(subbreed);
                 await this.subbreedsRepository.SaveChangesAsync();
                 return this.RedirectToAction(subbreed.BreedName);
@@ -134,7 +154,7 @@
                 return this.NotFound();
             }
 
-            if (this.User.Claims.ToList()[0].Value != result.UserId)
+            if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) != result.UserId)
             {
                 return this.Redirect("/Home/ErrorPage");
             }
@@ -172,8 +192,8 @@
                         animal.Name = name;
                     }
 
-                    this.subbreedsRepository.Delete(editName);
-                    subbreed.UserId = this.User.Claims.ToList()[0].Value;
+                    this.subbreedsRepository.HardDelete(editName);
+                    subbreed.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                     await this.subbreedsRepository.AddAsync(subbreed);
                     await this.subbreedsRepository.SaveChangesAsync();
                 }
@@ -223,7 +243,7 @@
                 return this.NotFound();
             }
 
-            if (this.User.Claims.ToList()[0].Value != result.UserId)
+            if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) != result.UserId)
             {
                 return this.Redirect("/Home/ErrorPage");
             }

@@ -1,6 +1,7 @@
 ﻿namespace MyPetProject.Web.Controllers
 {
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -53,6 +54,7 @@
         }
 
         // GET: Breeds/Details/{name}
+        [HttpGet("/Breeds/Details/{name}")]
         public async Task<IActionResult> Details(string name)
         {
             if (name == null)
@@ -69,6 +71,13 @@
             {
                 return this.NotFound();
             }
+
+            var list = this.kingdomsRepository.All().ToList();
+
+            this.ViewData["Group"] = list.FirstOrDefault(x => x.Name == result.KingdomName).Group;
+            this.ViewData["Diet"] = list.FirstOrDefault(x => x.Name == result.KingdomName).Diet;
+            this.ViewData["IsPet"] = list.FirstOrDefault(x => x.Name == result.KingdomName).IsPet;
+            this.ViewData["IsFarm"] = list.FirstOrDefault(x => x.Name == result.KingdomName).IsFarm;
 
             return this.View(result);
         }
@@ -95,7 +104,7 @@
         {
             if (this.ModelState.IsValid)
             {
-                breed.UserId = this.User.Claims.ToList()[0].Value;
+                breed.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 await this.breedsRepository.AddAsync(breed);
                 await this.breedsRepository.SaveChangesAsync();
                 return this.RedirectToAction(breed.KingdomName);
@@ -130,7 +139,7 @@
                 return this.NotFound();
             }
 
-            if (this.User.Claims.ToList()[0].Value != result.UserId)
+            if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) != result.UserId)
             {
                 return this.Redirect("/Home/ErrorPage");
             }
@@ -167,8 +176,8 @@
                         animals.BreedName = name;
                     }
 
-                    this.breedsRepository.Delete(editName);
-                    breed.UserId = this.User.Claims.ToList()[0].Value;
+                    this.breedsRepository.HardDelete(editName);
+                    breed.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                     await this.breedsRepository.AddAsync(breed);
                     await this.breedsRepository.SaveChangesAsync();
                 }
@@ -217,7 +226,7 @@
                 return this.NotFound();
             }
 
-            if (this.User.Claims.ToList()[0].Value != result.UserId)
+            if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) != result.UserId)
             {
                 return this.Redirect("/Home/ErrorPage");
             }

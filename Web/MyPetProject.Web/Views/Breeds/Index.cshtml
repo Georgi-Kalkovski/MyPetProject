@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<MyPetProject.Data.Models.Breed>
 
 @{
+    var back = "Kingdoms";
     var modelName = "Breed";
     var nextModelName = "Subbreeds";
 
@@ -49,7 +50,7 @@
             </p>
         }
         <p>
-            <a href="javascript:history.back()">Go Back</a>
+            <a asp-controller="@back" asp-action="Index">Go Back</a>
         </p>
 
         <table class="table">

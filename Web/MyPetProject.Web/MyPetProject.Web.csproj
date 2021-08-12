@@ -53,4 +53,15 @@
     <ProjectReference Include="..\MyPetProject.Web.Infrastructure\MyPetProject.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\MyPetProject.Web.ViewModels\MyPetProject.Web.ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Foods\Details.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\FoodTypes\Details.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

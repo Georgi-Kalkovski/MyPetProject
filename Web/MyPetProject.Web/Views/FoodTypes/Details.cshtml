@@ -5,63 +5,61 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+@section Scripts
+{
+    <link href="~/css/details.css" rel="stylesheet" />
+}
 
-<div>
-    <h4>FoodType</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PicUrl)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PicUrl)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.User)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.User.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeletedOn)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeletedOn)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedOn)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedOn)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ModifiedOn)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ModifiedOn)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+@{
+    var modelName = "Kingdoms";
+
+    var name = Model.Name;
+    var picture = Model.PicUrl;
+    var description = Model.Description;
+    var user = Model.UserId;
+
+    <div class="d-flex h-100 text-center">
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+            <main class="card px-5 nav flexing" style="border-radius: 50px;">
+
+                <h3>Kingdom</h3>
+                <h1>@name</h1>
+                <p class="lead mx-auto d-block" style="max-width: 70%; height: auto;">
+                    @if (!picture.StartsWith("http"))
+                    {
+                        if (!picture.EndsWith(".jpg") && !picture.EndsWith(".png") && !picture.EndsWith(".jpeg"))
+                        {
+                            <img class="card-img" src="~/img/no-image.png" alt="Card image cap">
+                        }
+                        else
+                        {
+                            <img class="card-img" src="~/img/@modelName/@picture" alt="Card image cap">
+                        }
+                    }
+                    else
+                    {
+                        <img class="card-img" src="@picture" alt="Card image cap">
+                    }
+                </p>
+                <p class="lead">@description</p>
+
+                <p class="lead">
+                    <a asp-action="Index" class="btn btn-primary">Go Back</a>
+                    @{
+                        var userId = "";
+                        if (this.User.Claims.Any())
+                        {
+                            userId = this.User.Claims.ToList()[0].Value;
+                            if (user == userId)
+                            {
+                                <a asp-action="Edit" asp-route-id="@name" class="btn btn-warning">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@name" class="btn btn-danger">Delete</a>
+                            }
+                        }
+                    }
+                </p>
+            </main>
+        </div>
+    </div>
+}
