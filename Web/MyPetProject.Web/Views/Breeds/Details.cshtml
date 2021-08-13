@@ -64,7 +64,7 @@
                 <p class="lead">@description</p>
 
                 <p class="lead">
-                    <a asp-action="Index" class="btn btn-primary">Go Back</a>
+                    <a href="javascript:history.back()" class="btn btn-primary">Go Back</a>
                     @{
                         var userId = "";
                         if (this.User.Claims.Any())

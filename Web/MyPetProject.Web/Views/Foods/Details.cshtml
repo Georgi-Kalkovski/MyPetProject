@@ -11,23 +11,22 @@
 }
 
 @{
-    var modelName = "Kingdoms";
+    var modelName = "Foods";
+    var parentModel = "FoodTypes";
 
     var name = Model.Name;
     var picture = Model.PicUrl;
     var description = Model.Description;
-    var group = Model.Group;
-    var diet = Model.Diet;
-    var isPet = Model.IsPet;
-    var isFarm = Model.IsFarm;
+    var foodType = Model.FoodTypeName;
     var user = Model.UserId;
+
 
     <div class="d-flex h-100 text-center">
         <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
 
             <main class="card px-5 nav flexing" style="border-radius: 50px;">
 
-                <h3>Kingdom</h3>
+                <h3>Food</h3>
                 <h1>@name</h1>
                 <p class="lead mx-auto d-block" style="max-width: 70%; height: auto;">
                     @if (!picture.StartsWith("http"))
@@ -46,17 +45,11 @@
                         <img class="card-img" src="@picture" alt="Card image cap">
                     }
                 </p>
-                <p class="lead">Group: <a href="~/@modelName/@group">@group</a>  |  Diet: <a href="~/@modelName/@diet">@diet</a></p>
-                <p class="lead">
-                    Is it <a href="~/HomeAnimals">Pet</a> Animal ? : @isPet
-                </p>
-                <p class="lead">
-                    Is it <a href="~/FarmAnimals">Farm</a> Animal ? : @isFarm
-                </p>
+                <p class="lead">Group: <a href="~/@parentModel/@foodType">@foodType</a>
                 <p class="lead">@description</p>
 
                 <p class="lead">
-                    <a asp-action="Index" class="btn btn-primary">Go Back</a>
+                    <a href="javascript:history.back()" class="btn btn-primary">Go Back</a>
                     @{
                         var userId = "";
                         if (this.User.Claims.Any())

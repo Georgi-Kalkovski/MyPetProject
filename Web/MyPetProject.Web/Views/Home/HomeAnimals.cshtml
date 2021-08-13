@@ -12,7 +12,7 @@
         lastSection = lastSection.Replace("%20", " ");
     }
 
-    ViewData["Title"] = modelName + "s";
+    ViewData["Title"] = "Home Animals";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
         @if (!Model.Any())
@@ -33,7 +33,7 @@
         {
             if (sectionCount == 2)
             {
-                <h1>@(modelName + "s")</h1>
+<h1>Home Animals</h1>
             }
             if (sectionCount == 3)
             {

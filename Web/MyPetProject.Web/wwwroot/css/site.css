@@ -126,15 +126,15 @@ div.card.style {
     text-decoration: none;
 }
 
-#backToTop h3 {
-    padding-top: 10px;
-    color: #fff;
-}
+    #backToTop h3 {
+        padding-top: 10px;
+        color: #fff;
+    }
 
-#backToTop:hover {
-    background: #292929;
-    color: #fff;
-}
+    #backToTop:hover {
+        background: #292929;
+        color: #fff;
+    }
 
 /* Search menu */
 #secondMenu a.active span {
@@ -150,16 +150,16 @@ div.card.style {
     transition: background-color .3s;
 }
 
-/* Style the active/current link */
-.pagination a.active {
-    background-color: black;
-    color: white;
-}
+    /* Style the active/current link */
+    .pagination a.active {
+        background-color: black;
+        color: white;
+    }
 
-/* Add a grey background color on mouse-over */
-.pagination a:hover:not(.active) {
-    background-color: #ddd;
-}
+    /* Add a grey background color on mouse-over */
+    .pagination a:hover:not(.active) {
+        background-color: #ddd;
+    }
 
 .dataTables_paginate a {
     color: #0366d6;
@@ -169,18 +169,18 @@ div.card.style {
     transition: background-color .3s;
 }
 
-.dataTables_paginate a:hover {
-    color: black;
-    float: left;
-    padding: 8px 16px;
-    text-decoration: none;
-    transition: background-color .3s;
-}
+    .dataTables_paginate a:hover {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+    }
 
-.dataTables_paginate a:current {
-    background-color: dodgerblue;
-    color: white;
-}
+    .dataTables_paginate a:current {
+        background-color: dodgerblue;
+        color: white;
+    }
 
 div a span paginate_button a:current {
     background-color: dodgerblue;
@@ -206,9 +206,13 @@ a {
     --bs-table-striped-bg: #b8cde0;
 }
 
-a:hover {
-    cursor: pointer;
+a {
+    text-decoration: none;
 }
+
+    a:hover {
+        cursor: pointer;
+    }
 
 td:hover {
     cursor: pointer;
@@ -249,4 +253,14 @@ td:hover {
 .nav {
     position: sticky;
     top: 70px;
+}
+
+#copyright {
+    position: absolute;
+    width: 44px;
+    color: #ffc107;
+    border-radius: 50%;
+    bottom: 30px;
+    left: 40px;
+    z-index: 11;
 }

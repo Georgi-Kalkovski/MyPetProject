@@ -26,6 +26,7 @@
                 <p> <a asp-action="Create">Create New @(lastSection + " " + modelName)</a></p>
                 <p style="margin: 0 8px;"> or </p>
             }
+            <p><a href="javascript:history.back()">Go Back</a></p>
         </div>
     }
     else
@@ -45,6 +46,9 @@
                 <a asp-action="Create">Create New @(modelName)</a>
             </p>
         }
+        <p>
+            <a href="javascript:history.back()">Go Back</a>
+        </p>
 
         <table class="table">
             <tbody>

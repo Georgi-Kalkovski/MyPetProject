@@ -8,6 +8,7 @@
     using MyPetProject.Data.Common.Repositories;
     using MyPetProject.Data.Models;
     using MyPetProject.Web.ViewModels;
+    using MyPetProject.Web.ViewModels.MyCollection;
     using MyPetProject.Web.ViewModels.Search;
 
     public class HomeController : BaseController
@@ -17,22 +18,19 @@
         private readonly IDeletableEntityRepository<Subbreed> subbreedsRepository;
         private readonly IDeletableEntityRepository<FoodType> foodtypesRepository;
         private readonly IDeletableEntityRepository<Food> foodsRepository;
-        private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
 
         public HomeController(
             IDeletableEntityRepository<Kingdom> kingdomsRepository,
             IDeletableEntityRepository<Breed> breedsRepository,
             IDeletableEntityRepository<Subbreed> subbreedsRepository,
             IDeletableEntityRepository<FoodType> foodtypesRepository,
-            IDeletableEntityRepository<Food> foodsRepository,
-            IDeletableEntityRepository<ApplicationUser> usersRepository)
+            IDeletableEntityRepository<Food> foodsRepository)
         {
             this.kingdomsRepository = kingdomsRepository;
             this.breedsRepository = breedsRepository;
             this.subbreedsRepository = subbreedsRepository;
             this.foodtypesRepository = foodtypesRepository;
             this.foodsRepository = foodsRepository;
-            this.usersRepository = usersRepository;
         }
 
         public IActionResult Index()
@@ -99,17 +97,32 @@
             return this.View(await result.ToListAsync());
         }
 
+        [HttpGet("/Search")]
         public async Task<IActionResult> SearchAsync()
         {
-            var searchResult = new SearchViewModel();
+            var result = new SearchViewModel();
 
-            searchResult.Kingdoms = this.kingdomsRepository.All();
-            searchResult.Breeds = this.breedsRepository.All();
-            searchResult.Subbreeds = this.subbreedsRepository.All();
-            searchResult.FoodTypes = this.foodtypesRepository.All();
-            searchResult.Foods = this.foodsRepository.All();
+            result.Kingdoms = this.kingdomsRepository.All();
+            result.Breeds = this.breedsRepository.All();
+            result.Subbreeds = this.subbreedsRepository.All();
+            result.FoodTypes = this.foodtypesRepository.All();
+            result.Foods = this.foodsRepository.All();
 
-            return this.View(searchResult);
+            return this.View(result);
+        }
+
+        [HttpGet("/MyCollection")]
+        public async Task<IActionResult> MyCollection()
+        {
+            var result = new MyCollectionViewModel();
+
+            result.Kingdoms = this.kingdomsRepository.All().Where(x => x.UserId == this.User.Claims.ToList()[0].Value);
+            result.Breeds = this.breedsRepository.All().Where(x => x.UserId == this.User.Claims.ToList()[0].Value);
+            result.Subbreeds = this.subbreedsRepository.All().Where(x => x.UserId == this.User.Claims.ToList()[0].Value);
+            result.FoodTypes = this.foodtypesRepository.All().Where(x => x.UserId == this.User.Claims.ToList()[0].Value);
+            result.Foods = this.foodsRepository.All().Where(x => x.UserId == this.User.Claims.ToList()[0].Value);
+
+            return this.View(result);
         }
 
         public IActionResult ErrorPage()

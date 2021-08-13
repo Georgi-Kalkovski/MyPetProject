@@ -80,8 +80,59 @@
         </main>
     </div>
 
-    <footer class="page-footer border-top footer text-muted navbar-fixed-bottom" style="margin-bottom: -90px; background-color: white;">
-        <div class="container text-center">
+    <footer class="page-footer border-top footer text-muted navbar-fixed-bottom text-center" style="margin-bottom: -100px; background-color: white; list-style-type: none; line-height:1">
+
+        <nav class="navbar navbar-expand-sm bg-white dropup" style="border-style: none; display: inline-block;">
+
+            <ul class="navbar navbar-expand-sm bg-white navbar-nav flex-grow-1 justify-content-start dropup" style="border-style: none;">
+
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Groups">Groups</a>
+                </li>
+                <li class="dropdown">
+                    <button class="btn dropdown-toggle nav-link text-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="dropdownMenu">Categories</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Kingdoms" asp-action="Index">Kingdoms</a>
+                        <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Breeds" asp-action="Index">Breeds</a>
+                        <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Subbreeds" asp-action="Index">Subbreeds</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <button class="btn dropdown-toggle nav-link text-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="dropdownMenu">Animals</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Home" asp-action="HomeAnimals">Home Animals</a>
+                        <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Home" asp-action="FarmAnimals">Farm Animals</a>
+                        <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Home" asp-action="WildAnimals">Wild Animals</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <button class="btn dropdown-toggle nav-link text-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="dropdownMenu">Foods</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="FoodTypes" asp-action="Index">Food Types</a>
+                        <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Foods" asp-action="Index">Foods</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Search">Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contact">Contact Us</a>
+                </li>
+            </ul>
+        </nav>
+        <div id="copyright">
             &copy; @DateTime.UtcNow.Year - @GlobalConstants.SystemName
         </div>
 
