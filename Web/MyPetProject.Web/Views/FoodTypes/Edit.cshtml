@@ -4,38 +4,40 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="row justify-content-md-center text-center">
+    <div class="col-4">
+        <h1>Edit</h1>
+        <h2>@Model.Name</h2>
 
-<h1 class="text-warning">Edit</h1>
-<h2>@Model.Name</h2>
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" placeholder="Name of the food type..." />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PicUrl" class="control-label">Picture</label>
+                        <input asp-for="PicUrl" class="form-control" placeholder="Url Picture of the food type..." />
+                        <span asp-validation-for="PicUrl" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <textarea asp-for="Description" type="text" class="form-control" style="height: calc(2.5em + 4.75rem + 2px);" placeholder="Description of the food type..."></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" placeholder="Name of the food type..." />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PicUrl" class="control-label">Picture</label>
-                <input asp-for="PicUrl" class="form-control" placeholder="Url Picture of the food type..." />
-                <span asp-validation-for="PicUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" type="text" class="form-control" style="height: calc(2.5em + 4.75rem + 2px);" placeholder="Description of the food type..."></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        <div>
+            <a href="javascript:history.back()">Go Back</a>
+        </div>
     </div>
 </div>
-
-<div>
-    <a href="javascript:history.back()">Go Back</a>
-</div>
-

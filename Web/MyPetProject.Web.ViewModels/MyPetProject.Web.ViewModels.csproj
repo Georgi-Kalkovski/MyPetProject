@@ -23,4 +23,8 @@
     <ProjectReference Include="..\..\Services\MyPetProject.Services.Mapping\MyPetProject.Services.Mapping.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Kingdoms\" />
+  </ItemGroup>
+
 </Project>

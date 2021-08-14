@@ -27,19 +27,60 @@
         }
 
         // GET: Kingdoms
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index() => await this.IndexWithoutNameMethod();
+
+        // GET: Kingdoms/{name}
+        [HttpGet("/Kingdoms/{name}")]
+        public async Task<IActionResult> Index(string name) => await this.IndexWithNameMethod(name);
+
+        // GET: Kingdoms/Details/{name}
+        [HttpGet("/Kingdoms/Details/{name}")]
+        public async Task<IActionResult> Details(string name) => await this.DetailsMethod(name);
+
+        // GET: Kingdoms/Create
+        [HttpGet("/Kingdoms/Create/")]
+        public IActionResult Create() => this.CreateGet();
+
+        // POST: Kingdoms/Create
+        [HttpPost("/Kingdoms/Create/")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(
+        [Bind("Name,PicUrl,Description,Group,Diet,IsPet,IsFarm,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")]
+        Kingdom kingdom) => await this.CreatePost(kingdom);
+
+        // GET: Kingdoms/Edit/{name}
+        [HttpGet("/Kingdoms/Edit/{name}")]
+        public async Task<IActionResult> Edit(string name) => await this.EditGet(name);
+
+        // POST: Kingdoms/Edit/{name}
+        [HttpPost("/Kingdoms/Edit/{name}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(
+        string name,
+        [Bind("Name,PicUrl,Description,Group,Diet,IsPet,IsFarm,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")]
+        Kingdom kingdom) => await this.EditPost(name, kingdom);
+
+        // GET: Kingdoms/Delete/{name}
+        [HttpGet("/Kingdoms/Delete/{name}")]
+        public async Task<IActionResult> Delete(string name) => await this.DeleteGet(name);
+
+        // POST: Kingdoms/Delete/{name}
+        [HttpPost("/Kingdoms/Delete/{name}")]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int? id, string name) => await this.DeletePost(id);
+
+        private async Task<IActionResult> IndexWithoutNameMethod()
         {
             var result = this.kingdomsRepository
-                .All()
-                .Include(k => k.User)
-                .OrderBy(x => x.Name);
+                            .All()
+                            .Include(k => k.User)
+                            .OrderBy(x => x.Name);
 
             return this.View(await result.ToListAsync());
         }
 
-        // GET: Kingdoms/{name}
-        [HttpGet("/Kingdoms/{name}")]
-        public async Task<IActionResult> Index(string name)
+        private async Task<IActionResult> IndexWithNameMethod(string name)
         {
             var oldName = this.HttpContext.Request.Path.Value.Split("/").Last();
 
@@ -65,9 +106,7 @@
             }
         }
 
-        // GET: Kingdoms/Details/{name}
-        [HttpGet("/Kingdoms/Details/{name}")]
-        public async Task<IActionResult> Details(string name)
+        private async Task<IActionResult> DetailsMethod(string name)
         {
             if (name == null)
             {
@@ -87,9 +126,7 @@
             return this.View(result);
         }
 
-        // GET: Kingdoms/Create
-        [HttpGet("/Kingdoms/Create/")]
-        public IActionResult Create()
+        private IActionResult CreateGet()
         {
             if (!this.User.Claims.Any())
             {
@@ -100,11 +137,7 @@
             return this.View();
         }
 
-        // POST: Kingdoms/Create
-        [HttpPost("/Kingdoms/Create/")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-            [Bind("Name,PicUrl,Description,Group,Diet,IsPet,IsFarm,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
+        private async Task<IActionResult> CreatePost(Kingdom kingdom)
         {
             if (this.ModelState.IsValid)
             {
@@ -122,9 +155,7 @@
             return this.View(kingdom);
         }
 
-        // GET: Kingdoms/Edit/{name}
-        [HttpGet("/Kingdoms/Edit/{name}")]
-        public async Task<IActionResult> Edit(string name)
+        private async Task<IActionResult> EditGet(string name)
         {
             if (!this.User.Claims.Any())
             {
@@ -154,11 +185,7 @@
             return this.View(result);
         }
 
-        // POST: Kingdoms/Edit/{name}
-        [HttpPost("/Kingdoms/Edit/{name}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(
-            string name, [Bind("Name,PicUrl,Description,Group,Diet,IsPet,IsFarm,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Kingdom kingdom)
+        private async Task<IActionResult> EditPost(string name, Kingdom kingdom)
         {
             if (name != kingdom.Name)
             {
@@ -204,9 +231,7 @@
             return this.View(kingdom);
         }
 
-        // GET: Kingdoms/Delete/{name}
-        [HttpGet("/Kingdoms/Delete/{name}")]
-        public async Task<IActionResult> Delete(string name)
+        private async Task<IActionResult> DeleteGet(string name)
         {
             if (!this.User.Claims.Any())
             {
@@ -236,15 +261,19 @@
             return this.View(result);
         }
 
-        // POST: Kingdoms/Delete/{name}
-        [HttpPost("/Kingdoms/Delete/{name}")]
-        [ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int? id, string name)
+
+
+
+
+
+
+
+
+        private async Task<IActionResult> DeletePost(int? id)
         {
             var result = await this.kingdomsRepository
-                .All()
-                .FirstAsync(x => x.Id == id);
+                            .All()
+                            .FirstAsync(x => x.Id == id);
 
             this.kingdomsRepository.Delete(result);
             await this.kingdomsRepository.SaveChangesAsync();
@@ -258,5 +287,6 @@
                 .All()
                 .Any(e => e.Name == name);
         }
+
     }
 }

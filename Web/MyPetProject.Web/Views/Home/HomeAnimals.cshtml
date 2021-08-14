@@ -82,7 +82,7 @@
                                             {
                                                 <a asp-controller="@(nextModelName)" asp-action="@item.Name" class="btn btn-primary">Group</a>
                                             }
-                                            <a asp-action="Details" asp-route-id="@item.Name" class="btn btn-primary">Details</a>
+                                            <a asp-controller="@(modelName + "s")" asp-action="Details" asp-route-id="@item.Name" class="btn btn-primary">Details</a>
                                             @{
                                                 var userId = "";
                                                 if (this.User.Claims.Any())

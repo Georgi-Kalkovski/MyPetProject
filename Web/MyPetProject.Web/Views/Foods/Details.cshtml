@@ -29,20 +29,16 @@
                 <h3>Food</h3>
                 <h1>@name</h1>
                 <p class="lead mx-auto d-block" style="max-width: 70%; height: auto;">
-                    @if (!picture.StartsWith("http"))
+                    @if (!picture.StartsWith("http") &&
+                     !picture.EndsWith(".jpg") &&
+                     !picture.EndsWith(".png") &&
+                     !picture.EndsWith(".jpeg"))
                     {
-                        if (!picture.EndsWith(".jpg") && !picture.EndsWith(".png") && !picture.EndsWith(".jpeg"))
-                        {
-                            <img class="card-img" src="~/img/no-image.png" alt="Card image cap">
-                        }
-                        else
-                        {
-                            <img class="card-img" src="~/img/@modelName/@picture" alt="Card image cap">
-                        }
+                        <img class="card-img-top" src="~/img/no-image.png" alt="Card image cap">
                     }
                     else
                     {
-                        <img class="card-img" src="@picture" alt="Card image cap">
+                        <img class="card-img-top" src="@picture" alt="Card image cap">
                     }
                 </p>
                 <p class="lead">Group: <a href="~/@parentModel/@foodType">@foodType</a>

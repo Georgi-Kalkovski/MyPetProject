@@ -27,7 +27,50 @@
         }
 
         // GET: Subbreeds
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index() => await this.IndexWithoutNameMethod();
+
+        // GET: Subbreeds/{name}
+        [HttpGet("/Subbreeds/{name}")]
+        public async Task<IActionResult> Index(string name) => await this.IndexWithNameMethod(name);
+
+        // GET: Subbreeds/Details/{name}
+        [HttpGet("/Subbreeds/Details/{name}")]
+        public async Task<IActionResult> Details(string name) => await this.DetailsMethod(name);
+
+        // GET: Subbreeds/Create
+        [HttpGet("/Subbreeds/Create/")]
+        public IActionResult Create() => this.CreateGet();
+
+        // POST: Subbreeds/Create
+        [HttpPost("/Subbreeds/Create/")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(
+        [Bind("Name,PicUrl,Description,BreedName,KingdomName,IsPet,IsFarm,BreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")]
+        Subbreed subbreed) => await this.CreatePost(subbreed);
+
+        // GET: Subbreeds/Edit/{name}
+        [HttpGet("/Subbreeds/Edit/{name}")]
+        public async Task<IActionResult> Edit(string name) => await this.EditGet(name);
+
+        // POST: Breeds/Edit/{name}
+        [HttpPost("/Subbreeds/Edit/{name}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(
+        string name,
+        [Bind("Name,PicUrl,Description,BreedName,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")]
+        Subbreed subbreed) => await this.EditPost(name, subbreed);
+
+        // GET: Subbreeds/Delete/{name}
+        [HttpGet("/Subbreeds/Delete/{name}")]
+        public async Task<IActionResult> Delete(string name) => await this.DeleteGet(name);
+
+        // POST: Subbreeds/Delete/{name}
+        [HttpPost("/Subbreeds/Delete/{name}")]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string name) => await this.DeletePost(name);
+
+        private async Task<IActionResult> IndexWithoutNameMethod()
         {
             var result = this.subbreedsRepository
                 .All()
@@ -37,9 +80,7 @@
             return this.View(await result.ToListAsync());
         }
 
-        // GET: Subbreeds/{name}
-        [HttpGet("/Subbreeds/{name}")]
-        public async Task<IActionResult> Index(string name)
+        private async Task<IActionResult> IndexWithNameMethod(string name)
         {
             if (name.Contains(" "))
             {
@@ -62,9 +103,7 @@
             }
         }
 
-        // GET: Subbreeds/Details/{name}
-        [HttpGet("/Subbreeds/Details/{name}")]
-        public async Task<IActionResult> Details(string name)
+        private async Task<IActionResult> DetailsMethod(string name)
         {
             if (name == null)
             {
@@ -92,9 +131,7 @@
             return this.View(result);
         }
 
-        // GET: Subbreeds/Create
-        [HttpGet("/Subbreeds/Create/")]
-        public IActionResult Create()
+        private IActionResult CreateGet()
         {
             if (!this.User.Claims.Any())
             {
@@ -109,11 +146,7 @@
             return this.View();
         }
 
-        // POST: Subbreeds/Create
-        [HttpPost("/Subbreeds/Create/")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-            [Bind("Name,PicUrl,Description,BreedName,KingdomName,IsPet,IsFarm,BreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Subbreed subbreed)
+        private async Task<IActionResult> CreatePost(Subbreed subbreed)
         {
             if (this.ModelState.IsValid)
             {
@@ -131,9 +164,7 @@
             return this.View(subbreed);
         }
 
-        // GET: Subbreeds/Edit/{name}
-        [HttpGet("/Subbreeds/Edit/{name}")]
-        public async Task<IActionResult> Edit(string name)
+        private async Task<IActionResult> EditGet(string name)
         {
             if (!this.User.Claims.Any())
             {
@@ -166,11 +197,7 @@
             return this.View(result);
         }
 
-        // POST: Breeds/Edit/{name}
-        [HttpPost("/Subbreeds/Edit/{name}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(
-            string name, [Bind("Name,PicUrl,Description,BreedName,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Subbreed subbreed)
+        private async Task<IActionResult> EditPost(string name, Subbreed subbreed)
         {
             if (name != subbreed.Name)
             {
@@ -219,9 +246,7 @@
             return this.View(subbreed);
         }
 
-        // GET: Subbreeds/Delete/{name}
-        [HttpGet("/Subbreeds/Delete/{name}")]
-        public async Task<IActionResult> Delete(string name)
+        private async Task<IActionResult> DeleteGet(string name)
         {
             if (!this.User.Claims.Any())
             {
@@ -251,15 +276,11 @@
             return this.View(result);
         }
 
-        // POST: Subbreeds/Delete/{name}
-        [HttpPost("/Subbreeds/Delete/{name}")]
-        [ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string name)
+        private async Task<IActionResult> DeletePost(string name)
         {
             var result = await this.subbreedsRepository
-                .All()
-                .FirstOrDefaultAsync(x => x.Name == name);
+                            .All()
+                            .FirstOrDefaultAsync(x => x.Name == name);
 
             this.subbreedsRepository.Delete(result);
             await this.subbreedsRepository.SaveChangesAsync();

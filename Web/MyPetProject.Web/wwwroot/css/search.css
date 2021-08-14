@@ -84,3 +84,7 @@ span {
 #secondMenu a.active span {
     background-color: #5486b6;
 }
+
+#kingdoms_filter.label.text {
+    margin-left:10px
+}

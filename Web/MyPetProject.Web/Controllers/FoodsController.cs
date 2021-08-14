@@ -6,7 +6,6 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
-    using MyPetProject.Data;
     using MyPetProject.Data.Common.Repositories;
     using MyPetProject.Data.Models;
 
@@ -30,33 +29,61 @@
         }
 
         // GET: Foods
-        public async Task<IActionResult> Index()
-        {
-            var applicationDbContext = this.foodsRepository
-                .All()
-                .Include(f => f.FoodType)
-                .Include(f => f.Subbreed)
-                .Include(f => f.User);
-
-            return this.View(await applicationDbContext.ToListAsync());
-        }
+        public async Task<IActionResult> Index() => await this.IndexWithoutNameMethod();
 
         // GET: Foods/{name}
         [HttpGet("/Foods/{name}")]
-        public async Task<IActionResult> Index(string name)
+        public async Task<IActionResult> Index(string name) => await this.IndexWithNameMethod(name);
+
+        // GET: Foods/Details/{name}
+        [HttpGet("/Foods/Details/{name}")]
+        public async Task<IActionResult> Details(string name) => await this.DetailsMethod(name);
+
+        // GET: Foods/Create
+        [HttpGet("/Foods/Create/")]
+        public IActionResult Create() => this.CreateGet();
+
+        // POST: Foods/Create
+        [HttpPost("/Foods/Create/")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(
+        [Bind("Name,PicUrl,Description,FoodTypeName,FoodTypeId,SubbreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")]
+        Food food) => await this.CreatePost(food);
+
+        // GET: Foods/Edit/{name}
+        [HttpGet("/Foods/Edit/{name}")]
+        public async Task<IActionResult> Edit(string name) => await this.EditGet(name);
+
+        // POST: Foods/Edit/{name}
+        [HttpPost("/Foods/Edit/{name}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(
+        string name,
+        [Bind("Name,PicUrl,Description,FoodTypeName,FoodTypeId,SubbreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")]
+        Food food) => await this.EditPost(name, food);
+
+        // GET: Foods/Delete/{name}
+        [HttpGet("/Foods/Delete/{name}")]
+        public async Task<IActionResult> Delete(string name) => await this.DeleteGet(name);
+
+        // POST: Foods/Delete/{name}
+        [HttpPost("/Foods/Delete/{name}")]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int? id, string name) => await this.DeletePost(id);
+
+        private async Task<IActionResult> IndexWithNameMethod(string name)
         {
             var result = this.foodsRepository
-                .All()
-                .Include(b => b.User)
-                .Where(x => x.FoodTypeName == name)
-                .OrderBy(x => x.Name);
+                            .All()
+                            .Include(b => b.User)
+                            .Where(x => x.FoodTypeName == name)
+                            .OrderBy(x => x.Name);
 
             return this.View(await result.ToListAsync());
         }
 
-        // GET: Foods/Details/{name}
-        [HttpGet("/Foods/Details/{name}")]
-        public async Task<IActionResult> Details(string name)
+        private async Task<IActionResult> DetailsMethod(string name)
         {
             if (name == null)
             {
@@ -78,9 +105,7 @@
             return this.View(result);
         }
 
-        // GET: Foods/Create
-        [HttpGet("/Foods/Create/")]
-        public IActionResult Create()
+        private IActionResult CreateGet()
         {
             if (!this.User.Claims.Any())
             {
@@ -94,11 +119,7 @@
             return this.View();
         }
 
-        // POST: Foods/Create
-        [HttpPost("/Foods/Create/")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-            [Bind("Name,PicUrl,Description,FoodTypeName,FoodTypeId,SubbreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Food food)
+        private async Task<IActionResult> CreatePost(Food food)
         {
             if (this.ModelState.IsValid)
             {
@@ -115,9 +136,7 @@
             return this.View(food);
         }
 
-        // GET: Foods/Edit/{name}
-        [HttpGet("/Foods/Edit/{name}")]
-        public async Task<IActionResult> Edit(string name)
+        private async Task<IActionResult> EditGet(string name)
         {
             if (!this.User.Claims.Any())
             {
@@ -150,11 +169,7 @@
             return this.View(result);
         }
 
-        // POST: Foods/Edit/{name}
-        [HttpPost("/Foods/Edit/{name}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(
-            string name, [Bind("Name,PicUrl,Description,FoodTypeName,FoodTypeId,SubbreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Food food)
+        private async Task<IActionResult> EditPost(string name, Food food)
         {
             if (name != food.Name)
             {
@@ -203,9 +218,7 @@
             return this.View(food);
         }
 
-        // GET: Foods/Delete/{name}
-        [HttpGet("/Foods/Delete/{name}")]
-        public async Task<IActionResult> Delete(string name)
+        private async Task<IActionResult> DeleteGet(string name)
         {
             if (!this.User.Claims.Any())
             {
@@ -237,15 +250,22 @@
             return this.View(result);
         }
 
-        // POST: Foods/Delete/{name}
-        [HttpPost("/Foods/Delete/{name}")]
-        [ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int? id, string name)
+        private async Task<IActionResult> IndexWithoutNameMethod()
+        {
+            var applicationDbContext = this.foodsRepository
+                            .All()
+                            .Include(f => f.FoodType)
+                            .Include(f => f.Subbreed)
+                            .Include(f => f.User);
+
+            return this.View(await applicationDbContext.ToListAsync());
+        }
+
+        private async Task<IActionResult> DeletePost(int? id)
         {
             var result = await this.foodsRepository
-                .All()
-                .FirstOrDefaultAsync(x => x.Id == id);
+                            .All()
+                            .FirstOrDefaultAsync(x => x.Id == id);
 
             this.foodsRepository.Delete(result);
             await this.foodsRepository.SaveChangesAsync();

@@ -30,32 +30,71 @@
         }
 
         // GET: Breeds
-        public async Task<IActionResult> Index()
-        {
-            var result = this.breedsRepository
-                .All()
-                .Include(b => b.User)
-                .OrderBy(x => x.Name);
-
-            return this.View(await result.ToListAsync());
-        }
+        public async Task<IActionResult> Index() => await this.IndexWithoutNameMethod();
 
         // GET: Breeds/{name}
         [HttpGet("/Breeds/{name}")]
-        public async Task<IActionResult> Index(string name)
+        public async Task<IActionResult> Index(string name) => await this.IndexWithNameMethod(name);
+
+        // GET: Breeds/Details/{name}
+        [HttpGet("/Breeds/Details/{name}")]
+        public async Task<IActionResult> Details(string name) => await this.DetailsMethod(name);
+
+        // GET: Breeds/Create
+        [HttpGet("/Breeds/Create/")]
+        public IActionResult Create() => this.CreateGet();
+
+        // POST: Breeds/Create
+        [HttpPost("/Breeds/Create/")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(
+        [Bind("Name,PicUrl,Description,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")]
+        Breed breed) => await this.CreatePost(breed);
+
+        // GET: Breeds/Edit/{name}
+        [HttpGet("/Breeds/Edit/{name}")]
+        public async Task<IActionResult> Edit(string name) => await this.EditGet(name);
+
+        // POST: Breeds/Edit/{name}
+        [HttpPost("/Breeds/Edit/{name}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(
+            string name,
+            [Bind("Name,PicUrl,Description,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")]
+            Breed breed) => await this.EditPost(name, breed);
+
+        // GET: Breeds/Delete/{name}
+        [HttpGet("/Breeds/Delete/{name}")]
+        public async Task<IActionResult> Delete(string name) => await this.DeleteGet(name);
+
+        // POST: Breeds/Delete/{name}
+        [HttpPost("/Breeds/Delete/{name}")]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string name) => await this.DeletePost(name);
+
+        private async Task<IActionResult> IndexWithoutNameMethod()
         {
             var result = this.breedsRepository
-                .All()
-                .Include(b => b.User)
-                .Where(x => x.KingdomName == name)
-                .OrderBy(x => x.Name);
+                            .All()
+                            .Include(b => b.User)
+                            .OrderBy(x => x.Name);
 
             return this.View(await result.ToListAsync());
         }
 
-        // GET: Breeds/Details/{name}
-        [HttpGet("/Breeds/Details/{name}")]
-        public async Task<IActionResult> Details(string name)
+        private async Task<IActionResult> IndexWithNameMethod(string name)
+        {
+            var result = this.breedsRepository
+                            .All()
+                            .Include(b => b.User)
+                            .Where(x => x.KingdomName == name)
+                            .OrderBy(x => x.Name);
+
+            return this.View(await result.ToListAsync());
+        }
+
+        private async Task<IActionResult> DetailsMethod(string name)
         {
             if (name == null)
             {
@@ -82,9 +121,7 @@
             return this.View(result);
         }
 
-        // GET: Breeds/Create
-        [HttpGet("/Breeds/Create/")]
-        public IActionResult Create()
+        private IActionResult CreateGet()
         {
             if (!this.User.Claims.Any())
             {
@@ -96,11 +133,7 @@
             return this.View();
         }
 
-        // POST: Breeds/Create
-        [HttpPost("/Breeds/Create/")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-            [Bind("Name,PicUrl,Description,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Breed breed)
+        private async Task<IActionResult> CreatePost(Breed breed)
         {
             if (this.ModelState.IsValid)
             {
@@ -116,9 +149,7 @@
             return this.View(breed);
         }
 
-        // GET: Breeds/Edit/{name}
-        [HttpGet("/Breeds/Edit/{name}")]
-        public async Task<IActionResult> Edit(string name)
+        private async Task<IActionResult> EditGet(string name)
         {
             if (!this.User.Claims.Any())
             {
@@ -150,11 +181,7 @@
             return this.View(result);
         }
 
-        // POST: Breeds/Edit/{name}
-        [HttpPost("/Breeds/Edit/{name}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(
-            string name, [Bind("Name,PicUrl,Description,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Breed breed)
+        private async Task<IActionResult> EditPost(string name, Breed breed)
         {
             if (name != breed.Name)
             {
@@ -202,9 +229,7 @@
             return this.View(breed);
         }
 
-        // GET: Breeds/Delete/{name}
-        [HttpGet("/Breeds/Delete/{name}")]
-        public async Task<IActionResult> Delete(string name)
+        private async Task<IActionResult> DeleteGet(string name)
         {
             if (!this.User.Claims.Any())
             {
@@ -234,15 +259,11 @@
             return this.View(result);
         }
 
-        // POST: Breeds/Delete/{name}
-        [HttpPost("/Breeds/Delete/{name}")]
-        [ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string name)
+        private async Task<IActionResult> DeletePost(string name)
         {
             var result = await this.breedsRepository
-                .All()
-                .FirstOrDefaultAsync(x => x.Name == name);
+                            .All()
+                            .FirstOrDefaultAsync(x => x.Name == name);
 
             this.breedsRepository.Delete(result);
             await this.breedsRepository.SaveChangesAsync();

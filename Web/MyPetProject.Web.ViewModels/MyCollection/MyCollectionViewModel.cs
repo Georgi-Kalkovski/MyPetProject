@@ -1,10 +1,9 @@
-﻿using MyPetProject.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MyPetProject.Web.ViewModels.MyCollection
+﻿namespace MyPetProject.Web.ViewModels.MyCollection
 {
+    using System.Collections.Generic;
+
+    using MyPetProject.Data.Models;
+
     public class MyCollectionViewModel
     {
         public IEnumerable<Kingdom> Kingdoms { get; set; }
