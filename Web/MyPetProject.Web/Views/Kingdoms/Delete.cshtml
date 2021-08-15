@@ -4,19 +4,12 @@
     ViewData["Title"] = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var name = @Html.DisplayFor(model => model.Name);
-    var description = @Html.DisplayFor(model => model.Description);
-    var group = @Html.DisplayFor(model => model.Group);
-    var diet = @Html.DisplayFor(model => model.Diet);
-    var isPet = @Html.DisplayFor(model => model.IsPet);
-    var isFarm = @Html.DisplayFor(model => model.IsFarm);
-
-    <style>
-        [type=checkbox]::before {
-            left: 2px;
-            top: -12px;
-        }
-    </style> 
+    var name = Model.Name;
+    var description = Model.Description;
+    var group = Model.Group;
+    var diet = Model.Diet;
+    var isPet = Model.IsPet;
+    var isFarm = Model.IsFarm;
 
     <div class="row justify-content-md-center text-center">
         <div class="col-4">
@@ -30,9 +23,9 @@
                 <p>
                     <div class="card col-12 col-lg-12 game-card">
                         @if (!Model.PicUrl.StartsWith("http") &&
-                        !Model.PicUrl.EndsWith(".jpg") &&
-                        !Model.PicUrl.EndsWith(".png") &&
-                        !Model.PicUrl.EndsWith(".jpeg"))
+                      !Model.PicUrl.EndsWith(".jpg") &&
+                      !Model.PicUrl.EndsWith(".png") &&
+                      !Model.PicUrl.EndsWith(".jpeg"))
                         {
                             <img class="card-img-top" src="~/img/no-image.png" alt="Card image cap">
                         }
@@ -50,12 +43,18 @@
                         Diet : @diet
                     </div>
                 </p>
-                <div class="col-sm-12" >
-                    Is Pet Animal : @isPet
+                <div class="col-sm-12">
+                    Is Pet Animal : @if (isPet)
+                    {<span style="color:green">✔</span>}
+                    else
+                    { <span style="color:darkred">✘</span>}
                 </div>
                 <p>
                     <div class="col-sm-12">
-                        Is Farm Animal : @isFarm
+                        Is Farm Animal : @if (isFarm)
+                        {<span style="color:green">✔</span>}
+                        else
+                        { <span style="color:darkred">✘</span>}
                     </div>
                 </p>
                 <div class="col-sm-12">

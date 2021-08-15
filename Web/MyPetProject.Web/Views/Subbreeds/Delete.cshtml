@@ -9,6 +9,10 @@
     var description = Model.Description;
     var kingdomName = Model.KingdomName;
     var breedName = Model.BreedName;
+    var group = ViewBag.Group;
+    var diet = ViewBag.Diet;
+    var isPet = ViewBag.IsPet;
+    var isFarm = ViewBag.IsFarm;
 
     <div class="row justify-content-md-center text-center">
         <div class="col-4">
@@ -23,9 +27,9 @@
                     <p>
                         <div class="card col-12 col-lg-12 game-card">
                             @if (!picture.StartsWith("http") &&
-                     !picture.EndsWith(".jpg") &&
-                     !picture.EndsWith(".png") &&
-                     !picture.EndsWith(".jpeg"))
+                  !picture.EndsWith(".jpg") &&
+                  !picture.EndsWith(".png") &&
+                  !picture.EndsWith(".jpeg"))
                             {
                                 <img class="card-img-top" src="~/img/no-image.png" alt="Card image cap">
                             }
@@ -46,6 +50,21 @@
                     <div class="col-sm-12">
                         Description :   @description
                     </div>
+                    <p>
+                        <div class="col-sm-12">
+                            Is Pet Animal : @if (isPet)
+                            {<span style="color:green">✔</span>}
+                            else
+                            { <span style="color:darkred">✘</span>}
+                        </div>
+                    </p>
+                    <div class="col-sm-12">
+                        Is Farm Animal : @if (isFarm)
+                        {<span style="color:green">✔</span>}
+                        else
+                        { <span style="color:darkred">✘</span>}
+                    </div>
+
                 </div>
 
                 <h3 class="text-danger">Are you sure you want to delete this?</h3>

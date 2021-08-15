@@ -9,6 +9,7 @@
     using Microsoft.EntityFrameworkCore;
     using MyPetProject.Data.Common.Repositories;
     using MyPetProject.Data.Models;
+    using MyPetProject.Web.ViewModels.Breeds;
 
     public class BreedsController : BaseController
     {
@@ -47,9 +48,7 @@
         // POST: Breeds/Create
         [HttpPost("/Breeds/Create/")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-        [Bind("Name,PicUrl,Description,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")]
-        Breed breed) => await this.CreatePost(breed);
+        public async Task<IActionResult> Create(BreedInputModel breed) => await this.CreatePost(breed);
 
         // GET: Breeds/Edit/{name}
         [HttpGet("/Breeds/Edit/{name}")]
@@ -58,10 +57,8 @@
         // POST: Breeds/Edit/{name}
         [HttpPost("/Breeds/Edit/{name}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(
-            string name,
-            [Bind("Name,PicUrl,Description,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")]
-            Breed breed) => await this.EditPost(name, breed);
+        public async Task<IActionResult> Edit(string name, BreedInputModel breed)
+            => await this.EditPost(name, breed);
 
         // GET: Breeds/Delete/{name}
         [HttpGet("/Breeds/Delete/{name}")]
@@ -133,12 +130,19 @@
             return this.View();
         }
 
-        private async Task<IActionResult> CreatePost(Breed breed)
+        private async Task<IActionResult> CreatePost(BreedInputModel breed)
         {
             if (this.ModelState.IsValid)
             {
-                breed.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                await this.breedsRepository.AddAsync(breed);
+                var result = new Breed
+                {
+                    Name = breed.Name,
+                    PicUrl = breed.PicUrl,
+                    Description = breed.Description,
+                    UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier),
+                    KingdomName = breed.KingdomName,
+                };
+                await this.breedsRepository.AddAsync(result);
                 await this.breedsRepository.SaveChangesAsync();
                 return this.RedirectToAction(breed.KingdomName);
             }
@@ -181,7 +185,7 @@
             return this.View(result);
         }
 
-        private async Task<IActionResult> EditPost(string name, Breed breed)
+        private async Task<IActionResult> EditPost(string name, BreedInputModel breed)
         {
             if (name != breed.Name)
             {
@@ -203,9 +207,18 @@
                         animals.BreedName = name;
                     }
 
+                    var result = new Breed
+                    {
+                        Id = breed.Id,
+                        Name = breed.Name,
+                        PicUrl = breed.PicUrl,
+                        Description = breed.Description,
+                        UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier),
+                        KingdomName = breed.KingdomName,
+                    };
+
                     this.breedsRepository.HardDelete(editName);
-                    breed.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                    await this.breedsRepository.AddAsync(breed);
+                    await this.breedsRepository.AddAsync(result);
                     await this.breedsRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -255,6 +268,13 @@
             {
                 return this.Redirect("/Home/ErrorPage");
             }
+
+            var list = this.kingdomsRepository.All().ToList();
+
+            this.ViewData["Group"] = list.FirstOrDefault(x => x.Name == result.KingdomName).Group;
+            this.ViewData["Diet"] = list.FirstOrDefault(x => x.Name == result.KingdomName).Diet;
+            this.ViewData["IsPet"] = list.FirstOrDefault(x => x.Name == result.KingdomName).IsPet;
+            this.ViewData["IsFarm"] = list.FirstOrDefault(x => x.Name == result.KingdomName).IsFarm;
 
             return this.View(result);
         }

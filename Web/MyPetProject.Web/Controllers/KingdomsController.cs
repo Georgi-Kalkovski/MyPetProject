@@ -1,5 +1,6 @@
 ﻿namespace MyPetProject.Web.Controllers
 {
+    using System;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
@@ -9,6 +10,7 @@
     using Microsoft.EntityFrameworkCore;
     using MyPetProject.Data.Common.Repositories;
     using MyPetProject.Data.Models;
+    using MyPetProject.Web.ViewModels.Kingdoms;
 
     public class KingdomsController : BaseController
     {
@@ -44,9 +46,7 @@
         // POST: Kingdoms/Create
         [HttpPost("/Kingdoms/Create/")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-        [Bind("Name,PicUrl,Description,Group,Diet,IsPet,IsFarm,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")]
-        Kingdom kingdom) => await this.CreatePost(kingdom);
+        public async Task<IActionResult> Create(KingdomInputModel kingdom) => await this.CreatePost(kingdom);
 
         // GET: Kingdoms/Edit/{name}
         [HttpGet("/Kingdoms/Edit/{name}")]
@@ -56,9 +56,8 @@
         [HttpPost("/Kingdoms/Edit/{name}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(
-        string name,
-        [Bind("Name,PicUrl,Description,Group,Diet,IsPet,IsFarm,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")]
-        Kingdom kingdom) => await this.EditPost(name, kingdom);
+        string name, KingdomInputModel kingdom)
+            => await this.EditPost(name, kingdom);
 
         // GET: Kingdoms/Delete/{name}
         [HttpGet("/Kingdoms/Delete/{name}")]
@@ -137,7 +136,7 @@
             return this.View();
         }
 
-        private async Task<IActionResult> CreatePost(Kingdom kingdom)
+        private async Task<IActionResult> CreatePost(KingdomInputModel kingdom)
         {
             if (this.ModelState.IsValid)
             {
@@ -146,7 +145,19 @@
                     kingdom.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 }
 
-                await this.kingdomsRepository.AddAsync(kingdom);
+                var result = new Kingdom
+                {
+                    Name = kingdom.Name,
+                    PicUrl = kingdom.PicUrl,
+                    Description = kingdom.Description,
+                    Group = kingdom.Group,
+                    Diet = kingdom.Diet,
+                    IsPet = kingdom.IsPet,
+                    IsFarm = kingdom.IsFarm,
+                    UserId = kingdom.UserId,
+                };
+
+                await this.kingdomsRepository.AddAsync(result);
                 await this.kingdomsRepository.SaveChangesAsync();
                 return this.RedirectToAction(nameof(this.Index));
             }
@@ -185,7 +196,7 @@
             return this.View(result);
         }
 
-        private async Task<IActionResult> EditPost(string name, Kingdom kingdom)
+        private async Task<IActionResult> EditPost(string name, KingdomInputModel kingdom)
         {
             if (name != kingdom.Name)
             {
@@ -207,9 +218,21 @@
                         breed.KingdomName = name;
                     }
 
+                    var result = new Kingdom
+                    {
+                        Id = kingdom.Id,
+                        Name = kingdom.Name,
+                        PicUrl = kingdom.PicUrl,
+                        Description = kingdom.Description,
+                        Group = kingdom.Group,
+                        Diet = kingdom.Diet,
+                        IsPet = kingdom.IsPet,
+                        IsFarm = kingdom.IsFarm,
+                        UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier),
+                    };
+
                     this.kingdomsRepository.HardDelete(editName);
-                    kingdom.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                    await this.kingdomsRepository.AddAsync(kingdom);
+                    await this.kingdomsRepository.AddAsync(result);
                     await this.kingdomsRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -260,14 +283,6 @@
 
             return this.View(result);
         }
-
-
-
-
-
-
-
-
 
         private async Task<IActionResult> DeletePost(int? id)
         {

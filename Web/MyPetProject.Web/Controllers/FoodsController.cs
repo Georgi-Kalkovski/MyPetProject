@@ -1,6 +1,7 @@
 ﻿namespace MyPetProject.Web.Controllers
 {
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@
     using Microsoft.EntityFrameworkCore;
     using MyPetProject.Data.Common.Repositories;
     using MyPetProject.Data.Models;
+    using MyPetProject.Web.ViewModels.Foods;
 
     public class FoodsController : BaseController
     {
@@ -46,9 +48,8 @@
         // POST: Foods/Create
         [HttpPost("/Foods/Create/")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-        [Bind("Name,PicUrl,Description,FoodTypeName,FoodTypeId,SubbreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")]
-        Food food) => await this.CreatePost(food);
+        public async Task<IActionResult> Create(FoodInputModel food)
+            => await this.CreatePost(food);
 
         // GET: Foods/Edit/{name}
         [HttpGet("/Foods/Edit/{name}")]
@@ -57,10 +58,8 @@
         // POST: Foods/Edit/{name}
         [HttpPost("/Foods/Edit/{name}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(
-        string name,
-        [Bind("Name,PicUrl,Description,FoodTypeName,FoodTypeId,SubbreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")]
-        Food food) => await this.EditPost(name, food);
+        public async Task<IActionResult> Edit(string name, FoodInputModel food)
+            => await this.EditPost(name, food);
 
         // GET: Foods/Delete/{name}
         [HttpGet("/Foods/Delete/{name}")]
@@ -112,26 +111,27 @@
                 return this.Redirect("/Home/ErrorPage");
             }
 
-            this.ViewData["FoodTypeId"] = new SelectList(this.foodtypesRepository.All(), "Id", "Description");
-            this.ViewData["SubbreedId"] = new SelectList(this.subbreedsRepository.All(), "Id", "Description");
-            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id");
             this.ViewData["FoodTypeName"] = new SelectList(this.foodtypesRepository.All().OrderBy(x => x.Name), "Name", "Name");
             return this.View();
         }
 
-        private async Task<IActionResult> CreatePost(Food food)
+        private async Task<IActionResult> CreatePost(FoodInputModel food)
         {
             if (this.ModelState.IsValid)
             {
-                food.UserId = this.User.Claims.ToList()[0].Value;
-                await this.foodsRepository.AddAsync(food);
+                var result = new Food
+                {
+                    Name = food.Name,
+                    PicUrl = food.PicUrl,
+                    Description = food.Description,
+                    FoodTypeName = food.FoodTypeName,
+                    UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier),
+                };
+                await this.foodsRepository.AddAsync(result);
                 await this.foodsRepository.SaveChangesAsync();
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            this.ViewData["FoodTypeId"] = new SelectList(this.foodtypesRepository.All(), "Id", "Description", food.FoodTypeId);
-            this.ViewData["SubbreedId"] = new SelectList(this.subbreedsRepository.All(), "Id", "Description", food.SubbreedId);
-            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", food.UserId);
             this.ViewData["FoodTypeName"] = new SelectList(this.foodtypesRepository.All(), "Name", "Name", food.FoodTypeName);
             return this.View(food);
         }
@@ -162,14 +162,11 @@
                 return this.Redirect("/Home/ErrorPage");
             }
 
-            this.ViewData["FoodTypeId"] = new SelectList(this.foodtypesRepository.All(), "Id", "Description", this.foodsRepository.All().Include(x => x.FoodTypeId));
-            this.ViewData["SubbreedId"] = new SelectList(this.subbreedsRepository.All(), "Id", "Description", this.foodsRepository.All().Include(x => x.SubbreedId));
-            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", this.foodsRepository.All().Include(x => x.UserId));
             this.ViewData["FoodTypeName"] = new SelectList(this.foodtypesRepository.All(), "Name", "Name");
             return this.View(result);
         }
 
-        private async Task<IActionResult> EditPost(string name, Food food)
+        private async Task<IActionResult> EditPost(string name, FoodInputModel food)
         {
             if (name != food.Name)
             {
@@ -191,9 +188,17 @@
                         currentFood.Name = name;
                     }
 
+                    var result = new Food
+                    {
+                        Name = food.Name,
+                        PicUrl = food.PicUrl,
+                        Description = food.Description,
+                        FoodTypeName = food.FoodTypeName,
+                        UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier),
+                    };
+
                     this.foodsRepository.HardDelete(editName);
-                    food.UserId = this.User.Claims.ToList()[0].Value;
-                    await this.foodsRepository.AddAsync(food);
+                    await this.foodsRepository.AddAsync(result);
                     await this.foodsRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -211,9 +216,6 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            this.ViewData["FoodTypeId"] = new SelectList(this.foodtypesRepository.All(), "Id", "Description", food.FoodTypeId);
-            this.ViewData["SubbreedId"] = new SelectList(this.subbreedsRepository.All(), "Id", "Description", food.SubbreedId);
-            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", food.UserId);
             this.ViewData["FoodTypeName"] = new SelectList(this.foodtypesRepository.All(), "Name", "Name", food.FoodTypeName);
             return this.View(food);
         }

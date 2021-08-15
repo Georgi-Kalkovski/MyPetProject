@@ -9,6 +9,7 @@
     using Microsoft.EntityFrameworkCore;
     using MyPetProject.Data.Common.Repositories;
     using MyPetProject.Data.Models;
+    using MyPetProject.Web.ViewModels.Subbreeds;
 
     public class SubbreedsController : BaseController
     {
@@ -44,9 +45,8 @@
         // POST: Subbreeds/Create
         [HttpPost("/Subbreeds/Create/")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-        [Bind("Name,PicUrl,Description,BreedName,KingdomName,IsPet,IsFarm,BreedId,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")]
-        Subbreed subbreed) => await this.CreatePost(subbreed);
+        public async Task<IActionResult> Create(SubbreedInputModel subbreed)
+            => await this.CreatePost(subbreed);
 
         // GET: Subbreeds/Edit/{name}
         [HttpGet("/Subbreeds/Edit/{name}")]
@@ -55,10 +55,8 @@
         // POST: Breeds/Edit/{name}
         [HttpPost("/Subbreeds/Edit/{name}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(
-        string name,
-        [Bind("Name,PicUrl,Description,BreedName,KingdomName,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")]
-        Subbreed subbreed) => await this.EditPost(name, subbreed);
+        public async Task<IActionResult> Edit(string name, SubbreedInputModel subbreed)
+            => await this.EditPost(name, subbreed);
 
         // GET: Subbreeds/Delete/{name}
         [HttpGet("/Subbreeds/Delete/{name}")]
@@ -146,12 +144,21 @@
             return this.View();
         }
 
-        private async Task<IActionResult> CreatePost(Subbreed subbreed)
+        private async Task<IActionResult> CreatePost(SubbreedInputModel subbreed)
         {
             if (this.ModelState.IsValid)
             {
-                subbreed.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                await this.subbreedsRepository.AddAsync(subbreed);
+                var result = new Subbreed
+                {
+                    Name = subbreed.Name,
+                    PicUrl = subbreed.PicUrl,
+                    Description = subbreed.Description,
+                    UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier),
+                    KingdomName = subbreed.KingdomName,
+                    BreedName = subbreed.BreedName,
+                };
+
+                await this.subbreedsRepository.AddAsync(result);
                 await this.subbreedsRepository.SaveChangesAsync();
                 return this.RedirectToAction(subbreed.BreedName);
             }
@@ -159,8 +166,6 @@
             this.ViewData["KingdomName"] = new SelectList(this.kingdomsRepository.All(), "Name", "Name", subbreed.KingdomName);
             this.ViewData["BreedName"] = new SelectList(this.breedsRepository.All(), "Name", "Name", subbreed.BreedName);
 
-            // this.ViewData["BreedId"] = new SelectList(this.context.Breeds, "Id", "Id", subbreed.BreedId);
-            // this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", subbreed.UserId);
             return this.View(subbreed);
         }
 
@@ -193,11 +198,10 @@
             this.ViewData["KingdomName"] = new SelectList(this.kingdomsRepository.All().OrderBy(x => x.Name), "Name", "Name");
             this.ViewData["BreedName"] = new SelectList(this.breedsRepository.All().OrderBy(x => x.Name), "Name", "Name");
 
-            // this.ViewData["UserId"] = new SelectList(this.context.Users, "Id", "Id", subbreed.UserId);
             return this.View(result);
         }
 
-        private async Task<IActionResult> EditPost(string name, Subbreed subbreed)
+        private async Task<IActionResult> EditPost(string name, SubbreedInputModel subbreed)
         {
             if (name != subbreed.Name)
             {
@@ -219,9 +223,18 @@
                         animal.Name = name;
                     }
 
+                    var result = new Subbreed
+                    {
+                        Name = subbreed.Name,
+                        PicUrl = subbreed.PicUrl,
+                        Description = subbreed.Description,
+                        UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier),
+                        KingdomName = subbreed.KingdomName,
+                        BreedName = subbreed.BreedName,
+                    };
+
                     this.subbreedsRepository.HardDelete(editName);
-                    subbreed.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                    await this.subbreedsRepository.AddAsync(subbreed);
+                    await this.subbreedsRepository.AddAsync(result);
                     await this.subbreedsRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -272,6 +285,13 @@
             {
                 return this.Redirect("/Home/ErrorPage");
             }
+
+            var list = this.kingdomsRepository.All().ToList();
+
+            this.ViewData["Group"] = list.FirstOrDefault(x => x.Name == result.KingdomName).Group;
+            this.ViewData["Diet"] = list.FirstOrDefault(x => x.Name == result.KingdomName).Diet;
+            this.ViewData["IsPet"] = list.FirstOrDefault(x => x.Name == result.KingdomName).IsPet;
+            this.ViewData["IsFarm"] = list.FirstOrDefault(x => x.Name == result.KingdomName).IsFarm;
 
             return this.View(result);
         }

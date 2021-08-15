@@ -1,6 +1,7 @@
 ﻿namespace MyPetProject.Web.Controllers
 {
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@
     using Microsoft.EntityFrameworkCore;
     using MyPetProject.Data.Common.Repositories;
     using MyPetProject.Data.Models;
+    using MyPetProject.Web.ViewModels.FoodTypes;
 
     public class FoodTypesController : BaseController
     {
@@ -43,9 +45,8 @@
         // POST: FoodTypes/Create
         [HttpPost("/FoodTypes/Create/")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-        [Bind("Name,PicUrl,Description,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")]
-        FoodType foodType) => await this.CreatePost(foodType);
+        public async Task<IActionResult> Create(FoodTypeInputModel foodType)
+            => await this.CreatePost(foodType);
 
         // GET: FoodTypes/Edit/{name}
         [HttpGet("/FoodTypes/Edit/{name}")]
@@ -54,10 +55,8 @@
         // POST: FoodTypes/Edit/{name}
         [HttpPost("/FoodTypes/Edit/{name}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(
-        string name,
-        [Bind("Name,PicUrl,Description,UserId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")]
-        FoodType foodType) => await this.EditPost(name, foodType);
+        public async Task<IActionResult> Edit(string name, FoodTypeInputModel foodType)
+            => await this.EditPost(name, foodType);
 
         // GET: FoodTypes/Delete/{name}
         [HttpGet("/FoodTypes/Delete/{name}")]
@@ -122,17 +121,23 @@
             return this.View();
         }
 
-        private async Task<IActionResult> CreatePost(FoodType foodType)
+        private async Task<IActionResult> CreatePost(FoodTypeInputModel foodType)
         {
             if (this.ModelState.IsValid)
             {
-                foodType.UserId = this.User.Claims.ToList()[0].Value;
-                await this.foodtypesRepository.AddAsync(foodType);
+                var result = new FoodType
+                {
+                    Name = foodType.Name,
+                    PicUrl = foodType.PicUrl,
+                    Description = foodType.Description,
+                    UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier),
+                };
+
+                await this.foodtypesRepository.AddAsync(result);
                 await this.foodtypesRepository.SaveChangesAsync();
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", foodType.UserId);
             return this.View(foodType);
         }
 
@@ -166,7 +171,7 @@
             return this.View(result);
         }
 
-        private async Task<IActionResult> EditPost(string name, FoodType foodType)
+        private async Task<IActionResult> EditPost(string name, FoodTypeInputModel foodType)
         {
             if (name != foodType.Name)
             {
@@ -188,9 +193,17 @@
                         foods.FoodType.Name = name;
                     }
 
+                    var result = new FoodType
+                    {
+                        Id = foodType.Id,
+                        Name = foodType.Name,
+                        PicUrl = foodType.PicUrl,
+                        Description = foodType.Description,
+                        UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier),
+                    };
+
                     this.foodtypesRepository.HardDelete(editName);
-                    foodType.UserId = this.User.Claims.ToList()[0].Value;
-                    await this.foodtypesRepository.AddAsync(foodType);
+                    await this.foodtypesRepository.AddAsync(result);
                     await this.foodtypesRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -208,7 +221,6 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", foodType.UserId);
             return this.View(foodType);
         }
 
