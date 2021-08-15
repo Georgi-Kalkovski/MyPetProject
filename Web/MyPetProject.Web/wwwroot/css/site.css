@@ -297,3 +297,8 @@ td:hover {
     left: 567px;
     top: 3px;
 }
+
+.breadcrumb {
+    background: none;
+    border:none;
+}
