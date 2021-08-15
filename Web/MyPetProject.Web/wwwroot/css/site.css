@@ -279,3 +279,21 @@ td:hover {
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 }
+
+.contactMe img {
+    filter: invert(78%) sepia(86%) saturate(2897%) hue-rotate(351deg) brightness(100%) contrast(103%);
+    width: 30px;
+    height: 30px;
+}
+
+#contactMe {
+    position: absolute;
+    left: 534px;
+    top:25px;
+}
+
+#contactMeText {
+    position: absolute;
+    left: 567px;
+    top: 3px;
+}

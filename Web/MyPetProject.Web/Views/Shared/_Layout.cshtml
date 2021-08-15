@@ -64,9 +64,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contact">Contact Us</a>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -127,11 +124,30 @@
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
                 </li>
+            </ul>
+            <ul id="contactMeText">
+            <li class="nav-link text-dark" style="left:10px">Contact Me: </li>
+            </ul>
+            <ul id="contactMe" class="navbar-nav justify-content-start " style="border-style: none;">
+
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contact">Contact Us</a>
+                    <a class="contactMe nav-link" href="https://github.com/Georgi-Kalkovski"><img src="~/img/github.svg" /></a>
+                </li>
+                <li class="nav-item">
+                    <a class="contactMe nav-link" href="https://www.linkedin.com/in/georgi-kalkovski/"><img src="~/img/linkedin.svg" /></a>
+                </li>
+                <li class="nav-item">
+                    <a class="contactMe nav-link" href="mailto:g.kalkovski.92@gmail.com"><img src="~/img/gmail.svg" /></a>
+                </li>
+                <li class="nav-item">
+                    <a class="contactMe nav-link" href="https://www.facebook.com/georgi.kalkovski"><img src="~/img/facebook.svg" /></a>
+                </li>
+                <li class="nav-item">
+                    <a class="contactMe nav-link" href="https://discord.com/users/242250226545590274"><img src="~/img/discord.svg" /></a>
                 </li>
             </ul>
         </nav>
+            
         <div id="copyright">
             &copy; @DateTime.UtcNow.Year - @GlobalConstants.SystemName
         </div>
