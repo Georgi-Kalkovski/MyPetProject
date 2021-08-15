@@ -33,6 +33,8 @@
                 <select asp-for="FoodTypeName" asp-items="ViewBag.FoodTypeName">
                     <option value="">--Select--</option>
                 </select>
+                <br>
+                <span asp-validation-for="FoodTypeName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

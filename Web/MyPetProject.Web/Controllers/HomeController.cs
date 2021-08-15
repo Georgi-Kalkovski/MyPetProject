@@ -91,10 +91,42 @@
             return this.View(result);
         }
 
-        [HttpGet("/MyCollection")]
-        public IActionResult MyCollection()
+        [HttpGet("/MyKingdoms")]
+        public IActionResult MyKingdoms()
         {
-            MyCollectionViewModel result = this.MyCollectionMethod();
+            MyCollectionViewModel result = this.MyKingdomsMethod();
+
+            return this.View(result);
+        }
+
+        [HttpGet("/MyBreeds")]
+        public IActionResult MyBreeds()
+        {
+            MyCollectionViewModel result = this.MyBreedsMethod();
+
+            return this.View(result);
+        }
+
+        [HttpGet("/MySubbreeds")]
+        public IActionResult MySubbreeds()
+        {
+            MyCollectionViewModel result = this.MySubbreedsMethod();
+
+            return this.View(result);
+        }
+
+        [HttpGet("/MyFoodTypes")]
+        public IActionResult MyFoodTypes()
+        {
+            MyCollectionViewModel result = this.MyFoodTypesMethod();
+
+            return this.View(result);
+        }
+
+        [HttpGet("/MyFoods")]
+        public IActionResult MyFoods()
+        {
+            MyCollectionViewModel result = this.MyFoodsMethod();
 
             return this.View(result);
         }
@@ -156,14 +188,42 @@
             return result;
         }
 
-        private MyCollectionViewModel MyCollectionMethod()
+        private MyCollectionViewModel MyKingdomsMethod()
         {
             var result = new MyCollectionViewModel();
 
             result.Kingdoms = this.kingdomsRepository.All().Where(x => x.UserId == this.User.Claims.ToList()[0].Value);
+            return result;
+        }
+
+        private MyCollectionViewModel MyBreedsMethod()
+        {
+            var result = new MyCollectionViewModel();
+
             result.Breeds = this.breedsRepository.All().Where(x => x.UserId == this.User.Claims.ToList()[0].Value);
+            return result;
+        }
+
+        private MyCollectionViewModel MySubbreedsMethod()
+        {
+            var result = new MyCollectionViewModel();
+
             result.Subbreeds = this.subbreedsRepository.All().Where(x => x.UserId == this.User.Claims.ToList()[0].Value);
+            return result;
+        }
+
+        private MyCollectionViewModel MyFoodTypesMethod()
+        {
+            var result = new MyCollectionViewModel();
+
             result.FoodTypes = this.foodtypesRepository.All().Where(x => x.UserId == this.User.Claims.ToList()[0].Value);
+            return result;
+        }
+
+        private MyCollectionViewModel MyFoodsMethod()
+        {
+            var result = new MyCollectionViewModel();
+
             result.Foods = this.foodsRepository.All().Where(x => x.UserId == this.User.Claims.ToList()[0].Value);
             return result;
         }

@@ -1,9 +1,6 @@
-﻿@model IEnumerable<MyPetProject.Data.Models.Kingdom>
-
+﻿@using MyPetProject.Web.ViewModels.MyCollection;
+@model MyCollectionViewModel;
 @{
-    var modelName = "Kingdom";
-    var nextModelName = "Breeds";
-
     var sectionCount = ViewContext.HttpContext.Request.Path.ToString().Split("/").Length;
     var lastSection = ViewContext.HttpContext.Request.Path.ToString().Split("/").Last();
 
@@ -12,36 +9,31 @@
         lastSection = lastSection.Replace("%20", " ");
     }
 
-    ViewData["Title"] = "Farm Animals";
+    ViewData["Title"] = "My Collection";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb col-md-3">
-            <li class="breadcrumb-item active" aria-current="page">Kingdoms</li>
-            <li class="breadcrumb-item"><a asp-controller="Breeds" asp-action="Index">Breeds</a></li>
-            <li class="breadcrumb-item"><a asp-controller="Subbreeds" asp-action="Index">Subbreeds</a></li>
-        </ol>
-    </nav>
-
-    @if (!Model.Any())
+    @* My FoodTypes *@
+    @if (!Model.FoodTypes.Any())
     {
         <div class="text-center">
-            <h1 class="display-4">The @(modelName + " " + lastSection) is empty ! :(</h1>
+            <h1 class="display-4">My Food Types collection is empty ! :(</h1>
         </div>
         <div class="justify-content: center" style="display: flex;justify-content: center">
             @if (this.User.Claims.Any())
             {
-                <p> <a asp-action="Create">Create New @(lastSection + " " + modelName)</a></p>
+                <p> <a asp-controller="FoodTypes" asp-action="Create">Create New Food Type</a></p>
                 <p style="margin: 0 8px;"> or </p>
             }
-            <p><a href="javascript:history.back()">Go Back</a></p>
+            <p>
+                <a href="javascript:history.back()">Go Back</a>
+            </p>
         </div>
     }
     else
     {
         if (sectionCount == 2)
         {
-            <h1>Farm Animals</h1>
+            <h1>Food Types</h1>
         }
         if (sectionCount == 3)
         {
@@ -51,7 +43,7 @@
         @if (this.User.Claims.Any())
         {
             <p>
-                <a asp-action="Create">Create New @(modelName)</a>
+                <a asp-controller="FoodTypes" asp-action="Create">Create New Food Type</a>
             </p>
         }
         <p>
@@ -62,10 +54,10 @@
             <tbody>
                 <div class="row mt-2 mb-4">
 
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.FoodTypes)
                     {
                         <div class="card col-6 col-lg-3 text-center">
-                            <a asp-controller="@(nextModelName)" asp-action="@item.Name">
+                            <a asp-controller="Foods" asp-action="@item.Name">
                                 <div class="card-body">
                                 </div>
                                 @if (!item.PicUrl.StartsWith("http"))
@@ -76,7 +68,7 @@
                                     }
                                     else
                                     {
-                                        <img class="card-img" src="~/img/@(modelName + "s")/@item.PicUrl" alt="Card image">
+                                        <img class="card-img" src="~/img/foodtypes/@item.PicUrl" alt="Card image">
                                     }
                                 }
                                 else
@@ -86,11 +78,8 @@
                                 <div class="card-body d-flex flex-column">
                                     <div class="mt-auto">
                                         <h5 class="card-title">@item.Name</h5>
-                                        @if (nextModelName != "")
-                                        {
-                                            <a asp-controller="@(nextModelName)" asp-action="@item.Name" class="btn btn-primary">Group</a>
-                                        }
-                                        <a asp-controller="@(modelName + "s")" asp-action="Details" asp-route-id="@item.Name" class="btn btn-primary">Details</a>
+                                        <a asp-controller="Foods" asp-action="@item.Name" class="btn btn-primary">Group</a>
+                                        <a asp-controller="FoodTypes" asp-action="Details" asp-route-id="@item.Name" class="btn btn-primary">Details</a>
                                         @{
                                             var userId = "";
                                             if (this.User.Claims.Any())
@@ -98,8 +87,8 @@
                                                 userId = this.User.Claims.ToList()[0].Value;
                                                 if (item.UserId == userId)
                                                 {
-                                                    <a asp-action="Edit" asp-route-id="@item.Name" class="btn btn-warning">Edit</a>
-                                                    <a asp-action="Delete" asp-route-id="@item.Name" class="btn btn-danger">Delete</a>
+                                                    <a asp-controller="FoodTypes" asp-action="Edit" asp-route-id="@item.Name" class="btn btn-warning">Edit</a>
+                                                    <a asp-controller="FoodTypes" asp-action="Delete" asp-route-id="@item.Name" class="btn btn-danger">Delete</a>
                                                 }
                                             }
                                         }

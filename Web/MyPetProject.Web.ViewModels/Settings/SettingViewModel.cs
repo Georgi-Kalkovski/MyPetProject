@@ -1,9 +1,8 @@
 ﻿namespace MyPetProject.Web.ViewModels.Settings
 {
+    using AutoMapper;
     using MyPetProject.Data.Models;
     using MyPetProject.Services.Mapping;
-
-    using AutoMapper;
 
     public class SettingViewModel : IMapFrom<Setting>, IHaveCustomMappings
     {

@@ -118,7 +118,7 @@
                                     @foreach (var item in Model.Kingdoms)
                                     {
 
-                                        <tr onclick="document.location = '../Breeds/@item.Name.Replace(" ","%20")';">
+                                        <tr onclick="document.location = '../Kingdoms/Details/@item.Name.Replace(" ","%20")';">
                                             <td>
                                                 @if (!item.PicUrl.StartsWith("http"))
                                                 {
@@ -197,7 +197,7 @@
                                 <tbody>
                                     @foreach (var item in Model.Breeds)
                                     {
-                                        <tr onclick="document.location = '../Subbreeds/@item.Name.Replace(" ","%20")';">
+                                        <tr onclick="document.location = '../Breeds/Details/@item.Name.Replace(" ","%20")';">
                                             <td>
                                                 @if (!item.PicUrl.StartsWith("http"))
                                                 {
@@ -330,7 +330,7 @@
                         <tbody>
                             @foreach (var item in Model.FoodTypes)
                             {
-                                <tr onclick="document.location = '../Foods/@item.Name.Replace(" ","%20")';">
+                                <tr onclick="document.location = '../FoodTypes/Details/@item.Name.Replace(" ","%20")';">
                                     <td>
                                         @if (!item.PicUrl.StartsWith("http"))
                                         {

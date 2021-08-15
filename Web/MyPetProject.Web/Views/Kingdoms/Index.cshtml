@@ -15,6 +15,14 @@
     ViewData["Title"] = modelName + "s";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb col-md-3">
+            <li class="breadcrumb-item active" aria-current="page">Kingdoms</li>
+            <li class="breadcrumb-item"><a asp-controller="Breeds" asp-action="Index">Breeds</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Subbreeds" asp-action="Index">Subbreeds</a></li>
+        </ol>
+    </nav>
+
     @if (!Model.Any())
     {
         <div class="text-center">
@@ -61,9 +69,9 @@
                                 <div class="card-body">
                                 </div>
                                 @if (!item.PicUrl.StartsWith("http") &&
-                                    !item.PicUrl.EndsWith(".jpg") &&
-                                    !item.PicUrl.EndsWith(".png") &&
-                                    !item.PicUrl.EndsWith(".jpeg"))
+                                   !item.PicUrl.EndsWith(".jpg") &&
+                                   !item.PicUrl.EndsWith(".png") &&
+                                   !item.PicUrl.EndsWith(".jpeg"))
                                 {
                                     <img class="card-img-top" src="~/img/no-image.png" alt="Card image cap">
                                 }

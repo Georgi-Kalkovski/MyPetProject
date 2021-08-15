@@ -302,6 +302,5 @@
                 .All()
                 .Any(e => e.Name == name);
         }
-
     }
 }

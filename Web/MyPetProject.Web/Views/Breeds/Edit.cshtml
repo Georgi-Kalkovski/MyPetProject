@@ -34,6 +34,8 @@
                         <select asp-for="KingdomName" asp-items="ViewBag.KingdomName">
                             <option value="">--Select--</option>
                         </select>
+                        <br>
+                        <span asp-validation-for="KingdomName" class="text-danger"></span>
                         <div class="form-group">
                             <input type="submit" value="Save" class="btn btn-primary" />
                         </div>

@@ -7,8 +7,17 @@
 <ul class="navbar-nav">
     @if (this.SignInManager.IsSignedIn(this.User))
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Home" asp-action="MyCollection" title="Manage">My Collection</a>
+        <li class="dropdown">
+            <button class="btn dropdown-toggle nav-link text-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="dropdownMenu">My Collections</span>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Home" asp-action="MyKingdoms">Kingdoms</a>
+                <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Home" asp-action="MyBreeds">Breeds</a>
+                <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Home" asp-action="MySubbreeds">Subbreeds</a>
+                <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Home" asp-action="MyFoodTypes">Food Types</a>
+                <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Home" asp-action="MyFoods">Foods</a>
+            </div>
         </li>
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @this.User.Identity.Name!</a>

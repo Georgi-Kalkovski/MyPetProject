@@ -3,9 +3,8 @@ namespace MyPetProject.Data.Models
 {
     using System;
 
-    using MyPetProject.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
+    using MyPetProject.Data.Common.Models;
 
     public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity
     {
