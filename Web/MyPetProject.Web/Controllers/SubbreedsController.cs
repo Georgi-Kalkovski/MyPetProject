@@ -110,7 +110,6 @@
 
             var result = await this.subbreedsRepository
                 .All()
-                .Include(s => s.Breed)
                 .Include(s => s.User)
                 .FirstOrDefaultAsync(m => m.Name == name);
 

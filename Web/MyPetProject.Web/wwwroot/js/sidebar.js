@@ -30,20 +30,18 @@ function checkItem(el, num, cl) {
         if (el.checked == false) {
             for (let row of table) {
                 let rowId = row.children[num].textContent;
-                console.log(rowId)
-                if (rowId.replace(" ", "_") == id ||
-                    rowId == id.replace("234", '') ||
-                    rowId == id.replace("123", '')) {
+                rowId = rowId.replace(/ /g, '');
+                console.log(`rowId = ${rowId}`)
+                if (rowId == id) {
                     row.style.display = "none";
                 }
             }
         } else {
             for (let row of table) {
                 let rowId = row.children[num].textContent;
-                console.log(rowId)
-                if (rowId.replace(" ", "_") == id ||
-                    rowId == id.replace("234", '') ||
-                    rowId == id.replace("123", '')) {
+                rowId = rowId.replace(/ /g, '');
+                console.log(`rowId = ${rowId}`)
+                if (rowId == id) {
                     row.style.display = "";
                 }
             }
@@ -51,8 +49,8 @@ function checkItem(el, num, cl) {
     }
 }
 
-function checkTheAnimal(el, num) {
-    let table = document.querySelector("#kingdoms > tbody").children;
+function checkTheAnimal(el, num, cl) {
+    let table = document.querySelector(`#${cl} > tbody`).children;
 
     for (let row of table) {
         if (el.checked == false) {
@@ -71,8 +69,8 @@ function checkTheAnimal(el, num) {
     }
 }
 
-function checkForWild(el, num1, num2) {
-    let table = document.querySelector("#kingdoms > tbody").children;
+function checkForWild(el, num1, num2, cl) {
+    let table = document.querySelector(`#${cl} > tbody`).children;
 
     for (let row of table) {
         if (el.checked == true) {
@@ -96,10 +94,3 @@ function checkForWild(el, num1, num2) {
         }
     }
 }
-
-$(window).on('scroll', function (event) {
-    var scrollValue = $(window).scrollTop();
-    if (scrollValue == settings.scrollTopPx || scrollValue > 70) {
-        $('.nav').addClass('fixed-top');
-    }
-});

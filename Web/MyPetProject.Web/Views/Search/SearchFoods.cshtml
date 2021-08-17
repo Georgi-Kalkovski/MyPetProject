@@ -1,0 +1,121 @@
+﻿@model MyPetProject.Web.ViewModels.Search.SearchViewModel
+
+@{
+    ViewData["Title"] = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link href="~/css/search.css" rel="stylesheet" />
+</head>
+<div class="container-fluid" style="margin-top: 30px;">
+    <!-- Tables -->
+    <div id="tables" data-interval="false">
+
+        <!-- Indicators -->
+        <div style="margin-bottom: -40px; margin-right: -40px;">
+            <div class="secondMenu" style="position: relative; margin-left: 460px; z-index:11;">
+                <span class="table table-striped table-bordered"><a id="kingdomTableBtn" data-target="#tables" asp-controller="Search" asp-action="SearchKingdoms">Kingdoms</a></span>
+                <span class="table table-striped table-bordered"><a id="breedTableBtn" data-target="#tables" asp-controller="Search" asp-action="SearchBreeds">Breeds</a></span>
+                <span class="table table-striped table-bordered"><a id="subbreedTableBtn" data-target="#tables" asp-controller="Search" asp-action="SearchSubbreeds">Subbreeds</a></span>
+                <span class="table table-striped table-bordered"><a id="foodTypeTableBtn" data-target="#tables" asp-controller="Search" asp-action="SearchFoodTypes">Food Types</a></span>
+                <span class="table table-striped table-bordered"><a id="foodTableBtn" data-target="#tables" asp-controller="Search" asp-action="SearchFoods" class="active">Foods</a></span>
+            </div>
+
+        </div>
+
+        <div style="position:relative;">
+
+            <div id="foodTable">
+                <div class="row">
+                    <!-- Foods Sidebar -->
+                    <div class="col-sm-2" style="position: relative; z-index: 12;">
+                        <nav class="nav flexing card-group-item check table table-bordered" data-spy="affix" data-offset-top="10" style="margin-bottom: -40px;">
+
+                            <!-- Breeds Names -->
+                            <header class="card-header">
+                                <h6 class="title">Breed Names</h6>
+                            </header>
+                            <div class="filter-content">
+                                <div class="card-header">
+                                    @{
+                                        var foodTypes = Model.Foods.Select(x => x.FoodTypeName);
+                                        var distinctFoodTypes = new List<string>();
+
+                                        foreach (var foodType in foodTypes)
+                                        {
+                                            if (!distinctFoodTypes.Contains(foodType))
+                                            {
+                                                distinctFoodTypes.Add(foodType);
+                                            }
+                                        }
+                                        foreach (var foodsName in distinctFoodTypes)
+                                        {
+                                            var counter = Model.Foods.Where(x => x.FoodTypeName == foodsName).Count();
+                                            var nameNoSpace = foodsName.Replace(" ", "");
+                                            <div class="custom-control custom-checkbox" style="box-shadow: none;">
+                                                <span class="float-right badge round" style="color:black; margin-right:-10px;">@counter</span>
+                                                <input type="checkbox" class="custom-control-input" id="@nameNoSpace" onclick="checkItem(@nameNoSpace, 2, 'foods')" checked>
+                                                <label class="custom-control-label" for="@nameNoSpace">@foodsName</label>
+                                            </div>
+                                            }
+                                        }
+                                    </div>
+                            </div>
+                        </nav>
+                    </div>
+
+                    @* Foods Search *@
+                    <div class="col-sm-10">
+                        <table id="foods" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Food Type</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Foods)
+                                {
+                                    <tr onclick="document.location = '../Foods/Details/@item.Name.Replace(" ","%20")';">
+                                        <td>
+                                            @if (!item.PicUrl.StartsWith("http"))
+                                            {
+                                                if (!item.PicUrl.EndsWith(".jpg") && !item.PicUrl.EndsWith(".png") && !item.PicUrl.EndsWith(".jpeg"))
+                                                {
+                                                    <img class="rounded-sm img-thumbnail" src="~/img/no-image.png" alt="Card image cap">
+                                                }
+                                                else
+                                                {
+                                                    <img class="rounded-sm img-thumbnail" src="~/img/foodtypes/@item.PicUrl" alt="Card image cap">
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <img class="rounded-sm img-thumbnail" src="@item.PicUrl" alt="Card image cap">
+                                            }
+                                        </td>
+                                        <td>@item.Name</td>
+                                        <td>@item.FoodTypeName</td>
+                                        <td><div class="table table-striped scroller" style="text-align: left;">@item.Description</div></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatables/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/js/tables.js"></script>
+    <script src="~/js/sidebar.js"></script>
+}

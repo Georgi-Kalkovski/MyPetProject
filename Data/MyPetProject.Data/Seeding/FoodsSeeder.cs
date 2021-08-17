@@ -18,7 +18,7 @@
             await dbContext.Foods.AddAsync(new Food
             {
                 Name = "Checken meat",
-                PicUrl = "https://images.albertsons-media.com/is/image/ABS/960164291?$ecom-pdp-desktop$&defaultImage=Not_Available",
+                PicUrl = "https://i.imgur.com/C0Qf233.png",
                 Description = "Chicken is the most common type of poultry in the world. Owing to the relative ease and low cost of raising chickens—in comparison to mammals such as cattle or hogs—chicken meat and chicken eggs have become prevalent in numerous cuisines.",
                 FoodTypeName = "Meat",
             });

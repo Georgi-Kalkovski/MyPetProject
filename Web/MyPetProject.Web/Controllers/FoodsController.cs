@@ -91,8 +91,6 @@
 
             var result = await this.foodsRepository
                 .All()
-                .Include(f => f.FoodType)
-                .Include(f => f.Subbreed)
                 .Include(f => f.User)
                 .FirstOrDefaultAsync(m => m.Name == name);
 
@@ -234,8 +232,6 @@
 
             var result = await this.foodsRepository
                 .All()
-                .Include(f => f.FoodType)
-                .Include(f => f.Subbreed)
                 .Include(f => f.User)
                 .FirstOrDefaultAsync(m => m.Name == name);
 
@@ -256,8 +252,6 @@
         {
             var applicationDbContext = this.foodsRepository
                             .All()
-                            .Include(f => f.FoodType)
-                            .Include(f => f.Subbreed)
                             .Include(f => f.User);
 
             return this.View(await applicationDbContext.ToListAsync());

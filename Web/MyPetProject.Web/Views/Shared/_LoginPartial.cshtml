@@ -5,9 +5,27 @@
 @inject UserManager<ApplicationUser> UserManager
 
 <ul class="navbar-nav">
+
+    @*@if (this.SignInManager.IsSignedIn(this.User))
+        {
+            var user = await this.UserManager.GetUserAsync(this.User);
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) == false)
+            {
+        <li class="nav-item">
+            <a id="adminButton" onclick="hideAdminButton()" asp-controller="Admins" asp-action="Index" class="nav-link btn btn-link text-dark">Become Admin</a>
+        </li>
+            }
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Administration" asp-controller="Dashboard" asp-action="Index" title="Admin">Admin</a>
+        </li>
+            }
+        }*@
     @if (this.SignInManager.IsSignedIn(this.User))
     {
         <li class="dropdown">
+
             <button class="btn dropdown-toggle nav-link text-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="dropdownMenu">My Collections</span>
             </button>
@@ -20,14 +38,8 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @this.User.Identity.Name!</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@this.User.Identity.Name!</a>
         </li>
-        if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-        {
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Administration" asp-controller="Dashboard" asp-action="Index" title="Admin">Admin</a>
-            </li>
-        }
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new { area = string.Empty })">
                 <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>

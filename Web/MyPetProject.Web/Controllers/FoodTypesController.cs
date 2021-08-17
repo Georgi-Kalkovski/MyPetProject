@@ -188,9 +188,9 @@
                         .All()
                         .FirstOrDefaultAsync(x => x.Name == oldName);
 
-                    foreach (var foods in this.foodsRepository.All().Where(x => x.FoodType.Name == oldName))
+                    foreach (var foods in this.foodsRepository.All().Where(x => x.FoodTypeName == oldName))
                     {
-                        foods.FoodType.Name = name;
+                        foods.FoodTypeName = name;
                     }
 
                     var result = new FoodType

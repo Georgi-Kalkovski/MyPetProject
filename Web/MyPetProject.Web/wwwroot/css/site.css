@@ -62,7 +62,6 @@ html {
 
 body {
     /* Margin bottom by footer height */
-    margin-bottom: 60px;
 }
 
 .footer {
@@ -217,9 +216,9 @@ a {
     text-decoration: none;
 }
 
-    a:hover {
-        cursor: pointer;
-    }
+a:hover {
+    cursor: pointer;
+}
 
 td:hover {
     cursor: pointer;
@@ -286,6 +285,12 @@ td:hover {
     height: 30px;
 }
 
+.contactMe img:hover {
+    filter: invert(24%) sepia(81%) saturate(1759%) hue-rotate(198deg) brightness(90%) contrast(113%);
+    width: 30px;
+    height: 30px;
+}
+
 #contactMe {
     position: absolute;
     left: 534px;
@@ -301,4 +306,21 @@ td:hover {
 .breadcrumb {
     background: none;
     border:none;
+}
+
+.secondMenu a {
+    text-decoration: none;
+    color: black;
+}
+
+.secondMenu span.a:hover {
+    background-color: #5486b6;
+}
+
+.secondMenu span a:focus span {
+    background-color: #0051ba;
+}
+
+.secondMenu span a.active {
+    background-color: #5486b6;
 }

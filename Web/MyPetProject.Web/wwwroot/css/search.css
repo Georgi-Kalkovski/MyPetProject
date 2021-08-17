@@ -7,7 +7,7 @@
     height:auto;
 }
 
-img:hover {
+sorting_1 td img:hover {
     transform: scale(4);
     position: absolute;
 }
@@ -67,22 +67,6 @@ span {
 
 #foods_filter {
     float: left;
-}
-
-#secondMenu a {
-    text-decoration: none;
-}
-
-#secondMenu a:hover span {
-    background-color: #5486b6;
-}
-
-#secondMenu a:focus span {
-    background-color: #0051ba;
-}
-
-#secondMenu a.active span {
-    background-color: #5486b6;
 }
 
 #kingdoms_filter.label.text {

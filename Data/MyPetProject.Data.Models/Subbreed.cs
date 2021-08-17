@@ -29,10 +29,6 @@
         [Required]
         public string KingdomName { get; set; }
 
-        public int? BreedId { get; set; }
-
-        public virtual Breed Breed { get; set; }
-
         [ForeignKey(nameof(User))]
         public string UserId { get; set; }
 

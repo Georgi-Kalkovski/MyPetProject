@@ -19,14 +19,6 @@
         [Required]
         public string FoodTypeName { get; set; }
 
-        public int? FoodTypeId { get; set; }
-
-        public virtual FoodType FoodType { get; set; }
-
-        public int? SubbreedId { get; set; }
-
-        public virtual Subbreed Subbreed { get; set; }
-
         [ForeignKey(nameof(User))]
         public string UserId { get; set; }
 

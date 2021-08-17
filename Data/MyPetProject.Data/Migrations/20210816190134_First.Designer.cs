@@ -10,7 +10,7 @@ using MyPetProject.Data;
 namespace MyPetProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210814123732_First")]
+    [Migration("20210816190134_First")]
     partial class First
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -637,15 +637,13 @@ namespace MyPetProject.Data.Migrations
 
             modelBuilder.Entity("MyPetProject.Data.Models.Breed", b =>
                 {
-                    b.HasOne("MyPetProject.Data.Models.Kingdom", "Kingdom")
+                    b.HasOne("MyPetProject.Data.Models.Kingdom", null)
                         .WithMany("Breeds")
                         .HasForeignKey("KingdomId");
 
                     b.HasOne("MyPetProject.Data.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-
-                    b.Navigation("Kingdom");
 
                     b.Navigation("User");
                 });
@@ -665,21 +663,17 @@ namespace MyPetProject.Data.Migrations
 
             modelBuilder.Entity("MyPetProject.Data.Models.Food", b =>
                 {
-                    b.HasOne("MyPetProject.Data.Models.FoodType", "FoodType")
+                    b.HasOne("MyPetProject.Data.Models.FoodType", null)
                         .WithMany("Foods")
                         .HasForeignKey("FoodTypeId");
 
-                    b.HasOne("MyPetProject.Data.Models.Subbreed", "Subbreed")
+                    b.HasOne("MyPetProject.Data.Models.Subbreed", null)
                         .WithMany("Foods")
                         .HasForeignKey("SubbreedId");
 
                     b.HasOne("MyPetProject.Data.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-
-                    b.Navigation("FoodType");
-
-                    b.Navigation("Subbreed");
 
                     b.Navigation("User");
                 });
@@ -704,15 +698,13 @@ namespace MyPetProject.Data.Migrations
 
             modelBuilder.Entity("MyPetProject.Data.Models.Subbreed", b =>
                 {
-                    b.HasOne("MyPetProject.Data.Models.Breed", "Breed")
+                    b.HasOne("MyPetProject.Data.Models.Breed", null)
                         .WithMany("Subbreeds")
                         .HasForeignKey("BreedId");
 
                     b.HasOne("MyPetProject.Data.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-
-                    b.Navigation("Breed");
 
                     b.Navigation("User");
                 });
