@@ -18,7 +18,9 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb col-md-2">
-            <li class="breadcrumb-item"><a asp-controller="FoodTypes" asp-action="Index">Food Types</a></li>
+            <li class="breadcrumb-item">
+                <a asp-controller="FoodTypes" asp-action="Index">Food Types</a>
+            </li>
             <li class="breadcrumb-item active" aria-current="page">Foods</li>
         </ol>
     </nav>
@@ -65,13 +67,13 @@
                     @foreach (var item in Model)
                     {
                         <div class="card col-6 col-lg-3 text-center">
-                            <a asp-controller="@(nextModelName)" asp-action="@item.Name">
+                            <a asp-action="Details" asp-route-id="@item.Name">
                                 <div class="card-body">
                                 </div>
                                 @if (!item.PicUrl.StartsWith("http") &&
-                                 !item.PicUrl.EndsWith(".jpg") &&
-                                 !item.PicUrl.EndsWith(".png") &&
-                                 !item.PicUrl.EndsWith(".jpeg"))
+                                !item.PicUrl.EndsWith(".jpg") &&
+                                !item.PicUrl.EndsWith(".png") &&
+                                !item.PicUrl.EndsWith(".jpeg"))
                                 {
                                     <img class="card-img-top" src="~/img/no-image.png" alt="Card image cap">
                                 }
@@ -92,7 +94,7 @@
                                             if (this.User.Claims.Any())
                                             {
                                                 userId = this.User.Claims.ToList()[0].Value;
-                                                if (item.UserId == userId)
+                                                if (item.UserId == userId || this.User.IsInRole("Administrator"))
                                                 {
                                                     <a asp-action="Edit" asp-route-id="@item.Name" class="btn btn-warning">Edit</a>
                                                     <a asp-action="Delete" asp-route-id="@item.Name" class="btn btn-danger">Delete</a>

@@ -31,7 +31,8 @@
                 }
             }
 
-            return this.Redirect("Home/Index");
+            this.SignOut();
+            return this.RedirectToAction("Index","Home");
         }
     }
 }

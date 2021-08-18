@@ -2,6 +2,30 @@
 @{
     this.ViewData["Title"] = "Admin dashboard";
 }
-
-<h1>@this.ViewData["Title"]</h1>
-Settings: @this.Model.SettingsCount
+<main class="text-center" style="margin-top:10%;">
+    <h1>You are now an Administrator !</h1>
+    <div class="row" style="justify-content: center;">
+        <div class="col-lg-5">
+            <ul style="list-style-type:none;">
+                <li>You have the role of an "<span style="color:red">Administrator</span>". This gives you the rights to <span style="color:red">Edit</span> and <span style="color:red">Delete</span> every of the followings...</li>
+            </ul>
+        </div>
+        <div class="row" style="justify-content: center;">
+            <div class="col-lg-2">
+                <ul style="list-style-type:none;">
+                    <li><h3>Categories</h3></li>
+                    <li><a asp-area="" asp-controller="Kingdoms" asp-action="Index">Kingdoms</a></li>
+                    <li><a asp-area="" asp-controller="Breeds" asp-action="Index">Breeds</a></li>
+                    <li><a asp-area="" asp-controller="Subbreeds" asp-action="Index">Subbreeds</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-2">
+                <ul style="list-style-type:none;">
+                    <li><h3>Foods</h3></li>
+                    <li><a asp-area="" asp-controller="FoodTypes" asp-action="Index">Food Types</a></li>
+                    <li><a asp-area="" asp-controller="Foods" asp-action="Index">Foods</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>

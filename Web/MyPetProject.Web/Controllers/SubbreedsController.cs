@@ -189,15 +189,16 @@
                 return this.NotFound();
             }
 
-            if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) != result.UserId)
+            if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == result.UserId || this.User.IsInRole("Administrator"))
+            {
+                this.ViewData["KingdomName"] = new SelectList(this.kingdomsRepository.All().OrderBy(x => x.Name), "Name", "Name");
+                this.ViewData["BreedName"] = new SelectList(this.breedsRepository.All().OrderBy(x => x.Name), "Name", "Name");
+                return this.View(result);
+            }
+            else
             {
                 return this.Redirect("/Home/ErrorPage");
             }
-
-            this.ViewData["KingdomName"] = new SelectList(this.kingdomsRepository.All().OrderBy(x => x.Name), "Name", "Name");
-            this.ViewData["BreedName"] = new SelectList(this.breedsRepository.All().OrderBy(x => x.Name), "Name", "Name");
-
-            return this.View(result);
         }
 
         private async Task<IActionResult> EditPost(string name, SubbreedInputModel subbreed)
@@ -280,19 +281,21 @@
                 return this.NotFound();
             }
 
-            if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) != result.UserId)
+            if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == result.UserId || this.User.IsInRole("Administrator"))
+            {
+
+                var list = this.kingdomsRepository.All().ToList();
+
+                this.ViewData["Group"] = list.FirstOrDefault(x => x.Name == result.KingdomName).Group;
+                this.ViewData["Diet"] = list.FirstOrDefault(x => x.Name == result.KingdomName).Diet;
+                this.ViewData["IsPet"] = list.FirstOrDefault(x => x.Name == result.KingdomName).IsPet;
+                this.ViewData["IsFarm"] = list.FirstOrDefault(x => x.Name == result.KingdomName).IsFarm;
+                return this.View(result);
+            }
+            else
             {
                 return this.Redirect("/Home/ErrorPage");
             }
-
-            var list = this.kingdomsRepository.All().ToList();
-
-            this.ViewData["Group"] = list.FirstOrDefault(x => x.Name == result.KingdomName).Group;
-            this.ViewData["Diet"] = list.FirstOrDefault(x => x.Name == result.KingdomName).Diet;
-            this.ViewData["IsPet"] = list.FirstOrDefault(x => x.Name == result.KingdomName).IsPet;
-            this.ViewData["IsFarm"] = list.FirstOrDefault(x => x.Name == result.KingdomName).IsFarm;
-
-            return this.View(result);
         }
 
         private async Task<IActionResult> DeletePost(string name)

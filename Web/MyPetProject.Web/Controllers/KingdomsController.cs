@@ -187,13 +187,16 @@
                 return this.NotFound();
             }
 
-            if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) != result.UserId)
+            if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == result.UserId || this.User.IsInRole("Administrator"))
+            {
+                this.ViewData["UserId"] = new SelectList(this.usersRepository.All(), "Id", "Id", this.kingdomsRepository.All().Include(x => x.UserId));
+                return this.View(result);
+            }
+            else
             {
                 return this.Redirect("/Home/ErrorPage");
             }
 
-            this.ViewData["UserId"] = new SelectList(this.usersRepository.All(), "Id", "Id", this.kingdomsRepository.All().Include(x => x.UserId));
-            return this.View(result);
         }
 
         private async Task<IActionResult> EditPost(string name, KingdomInputModel kingdom)
@@ -276,12 +279,14 @@
                 return this.NotFound();
             }
 
-            if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) != result.UserId)
+            if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == result.UserId || this.User.IsInRole("Administrator"))
+            {
+                return this.View(result);
+            }
+            else
             {
                 return this.Redirect("/Home/ErrorPage");
             }
-
-            return this.View(result);
         }
 
         private async Task<IActionResult> DeletePost(int? id)

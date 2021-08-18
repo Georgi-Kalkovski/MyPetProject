@@ -291,16 +291,11 @@ td:hover {
     height: 30px;
 }
 
-#contactMe {
-    position: absolute;
-    left: 534px;
-    top:25px;
-}
 
 #contactMeText {
     position: absolute;
-    left: 567px;
-    top: 3px;
+    top: -9px;
+    left:30%;
 }
 
 .breadcrumb {
@@ -324,3 +319,25 @@ td:hover {
 .secondMenu span a.active {
     background-color: #5486b6;
 }
+
+#navBar div {
+justify-content: center;
+}
+
+.navbar {
+    border-width: initial;
+    border-style: none;
+    border-radius: inherit;
+}
+
+#footer {
+    bottom: -10%;
+    color: #707070;
+    left: 0;
+    width: 100%;
+}
+
+    #footer nav ul {
+        bottom: -8px;
+        display: contents;
+    }

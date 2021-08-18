@@ -10,8 +10,6 @@
     using MyPetProject.Data.Common.Repositories;
     using MyPetProject.Data.Models;
     using MyPetProject.Web.ViewModels;
-    using MyPetProject.Web.ViewModels.MyCollection;
-    using MyPetProject.Web.ViewModels.Search;
 
     public class HomeController : BaseController
     {
@@ -83,54 +81,6 @@
             return await this.WildAnimalMethod();
         }
 
-        [HttpGet("/Search")]
-        public IActionResult Search()
-        {
-            SearchViewModel result = this.SearchMethod();
-
-            return this.View(result);
-        }
-
-        [HttpGet("/MyKingdoms")]
-        public IActionResult MyKingdoms()
-        {
-            MyCollectionViewModel result = this.MyKingdomsMethod();
-
-            return this.View(result);
-        }
-
-        [HttpGet("/MyBreeds")]
-        public IActionResult MyBreeds()
-        {
-            MyCollectionViewModel result = this.MyBreedsMethod();
-
-            return this.View(result);
-        }
-
-        [HttpGet("/MySubbreeds")]
-        public IActionResult MySubbreeds()
-        {
-            MyCollectionViewModel result = this.MySubbreedsMethod();
-
-            return this.View(result);
-        }
-
-        [HttpGet("/MyFoodTypes")]
-        public IActionResult MyFoodTypes()
-        {
-            MyCollectionViewModel result = this.MyFoodTypesMethod();
-
-            return this.View(result);
-        }
-
-        [HttpGet("/MyFoods")]
-        public IActionResult MyFoods()
-        {
-            MyCollectionViewModel result = this.MyFoodsMethod();
-
-            return this.View(result);
-        }
-
         public IActionResult ErrorPage()
         {
             return this.View();
@@ -174,58 +124,6 @@
                             .OrderBy(x => x.Name);
 
             return this.View(await result.ToListAsync());
-        }
-
-        private SearchViewModel SearchMethod()
-        {
-            var result = new SearchViewModel();
-
-            result.Kingdoms = this.kingdomsRepository.All();
-            result.Breeds = this.breedsRepository.All();
-            result.Subbreeds = this.subbreedsRepository.All();
-            result.FoodTypes = this.foodtypesRepository.All();
-            result.Foods = this.foodsRepository.All();
-            return result;
-        }
-
-        private MyCollectionViewModel MyKingdomsMethod()
-        {
-            var result = new MyCollectionViewModel();
-
-            result.Kingdoms = this.kingdomsRepository.All().Where(x => x.UserId == this.User.Claims.ToList()[0].Value);
-            return result;
-        }
-
-        private MyCollectionViewModel MyBreedsMethod()
-        {
-            var result = new MyCollectionViewModel();
-
-            result.Breeds = this.breedsRepository.All().Where(x => x.UserId == this.User.Claims.ToList()[0].Value);
-            return result;
-        }
-
-        private MyCollectionViewModel MySubbreedsMethod()
-        {
-            var result = new MyCollectionViewModel();
-
-            result.Subbreeds = this.subbreedsRepository.All().Where(x => x.UserId == this.User.Claims.ToList()[0].Value);
-            return result;
-        }
-
-        private MyCollectionViewModel MyFoodTypesMethod()
-        {
-            var result = new MyCollectionViewModel();
-
-            result.FoodTypes = this.foodtypesRepository.All().Where(x => x.UserId == this.User.Claims.ToList()[0].Value);
-            return result;
-        }
-
-        private MyCollectionViewModel MyFoodsMethod()
-        {
-            var result = new MyCollectionViewModel();
-
-            result.Foods = this.foodsRepository.All().Where(x => x.UserId == this.User.Claims.ToList()[0].Value);
-            return result;
         }
 
         private void TodayRandomEntityMethod()

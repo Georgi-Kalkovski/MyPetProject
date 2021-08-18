@@ -5,23 +5,6 @@
 @inject UserManager<ApplicationUser> UserManager
 
 <ul class="navbar-nav">
-
-    @*@if (this.SignInManager.IsSignedIn(this.User))
-        {
-            var user = await this.UserManager.GetUserAsync(this.User);
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) == false)
-            {
-        <li class="nav-item">
-            <a id="adminButton" onclick="hideAdminButton()" asp-controller="Admins" asp-action="Index" class="nav-link btn btn-link text-dark">Become Admin</a>
-        </li>
-            }
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-            {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Administration" asp-controller="Dashboard" asp-action="Index" title="Admin">Admin</a>
-        </li>
-            }
-        }*@
     @if (this.SignInManager.IsSignedIn(this.User))
     {
         <li class="dropdown">
@@ -30,20 +13,43 @@
                 <span class="dropdownMenu">My Collections</span>
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Home" asp-action="MyKingdoms">Kingdoms</a>
-                <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Home" asp-action="MyBreeds">Breeds</a>
-                <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Home" asp-action="MySubbreeds">Subbreeds</a>
-                <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Home" asp-action="MyFoodTypes">Food Types</a>
-                <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Home" asp-action="MyFoods">Foods</a>
+                <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="MyCollections" asp-action="MyKingdoms">Kingdoms</a>
+                <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="MyCollections" asp-action="MyBreeds">Breeds</a>
+                <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="MyCollections" asp-action="MySubbreeds">Subbreeds</a>
+                <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="MyCollections" asp-action="MyFoodTypes">Food Types</a>
+                <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="MyCollections" asp-action="MyFoods">Foods</a>
             </div>
         </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@this.User.Identity.Name!</a>
-        </li>
-        <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new { area = string.Empty })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-            </form>
+        <li class="dropdown">
+            <button class="btn dropdown-toggle nav-link text-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @{
+                    var userName = this.User.Identity.Name;
+                    int index = userName.IndexOf("@");
+                    if (index >= 0) { userName = userName.Substring(0, index); }
+                    <span class="dropdownMenu">@userName</span>
+                }
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                <a class="dropdown-item dropdownMenu" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">User Settings</a>
+                @if (this.SignInManager.IsSignedIn(this.User))
+                {
+                    var user = await this.UserManager.GetUserAsync(this.User);
+                    if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) == false)
+                    {
+                        <form asp-controller="Admins" asp-action="Index">
+                            <button type="submit" class="dropdown-item dropdownMenu">Become Admin</button>
+                        </form>
+                    }
+                }
+                @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                {
+                    <a class="dropdown-item dropdownMenu" asp-area="Administration" asp-controller="Dashboard" asp-action="Index" title="Admin">Admin</a>
+                }
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new { area = string.Empty })">
+                    <button type="submit" class="dropdown-item dropdownMenu">Logout</button>
+                </form>
+            </div>
         </li>
     }
     else

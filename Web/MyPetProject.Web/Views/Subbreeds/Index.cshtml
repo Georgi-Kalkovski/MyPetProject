@@ -61,11 +61,10 @@
             <tbody>
                 <div class="row mt-2 mb-4">
                     @{
-                        var counter = 1;
                         @foreach (var item in Model)
                         {
                             <div class="card col-6 col-lg-3 text-center">
-                                <a asp-controller="@(nextModelName)" asp-action="@item.Name">
+                                <a asp-action="Details" asp-route-id="@item.Name">
                                     <div class="card-body">
                                     </div>
                                     @if (!item.PicUrl.StartsWith("http") &&
@@ -92,7 +91,7 @@
                                                 if (this.User.Claims.Any())
                                                 {
                                                     userId = this.User.Claims.ToList()[0].Value;
-                                                    if (item.UserId == userId)
+                                                    if (item.UserId == userId || this.User.IsInRole("Administrator"))
                                                     {
                                                         <a asp-action="Edit" asp-route-id="@item.Name" class="btn btn-warning">Edit</a>
                                                         <a asp-action="Delete" asp-route-id="@item.Name" class="btn btn-danger">Delete</a>

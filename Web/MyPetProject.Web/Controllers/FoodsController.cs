@@ -155,13 +155,15 @@
                 return this.NotFound();
             }
 
-            if (this.User.Claims.ToList()[0].Value != result.UserId)
+            if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == result.UserId || this.User.IsInRole("Administrator"))
+            {
+                this.ViewData["FoodTypeName"] = new SelectList(this.foodtypesRepository.All(), "Name", "Name");
+                return this.View(result);
+            }
+            else
             {
                 return this.Redirect("/Home/ErrorPage");
             }
-
-            this.ViewData["FoodTypeName"] = new SelectList(this.foodtypesRepository.All(), "Name", "Name");
-            return this.View(result);
         }
 
         private async Task<IActionResult> EditPost(string name, FoodInputModel food)
@@ -240,12 +242,14 @@
                 return this.NotFound();
             }
 
-            if (this.User.Claims.ToList()[0].Value != result.UserId)
+            if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == result.UserId || this.User.IsInRole("Administrator"))
+            {
+                return this.View(result);
+            }
+            else
             {
                 return this.Redirect("/Home/ErrorPage");
             }
-
-            return this.View(result);
         }
 
         private async Task<IActionResult> IndexWithoutNameMethod()

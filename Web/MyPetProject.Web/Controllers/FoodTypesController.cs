@@ -162,13 +162,16 @@
                 return this.NotFound();
             }
 
-            if (this.User.Claims.ToList()[0].Value != result.UserId)
+            if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == result.UserId || this.User.IsInRole("Administrator"))
+            {
+
+                this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", this.foodtypesRepository.All().Include(x => x.UserId));
+                return this.View(result);
+            }
+            else
             {
                 return this.Redirect("/Home/ErrorPage");
             }
-
-            this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", this.foodtypesRepository.All().Include(x => x.UserId));
-            return this.View(result);
         }
 
         private async Task<IActionResult> EditPost(string name, FoodTypeInputModel foodType)
@@ -246,12 +249,14 @@
                 return this.NotFound();
             }
 
-            if (this.User.Claims.ToList()[0].Value != result.UserId)
+            if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == result.UserId || this.User.IsInRole("Administrator"))
+            {
+                return this.View(result);
+            }
+            else
             {
                 return this.Redirect("/Home/ErrorPage");
             }
-
-            return this.View(result);
         }
 
         private async Task<IActionResult> DeletePost(int? id)

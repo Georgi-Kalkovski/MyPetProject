@@ -65,7 +65,7 @@
                         if (this.User.Claims.Any())
                         {
                             userId = this.User.Claims.ToList()[0].Value;
-                            if (user == userId)
+                            if (user == userId || this.User.IsInRole("Administrator"))
                             {
                                 <a asp-action="Edit" asp-route-id="@name" class="btn btn-warning">Edit</a>
                                 <a asp-action="Delete" asp-route-id="@name" class="btn btn-danger">Delete</a>

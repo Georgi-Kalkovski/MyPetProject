@@ -14,8 +14,8 @@
 <body>
     <header>
         <nav id="navBar" class="navbar navbar-inverse navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3 sticky" data-spy="affix" data-offset-top="10">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
+            <div class="container" style="margin-bottom: -5px">
+                <a class="nav-link" style="color:black" asp-area="" asp-controller="Home" asp-action="Index"><h4>@GlobalConstants.SystemName</h4></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -77,77 +77,21 @@
         </main>
     </div>
 
-    <footer class="page-footer border-top footer text-muted navbar-fixed-bottom text-center" style="margin-bottom: -100px; background-color: white; list-style-type: none; line-height:1">
+    <footer id="footer" class="page-footer border-top footer text-muted navbar-fixed-bottom text-center" style="margin-bottom: auto; background-color: white; list-style-type: none; line-height:1">
 
         <nav class="navbar navbar-expand-sm bg-white dropup" style="border-style: none; display: inline-block;">
-
-            <ul class="navbar navbar-expand-sm bg-white navbar-nav flex-grow-1 justify-content-start dropup" style="border-style: none;">
-
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Groups">Groups</a>
-                </li>
-                <li class="dropdown">
-                    <button class="btn dropdown-toggle nav-link text-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="dropdownMenu">Categories</span>
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Kingdoms" asp-action="Index">Kingdoms</a>
-                        <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Breeds" asp-action="Index">Breeds</a>
-                        <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Subbreeds" asp-action="Index">Subbreeds</a>
-                    </div>
-                </li>
-                <li class="dropdown">
-                    <button class="btn dropdown-toggle nav-link text-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="dropdownMenu">Habitat</span>
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Home" asp-action="HomeAnimals">Home Animals</a>
-                        <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Home" asp-action="FarmAnimals">Farm Animals</a>
-                        <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Home" asp-action="WildAnimals">Wild Animals</a>
-                    </div>
-                </li>
-                <li class="dropdown">
-                    <button class="btn dropdown-toggle nav-link text-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="dropdownMenu">Foods</span>
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="FoodTypes" asp-action="Index">Food Types</a>
-                        <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="Foods" asp-action="Index">Foods</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Search">Search</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
-                </li>
-            </ul>
-            <ul id="contactMeText">
-            <li class="nav-link text-dark" style="left:10px">Contact Me: </li>
-            </ul>
-            <ul id="contactMe" class="navbar-nav justify-content-start " style="border-style: none;">
-
-                <li class="nav-item">
+            <div class="container">
+                <ul class="navbar navbar-expand-sm bg-white navbar-nav flex-grow-1 justify-content-start dropup" style="border-style: none;">
+                    <li id="contactMeText" class="nav-link text-dark" style="text-align: center;">Contact Me: </li>
                     <a class="contactMe nav-link" href="https://github.com/Georgi-Kalkovski"><img src="~/img/github.svg" /></a>
-                </li>
-                <li class="nav-item">
                     <a class="contactMe nav-link" href="https://www.linkedin.com/in/georgi-kalkovski/"><img src="~/img/linkedin.svg" /></a>
-                </li>
-                <li class="nav-item">
                     <a class="contactMe nav-link" href="mailto:g.kalkovski.92@gmail.com"><img src="~/img/gmail.svg" /></a>
-                </li>
-                <li class="nav-item">
                     <a class="contactMe nav-link" href="https://www.facebook.com/georgi.kalkovski"><img src="~/img/facebook.svg" /></a>
-                </li>
-                <li class="nav-item">
                     <a class="contactMe nav-link" href="https://discord.com/users/242250226545590274"><img src="~/img/discord.svg" /></a>
-                </li>
-            </ul>
+                </ul>
+            </div>
         </nav>
-            
+
         <div id="copyright">
             &copy; @DateTime.UtcNow.Year - @GlobalConstants.SystemName
         </div>
