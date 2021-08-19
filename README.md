@@ -1,7 +1,7 @@
 
 
 # 🐱 MyPetProject
-An Encyclopedia-like project for animals and their food.\
+An Encyclopedia-like project for animals and their food.<br/>
 Azure Website: https://mypets.azurewebsites.net/
 
  🔨 Built With
