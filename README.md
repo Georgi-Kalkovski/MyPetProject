@@ -1,10 +1,10 @@
 
 
 # 🐱 MyPetProject
-An Encyclopedia-like project for animals.
+An Encyclopedia-like project for animals and their food.\
 Azure Website: https://mypets.azurewebsites.net/
 
-## 🔨 Built With
+ 🔨 Built With
 - Visual Studio Enterprise 2019
 - .NET CORE 5.0
 - ASP.NET CORE 5.0 MVC
