@@ -2,6 +2,7 @@
 
 # 🐱 MyPetProject
 An Encyclopedia-like project for animals.
+Azure Website: https://mypets.azurewebsites.net/
 
 ## 🔨 Built With
 - Visual Studio Enterprise 2019
