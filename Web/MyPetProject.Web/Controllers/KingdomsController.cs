@@ -29,6 +29,7 @@
         }
 
         // GET: Kingdoms
+        [HttpGet("/Kingdoms/")]
         public async Task<IActionResult> Index() => await this.IndexWithoutNameMethod();
 
         // GET: Kingdoms/{name}

@@ -31,7 +31,6 @@
                 }
             }
 
-            this.SignOut();
             return this.RedirectToAction("Index","Home");
         }
     }

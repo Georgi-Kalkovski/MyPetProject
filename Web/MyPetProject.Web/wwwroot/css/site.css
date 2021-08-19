@@ -128,8 +128,9 @@ div.card.style {
     right: 15px;
     bottom: 15px;
     transition: background 0.5s;
-    z-index: 11;
+    z-index: 9999 !important;
     text-decoration: none;
+
 }
 
     #backToTop h3 {
@@ -337,7 +338,14 @@ justify-content: center;
     width: 100%;
 }
 
-    #footer nav ul {
-        bottom: -8px;
-        display: contents;
-    }
+#footer nav ul {
+    bottom: -8px;
+    display: contents;
+}
+
+.sorting_1 img:hover {
+    transform: scale(4);
+    position: absolute;
+    transition: transform .2s;
+    z-index:9999 !important;
+}

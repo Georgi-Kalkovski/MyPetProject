@@ -37,9 +37,9 @@
                     var user = await this.UserManager.GetUserAsync(this.User);
                     if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) == false)
                     {
-                        <form asp-controller="Admins" asp-action="Index">
-                            <button type="submit" class="dropdown-item dropdownMenu">Become Admin</button>
-                        </form>
+                        //<form asp-controller="Admins" asp-action="Index">
+                        //    <button type="submit" class="dropdown-item dropdownMenu">Become Admin</button>
+                        //</form>
                     }
                 }
                 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))

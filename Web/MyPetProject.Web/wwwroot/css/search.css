@@ -7,11 +7,6 @@
     height:auto;
 }
 
-sorting_1 td img:hover {
-    transform: scale(4);
-    position: absolute;
-}
-
 th {
     text-align: center;
 }
