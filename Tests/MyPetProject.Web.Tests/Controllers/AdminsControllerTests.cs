@@ -4,7 +4,7 @@
     using MyTested.AspNetCore.Mvc;
     using Xunit;
 
-    public class AdminsControllerShould
+    public class AdminsControllerTests
     {
         [Fact]
         public void AdminsControllerWithIndexActionShouldRedirectToHomeIndex()

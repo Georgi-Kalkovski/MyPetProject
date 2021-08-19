@@ -40,16 +40,19 @@
             return this.View();
         }
 
+        [HttpGet("/Groups")]
         public IActionResult Groups()
         {
             return this.View();
         }
 
+        [HttpGet("/About")]
         public IActionResult About()
         {
             return this.View();
         }
 
+        [HttpGet("/Error")]
         public IActionResult ErrorPage()
         {
             return this.View();

@@ -4,7 +4,7 @@
     using MyTested.AspNetCore.Mvc;
     using Xunit;
 
-    public class SearchControllerShould
+    public class SearchControllerTests
     {
         [Fact]
         public void SearchControllerWithSearchKingdomsActionShouldReturnViewPage()

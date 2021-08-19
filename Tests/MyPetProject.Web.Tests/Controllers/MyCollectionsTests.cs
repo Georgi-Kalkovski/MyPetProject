@@ -4,7 +4,7 @@
     using MyTested.AspNetCore.Mvc;
     using Xunit;
 
-    public class MyCollectionsShould
+    public class MyCollectionsTests
     {
         [Fact]
         public void MyCollectionsControllerWithMyKingdomsActionShouldReturnViewPage()

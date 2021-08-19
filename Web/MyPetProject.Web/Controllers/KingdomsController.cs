@@ -197,7 +197,6 @@
             {
                 return this.Redirect("/Home/ErrorPage");
             }
-
         }
 
         private async Task<IActionResult> EditPost(string name, KingdomInputModel kingdom)

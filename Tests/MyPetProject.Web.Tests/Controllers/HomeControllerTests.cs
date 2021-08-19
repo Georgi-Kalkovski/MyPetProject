@@ -4,16 +4,8 @@
     using MyTested.AspNetCore.Mvc;
     using Xunit;
 
-    public class HomeControllerShould
+    public class HomeControllerTests
     {
-        [Fact]
-        public void HomeControllerWithIndexActionShouldReturnViewPage()
-           => MyController<HomeController>
-           .Instance(i => i.WithData())
-           .Calling(c => c.Index())
-           .ShouldHave()
-           .ValidModelState();
-
         [Fact]
         public void HomeControllerWithGroupsActionShouldReturnViewPage()
             => MyController<HomeController>

@@ -1,10 +1,11 @@
 ﻿namespace MyPetProject.Web.Tests.Controller
 {
     using MyPetProject.Web.Controllers;
+    using MyPetProject.Web.ViewModels.FoodTypes;
     using MyTested.AspNetCore.Mvc;
     using Xunit;
 
-    public class FoodTypesControllerShould
+    public class FoodTypesControllerTests
     {
         [Fact]
         public void FoodTypesControllerWithIndexActionShouldReturnViewPage()
@@ -34,7 +35,7 @@
             .ValidModelState();
 
         [Fact]
-        public void FoodTypesControllerWithCreateActionShouldReturnViewPage()
+        public void FoodTypesControllerWithCreateGetActionShouldReturnViewPage()
           => MyController<FoodTypesController>
           .Instance(i => i.WithUser())
           .Calling(c => c.Create())
@@ -42,7 +43,16 @@
           .View();
 
         [Fact]
-        public void FoodTypesControllerWithEditActionShouldReturnViewPage()
+        public void FoodTypesControllerWithCreatePostActionShouldReturnViewPage()
+        => MyController<FoodTypesController>
+        .Instance(i => i.WithUser())
+              .Calling(c => c.Create(
+              With.Empty<FoodTypeInputModel>()))
+              .ShouldHave()
+          .ValidModelState();
+
+        [Fact]
+        public void FoodTypesControllerWithEditGetActionShouldReturnViewPage()
           => MyController<FoodTypesController>
           .Instance(i => i.WithUser())
           .Calling(c => c.Edit("Fish"))
@@ -50,11 +60,27 @@
           .ValidModelState();
 
         [Fact]
-        public void FoodTypesControllerWithDeleteActionShouldReturnViewPage()
+        public void FoodTypesControllerWithEditPostActionShouldReturnViewPage()
+       => MyController<FoodTypesController>
+       .Instance(i => i.WithUser())
+             .Calling(c => c.Edit(
+             "Fish",
+             With.Empty<FoodTypeInputModel>()))
+             .ShouldHave()
+         .ValidModelState();
+
+        [Fact]
+        public void FoodTypesControllerWithDeleteGetActionShouldReturnViewPage()
           => MyController<FoodTypesController>
           .Instance(i => i.WithUser())
           .Calling(c => c.Delete("Fish"))
           .ShouldHave()
           .ValidModelState();
+
+        [Fact]
+        public void FoodTypesControllerWithDeletePostActionShouldReturnViewPage()
+      => MyController<FoodTypesController>
+      .Instance(i => i.WithUser())
+           .Calling(c => c.DeleteConfirmed(With.Empty<int>(), "Fish"));
     }
 }

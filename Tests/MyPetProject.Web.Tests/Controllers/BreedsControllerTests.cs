@@ -1,10 +1,11 @@
 ﻿namespace MyPetProject.Web.Tests.Controller
 {
     using MyPetProject.Web.Controllers;
+    using MyPetProject.Web.ViewModels.Breeds;
     using MyTested.AspNetCore.Mvc;
     using Xunit;
 
-    public class BreedsControllerShould
+    public class BreedsControllerTests
     {
         [Fact]
         public void BreedsControllerWithIndexActionShouldReturnViewPage()
@@ -34,7 +35,7 @@
             .ValidModelState();
 
         [Fact]
-        public void BreedsControllerWithCreateActionShouldReturnViewPage()
+        public void BreedsControllerWithCreateGetActionShouldReturnViewPage()
           => MyController<BreedsController>
           .Instance(i => i.WithUser())
           .Calling(c => c.Create())
@@ -42,7 +43,16 @@
           .View();
 
         [Fact]
-        public void BreedsControllerWithEditActionShouldReturnViewPage()
+        public void BreedsControllerWithCreatePostActionShouldReturnViewPage()
+        => MyController<BreedsController>
+        .Instance(i => i.WithUser())
+              .Calling(c => c.Create(
+              With.Empty<BreedInputModel>()))
+              .ShouldHave()
+          .ValidModelState();
+
+        [Fact]
+        public void BreedsControllerWithEditGetActionShouldReturnViewPage()
           => MyController<BreedsController>
           .Instance(i => i.WithUser())
           .Calling(c => c.Edit("Bulldogs"))
@@ -50,11 +60,27 @@
           .ValidModelState();
 
         [Fact]
-        public void BreedsControllerWithDeleteActionShouldReturnViewPage()
+        public void BreedsControllerWithEditPostActionShouldReturnViewPage()
+        => MyController<BreedsController>
+        .Instance(i => i.WithUser())
+              .Calling(c => c.Edit(
+              "Cats",
+              With.Empty<BreedInputModel>()))
+              .ShouldHave()
+          .ValidModelState();
+
+        [Fact]
+        public void BreedsControllerWithDeleteGetActionShouldReturnViewPage()
           => MyController<BreedsController>
           .Instance(i => i.WithUser())
           .Calling(c => c.Delete("Bulldogs"))
           .ShouldHave()
           .ValidModelState();
+
+        [Fact]
+        public void BreedsControllerWithDeletePostActionShouldReturnViewPage()
+      => MyController<BreedsController>
+      .Instance(i => i.WithUser())
+           .Calling(c => c.DeleteConfirmed("Cats"));
     }
 }

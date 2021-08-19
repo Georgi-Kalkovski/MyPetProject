@@ -4,7 +4,7 @@
     using MyTested.AspNetCore.Mvc;
     using Xunit;
 
-    public class HabitatsControllerShould
+    public class HabitatsControllerTests
     {
         [Fact]
         public void HabitatsControllerWithHomeAnimalsActionShouldReturnViewPage()

@@ -1,10 +1,12 @@
 ﻿namespace MyPetProject.Web.Tests.Controller
 {
     using MyPetProject.Web.Controllers;
+    using MyPetProject.Data.Models;
+    using MyPetProject.Web.ViewModels.Kingdoms;
     using MyTested.AspNetCore.Mvc;
     using Xunit;
 
-    public class KingdomsControllerShould
+    public class KingdomsControllerTests
     {
         [Fact]
         public void KingdomsControllerWithIndexActionShouldReturnViewPage()
@@ -34,7 +36,7 @@
             .ValidModelState();
 
         [Fact]
-        public void KingdomsControllerWithCreateActionShouldReturnViewPage()
+        public void KingdomsControllerWithCreateGetActionShouldReturnViewPage()
           => MyController<KingdomsController>
           .Instance(i => i.WithUser())
           .Calling(c => c.Create())
@@ -42,7 +44,16 @@
           .View();
 
         [Fact]
-        public void KingdomsControllerWithEditActionShouldReturnViewPage()
+        public void KingdomsControllerWithCreatePostActionShouldReturnViewPage()
+        => MyController<KingdomsController>
+        .Instance(i => i.WithUser())
+              .Calling(c => c.Create(
+              With.Empty<KingdomInputModel>()))
+              .ShouldHave()
+          .ValidModelState();
+
+        [Fact]
+        public void KingdomsControllerWithEditGetActionShouldReturnViewPage()
           => MyController<KingdomsController>
           .Instance(i => i.WithUser())
           .Calling(c => c.Edit("Cats"))
@@ -50,11 +61,27 @@
           .ValidModelState();
 
         [Fact]
-        public void KingdomsControllerWithDeleteActionShouldReturnViewPage()
+        public void KingdomsControllerWithEditPostActionShouldReturnViewPage()
+        => MyController<KingdomsController>
+        .Instance(i => i.WithUser())
+              .Calling(c => c.Edit(
+              "Cats",
+              With.Empty<KingdomInputModel>()))
+              .ShouldHave()
+          .ValidModelState();
+
+        [Fact]
+        public void KingdomsControllerWithDeleteGetActionShouldReturnViewPage()
           => MyController<KingdomsController>
           .Instance(i => i.WithUser())
           .Calling(c => c.Delete("Cats"))
           .ShouldHave()
           .ValidModelState();
+
+        [Fact]
+        public void KingdomsControllerWithDeletePostActionShouldReturnViewPage()
+       => MyController<KingdomsController>
+       .Instance(i => i.WithUser())
+            .Calling(c => c.DeleteConfirmed(With.Empty<int>(), "Cats"));
     }
 }
