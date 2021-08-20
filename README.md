@@ -11,20 +11,20 @@ Azure Website: https://mypets.azurewebsites.net/
  --
  
 - IDE:
-  - [Visual Studio Enterprise 2019](https://visualstudio.microsoft.com/vs/, "Visual Studio Enterprise 2019")
+  - [Visual Studio Enterprise 2019](https://visualstudio.microsoft.com/vs/ "Visual Studio Enterprise 2019")
 - .NET CORE 5.0:
-  - [ASP.NET CORE 5.0 MVC](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/start-mvc?view=aspnetcore-5.0&tabs=visual-studio, "ASP.NET CORE 5.0 MVC")
+  - [ASP.NET CORE 5.0 MVC](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/start-mvc?view=aspnetcore-5.0&tabs=visual-studio "ASP.NET CORE 5.0 MVC")
   - ASP.NET CORE Areas
   - ASP.NET CORE Identity System
-  - [ASP.NET CORE Template - by Nikolay Kostov](https://github.com/NikolayIT/ASP.NET-Core-Template, "ASP.NET CORE Template - by Nikolay Kostov")
+  - [ASP.NET CORE Template - by Nikolay Kostov](https://github.com/NikolayIT/ASP.NET-Core-Template "ASP.NET CORE Template - by Nikolay Kostov")
 - Database:
   - Entity Framework Core 5.0
   - MSSQL Server
   - Microsoft SQL Server Management Studio 18
 - Web Servers:
   - IIS
-  - [Microsoft Azure App Service](https://azure.microsoft.com/en-us/services/app-service/, "Microsoft Ezure App Service")
-  - [Microsoft Azure SQL Database](https://azure.microsoft.com/en-us/products/azure-sql/database/, "Azure SQL Database")
+  - [Microsoft Azure App Service](https://azure.microsoft.com/en-us/services/app-service/ "Microsoft Ezure App Service")
+  - [Microsoft Azure SQL Database](https://azure.microsoft.com/en-us/products/azure-sql/database/ "Azure SQL Database")
 - Back-End Language:
   - C#
 - Front-End Language:
@@ -39,14 +39,14 @@ Azure Website: https://mypets.azurewebsites.net/
   - AutoMapper
   - Ajax
   - jQuery
-  - [DataTables](https://datatables.net/, "DataTables")
-  - [SimpleIcons](https://simpleicons.org/?q=git, "SimpleIcons")
-  - [BootsWatch (Sketchy)](https://bootswatch.com/sketchy/, "BootsWatch (Sketchy)")
-  - [Imgur](https://imgur.com/, "Imgur")
+  - [DataTables](https://datatables.net/ "DataTables")
+  - [SimpleIcons](https://simpleicons.org/?q=git "SimpleIcons")
+  - [BootsWatch (Sketchy)](https://bootswatch.com/sketchy/ "BootsWatch (Sketchy)")
+  - [Imgur](https://imgur.com/ "Imgur")
   - SVG
 - Testing
   - xUnit
-  - [MyTested.AspNetCore.Mvc - by Ivaylo Kenov](https://github.com/ivaylokenov/MyTested.AspNetCore.Mvc, "MyTested.AspNetCore.Mvc - by Ivaylo Kenov")
+  - [MyTested.AspNetCore.Mvc - by Ivaylo Kenov](https://github.com/ivaylokenov/MyTested.AspNetCore.Mvc/ "MyTested.AspNetCore.Mvc - by Ivaylo Kenov")
 
 ## Preview:
 
