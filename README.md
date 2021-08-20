@@ -37,6 +37,7 @@ Azure Website: https://mypets.azurewebsites.net/
 - Additionals:
   - Data Seeding
   - AutoMapper
+  - StyleCop
   - Ajax
   - jQuery
   - [DataTables](https://datatables.net/ "DataTables")
