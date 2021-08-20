@@ -11,10 +11,9 @@ Azure Website: https://mypets.azurewebsites.net/
  --
  
 - IDE:
-  - Visual Studio Enterprise 2019
+  - [Visual Studio Enterprise 2019](https://visualstudio.microsoft.com/vs/, "Visual Studio Enterprise 2019")
 - .NET CORE 5.0:
-  - ASP.NET CORE 5.0 MVC
-  - ASP.NET CORE View Components
+  - [ASP.NET CORE 5.0 MVC](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/start-mvc?view=aspnetcore-5.0&tabs=visual-studio, "ASP.NET CORE 5.0 MVC")
   - ASP.NET CORE Areas
   - ASP.NET CORE Identity System
   - [ASP.NET CORE Template - by Nikolay Kostov](https://github.com/NikolayIT/ASP.NET-Core-Template, "ASP.NET CORE Template - by Nikolay Kostov")
@@ -30,6 +29,7 @@ Azure Website: https://mypets.azurewebsites.net/
   - C#
 - Front-End Language:
   - JavaScript
+  - Razor Views
 - Markup Languages:
   - HTML5
   - CSS3
