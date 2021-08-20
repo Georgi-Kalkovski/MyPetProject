@@ -11,6 +11,7 @@ Azure Website: https://mypets.azurewebsites.net/
 - ASP.NET CORE View Components
 - ASP.NET CORE Areas
 - ASP.NET CORE Identity System
+- [ASP.NET CORE Template - by Nikolay Kostov](https://github.com/NikolayIT/ASP.NET-Core-Template, "ASP.NET CORE Template - by Nikolay Kostov")
 - MSSQL Server
 - Microsoft SQL Server Management Studio 18
 - Entity Framework Core 5.0
@@ -26,13 +27,13 @@ Azure Website: https://mypets.azurewebsites.net/
 - jQuery
 - Bootstrap 5
 - [DataTables](https://datatables.net/, "DataTables")
-- [SimpleIcons](https://simpleicons.org/?q=git "SimpleIcons")
-- [BootsWatch (Sketchy)](https://bootswatch.com/sketchy/ "BootsWatch (Sketchy)")
+- [SimpleIcons](https://simpleicons.org/?q=git, "SimpleIcons")
+- [BootsWatch (Sketchy)](https://bootswatch.com/sketchy/, "BootsWatch (Sketchy)")
 - [Imgur](https://imgur.com/, "Imgur")
 - SVG
 - xUnit
-- Moq
-- Selemium
+
+- [MyTested.AspNetCore.Mvc - by Ivaylo Kenov](https://github.com/ivaylokenov/MyTested.AspNetCore.Mvc, "MyTested.AspNetCore.Mvc - by Ivaylo Kenov")
 
 ## Preview:
 
