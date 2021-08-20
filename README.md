@@ -2,9 +2,27 @@
 
 # 🐱 MyPetProject
 An Encyclopedia-like project for animals and their food.<br/>
+
+The project allows you to look around for animals or their food, and if you register, you can create some of your own . After the user creates something, he can also Edit and Delete it. There is also an option for the registered user to become an admin. Becoming admin gives you the power of editing or deleting of every object in the project. There is an About page, where you can read more about the project and what it contains. <br/>
+
 Azure Website: https://mypets.azurewebsites.net/
 
  🔨 Built With
+ --
+
+|   |   |   |
+|---|---|---|
+|Visual Studio Enterprise 2019| .NET CORE 5.0 | ASP.NET CORE 5.0 MVC|
+| ASP.NET CORE View Components | ASP.NET CORE Areas | ASP.NET CORE Identity System |
+| [ASP.NET CORE Template - by Nikolay Kostov](https://github.com/NikolayIT/ASP.NET-Core-Template, "ASP.NET CORE Template - by Nikolay Kostov") | MSSQL Server | Microsoft SQL Server Management Studio 18 |
+|Entity Framework Core 5.0| [Microsoft Azure App Service](https://azure.microsoft.com/en-us/services/app-service/, "Microsoft Ezure App Service") | [Microsoft Azure SQL Database](https://azure.microsoft.com/en-us/products/azure-sql/database/, "Azure SQL Database")|
+|AutoMapper| Data Seeding | Data Seeding|
+|C#| JavaScript | HTML5|
+|CSS3| Ajax | jQuery|
+|Bootstrap 5| [DataTables](https://datatables.net/, "DataTables") | [SimpleIcons](https://simpleicons.org/?q=git, "SimpleIcons")|
+|[BootsWatch (Sketchy)](https://bootswatch.com/sketchy/, "BootsWatch (Sketchy)")|  [Imgur](https://imgur.com/, "Imgur") | SVG|
+|xUnit| [MyTested.AspNetCore.Mvc - by Ivaylo Kenov](https://github.com/ivaylokenov/MyTested.AspNetCore.Mvc, "MyTested.AspNetCore.Mvc - by Ivaylo Kenov") | |
+
 - Visual Studio Enterprise 2019
 - .NET CORE 5.0
 - ASP.NET CORE 5.0 MVC
@@ -46,14 +64,14 @@ Azure Website: https://mypets.azurewebsites.net/
 ### Groups Page
 ![Groups](https://i.imgur.com/wwMYnKu.png)
 
-### Search Pages
-![Search Pages](https://i.imgur.com/GarKUff.png)
-
 ### Animals/Foods Pages
 ![Animals Pages](https://i.imgur.com/w1e1Ko0.png)
 
 ### Details Pages
 ![Details Pages](https://i.imgur.com/nX2LttD.png)
+
+### Search Pages
+![Search Pages](https://i.imgur.com/GarKUff.png)
 
 ### About Page
 ![About](https://i.imgur.com/6edDdw1.png)
