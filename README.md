@@ -18,9 +18,9 @@ Azure Website: https://mypets.azurewebsites.net/
   - ASP.NET CORE Identity System
   - [ASP.NET CORE Template - by Nikolay Kostov](https://github.com/NikolayIT/ASP.NET-Core-Template "ASP.NET CORE Template - by Nikolay Kostov")
 - Database:
-  - Entity Framework Core 5.0
+  - [Entity Framework Core 5.0](https://docs.microsoft.com/en-us/ef/ "Entity Framework Core 5.0")
   - MSSQL Server
-  - Microsoft SQL Server Management Studio 18
+  - [Microsoft SQL Server Management Studio 18](https://cloudblogs.microsoft.com/sqlserver/2019/04/24/sql-server-management-studio-ssms-18-0-released-for-general-availability/, "Microsoft SQL Server Management Studio 18")
 - Web Servers:
   - IIS
   - [Microsoft Azure App Service](https://azure.microsoft.com/en-us/services/app-service/ "Microsoft Ezure App Service")
@@ -33,7 +33,7 @@ Azure Website: https://mypets.azurewebsites.net/
 - Markup Languages:
   - HTML5
   - CSS3
-  - Bootstrap 5
+  - [Bootstrap 5](https://getbootstrap.com/docs/5.1/getting-started/introduction/ "Bootstrap 5")
 - Additionals:
   - Data Seeding
   - AutoMapper
@@ -45,7 +45,7 @@ Azure Website: https://mypets.azurewebsites.net/
   - [Imgur](https://imgur.com/ "Imgur")
   - SVG
 - Testing
-  - xUnit
+  - [xUnit](https://xunit.net/ "xUnit")
   - [MyTested.AspNetCore.Mvc - by Ivaylo Kenov](https://github.com/ivaylokenov/MyTested.AspNetCore.Mvc/ "MyTested.AspNetCore.Mvc - by Ivaylo Kenov")
 
 ## Preview:
