@@ -69,7 +69,7 @@ Custom DNS without SSL certificate: https://www.mypetproject.space/
 ![Details Pages](https://i.imgur.com/nX2LttD.png)
 
 ### Search Pages
-![Search Pages](https://i.imgur.com/ugOuC3t.png)
+![Search Pages](https://i.imgur.com/kWHbCGr.png)
 
 ### About Page
 ![About](https://i.imgur.com/6edDdw1.png)
