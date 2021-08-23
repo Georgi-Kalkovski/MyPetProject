@@ -52,7 +52,7 @@
             return this.View();
         }
 
-        [HttpGet("/Home/ErrorPage")]
+        [HttpGet("/ErrorPage")]
         public IActionResult ErrorPage()
         {
             return this.View();

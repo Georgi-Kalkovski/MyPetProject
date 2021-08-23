@@ -132,7 +132,7 @@
         {
             if (!this.User.Claims.Any())
             {
-                return this.Redirect("/Home/ErrorPage");
+                return this.Redirect("/ErrorPage");
             }
 
             this.ViewData["KingdomName"] = new SelectList(this.kingdomsRepository.All().OrderBy(x => x.Name), "Name", "Name");
@@ -172,7 +172,7 @@
         {
             if (!this.User.Claims.Any())
             {
-                return this.Redirect("/Home/ErrorPage");
+                return this.Redirect("/ErrorPage");
             }
 
             if (name == null)
@@ -180,9 +180,19 @@
                 return this.NotFound();
             }
 
-            var result = await this.subbreedsRepository
+            var repo = await this.subbreedsRepository
                 .All()
                 .FirstOrDefaultAsync(x => x.Name == name);
+
+            var result = new SubbreedInputModel()
+            {
+                Name = repo.Name,
+                PicUrl = repo.PicUrl,
+                Description = repo.Description,
+                KingdomName = repo.KingdomName,
+                BreedName = repo.BreedName,
+                UserId = repo.UserId,
+            };
 
             if (result == null)
             {
@@ -197,7 +207,7 @@
             }
             else
             {
-                return this.Redirect("/Home/ErrorPage");
+                return this.Redirect("/ErrorPage");
             }
         }
 
@@ -263,7 +273,7 @@
         {
             if (!this.User.Claims.Any())
             {
-                return this.Redirect("/Home/ErrorPage");
+                return this.Redirect("/ErrorPage");
             }
 
             if (name == null)
@@ -294,7 +304,7 @@
             }
             else
             {
-                return this.Redirect("/Home/ErrorPage");
+                return this.Redirect("/ErrorPage");
             }
         }
 

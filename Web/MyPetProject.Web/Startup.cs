@@ -92,7 +92,7 @@
 
             app.UseHttpsRedirection();
 
-            app.UseStatusCodePagesWithRedirects("/Home/ErrorPage"); // ?code={0}
+            app.UseStatusCodePagesWithRedirects("/ErrorPage"); // ?code={0}
 
             app.UseStaticFiles();
             app.UseCookiePolicy();

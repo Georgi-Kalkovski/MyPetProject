@@ -19,21 +19,21 @@
         }
 
         // GET: /HomeAnimals
-        [HttpGet("/HomeAnimals")]
+        [HttpGet("/Kingdoms/HomeAnimals")]
         public async Task<IActionResult> HomeAnimals()
         {
             return await this.HomeAnimalsMethod();
         }
 
         // GET: /FarmAnimals
-        [HttpGet("/FarmAnimals")]
+        [HttpGet("/Kingdoms/FarmAnimals")]
         public async Task<IActionResult> FarmAnimals()
         {
             return await this.FarmAnimalsMethod();
         }
 
         // GET: /WildAnimals
-        [HttpGet("/WildAnimals")]
+        [HttpGet("/Kingdoms/WildAnimals")]
         public async Task<IActionResult> WildAnimals()
         {
             return await this.WildAnimalMethod();

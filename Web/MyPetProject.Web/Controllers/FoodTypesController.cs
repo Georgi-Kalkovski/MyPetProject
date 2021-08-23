@@ -114,7 +114,7 @@
         {
             if (!this.User.Claims.Any())
             {
-                return this.Redirect("/Home/ErrorPage");
+                return this.Redirect("/ErrorPage");
             }
 
             this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id");
@@ -145,7 +145,7 @@
         {
             if (!this.User.Claims.Any())
             {
-                return this.Redirect("/Home/ErrorPage");
+                return this.Redirect("/ErrorPage");
             }
 
             if (name == null)
@@ -153,9 +153,17 @@
                 return this.NotFound();
             }
 
-            var result = await this.foodtypesRepository
+            var repo = await this.foodtypesRepository
                 .All()
                 .FirstOrDefaultAsync(x => x.Name == name);
+
+            var result = new FoodTypeInputModel()
+            {
+                Name = repo.Name,
+                PicUrl = repo.PicUrl,
+                Description = repo.Description,
+                UserId = repo.UserId,
+            };
 
             if (result == null)
             {
@@ -164,13 +172,12 @@
 
             if (this.User.FindFirstValue(ClaimTypes.NameIdentifier) == result.UserId || this.User.IsInRole("Administrator"))
             {
-
                 this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id", this.foodtypesRepository.All().Include(x => x.UserId));
                 return this.View(result);
             }
             else
             {
-                return this.Redirect("/Home/ErrorPage");
+                return this.Redirect("/ErrorPage");
             }
         }
 
@@ -231,7 +238,7 @@
         {
             if (!this.User.Claims.Any())
             {
-                return this.Redirect("/Home/ErrorPage");
+                return this.Redirect("/ErrorPage");
             }
 
             if (name == null)
@@ -255,7 +262,7 @@
             }
             else
             {
-                return this.Redirect("/Home/ErrorPage");
+                return this.Redirect("/ErrorPage");
             }
         }
 

@@ -106,7 +106,7 @@
         {
             if (!this.User.Claims.Any())
             {
-                return this.Redirect("/Home/ErrorPage");
+                return this.Redirect("/ErrorPage");
             }
 
             this.ViewData["FoodTypeName"] = new SelectList(this.foodtypesRepository.All().OrderBy(x => x.Name), "Name", "Name");
@@ -138,7 +138,7 @@
         {
             if (!this.User.Claims.Any())
             {
-                return this.Redirect("/Home/ErrorPage");
+                return this.Redirect("/ErrorPage");
             }
 
             if (name == null)
@@ -146,9 +146,18 @@
                 return this.NotFound();
             }
 
-            var result = await this.foodsRepository
+            var repo = await this.foodsRepository
                  .All()
                  .FirstOrDefaultAsync(x => x.Name == name);
+
+            var result = new FoodInputModel()
+            {
+                Name = repo.Name,
+                PicUrl = repo.PicUrl,
+                Description = repo.Description,
+                FoodTypeName = repo.FoodTypeName,
+                UserId = repo.UserId,
+            };
 
             if (result == null)
             {
@@ -162,7 +171,7 @@
             }
             else
             {
-                return this.Redirect("/Home/ErrorPage");
+                return this.Redirect("/ErrorPage");
             }
         }
 
@@ -224,7 +233,7 @@
         {
             if (!this.User.Claims.Any())
             {
-                return this.Redirect("/Home/ErrorPage");
+                return this.Redirect("/ErrorPage");
             }
 
             if (name == null)
@@ -248,7 +257,7 @@
             }
             else
             {
-                return this.Redirect("/Home/ErrorPage");
+                return this.Redirect("/ErrorPage");
             }
         }
 

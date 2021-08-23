@@ -31,7 +31,7 @@
         <div class="justify-content: center" style="display: flex;justify-content: center">
             @if (this.User.Claims.Any())
             {
-                <p> <a asp-action="Create">Create New @(lastSection + " " + modelName)</a></p>
+                <p> <a asp-controller="@(modelName + "s")" asp-action="Create">Create New @(lastSection + " " + modelName)</a></p>
                 <p style="margin: 0 8px;"> or </p>
             }
             <p><a href="javascript:history.back()">Go Back</a></p>
@@ -51,7 +51,7 @@
         @if (this.User.Claims.Any())
         {
             <p>
-                <a asp-action="Create">Create New @(modelName)</a>
+                <a asp-controller="@(modelName + "s")" asp-action="Create">Create New @(modelName)</a>
             </p>
         }
         <p>
@@ -98,8 +98,8 @@
                                                 userId = this.User.Claims.ToList()[0].Value;
                                                 if (item.UserId == userId || this.User.IsInRole("Administrator"))
                                                 {
-                                                    <a asp-action="Edit" asp-route-id="@item.Name" class="btn btn-warning">Edit</a>
-                                                    <a asp-action="Delete" asp-route-id="@item.Name" class="btn btn-danger">Delete</a>
+                                                    <a asp-controller="@(modelName + "s")" asp-action="Edit" asp-route-id="@item.Name" class="btn btn-warning">Edit</a>
+                                                    <a asp-controller="@(modelName + "s")" asp-action="Delete" asp-route-id="@item.Name" class="btn btn-danger">Delete</a>
                                                 }
                                             }
                                         }

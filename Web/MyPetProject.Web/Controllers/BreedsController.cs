@@ -122,7 +122,7 @@
         {
             if (!this.User.Claims.Any())
             {
-                return this.Redirect("/Home/ErrorPage");
+                return this.Redirect("/ErrorPage");
             }
 
             this.ViewData["UserId"] = new SelectList(this.applicationsRepository.All(), "Id", "Id");
@@ -157,7 +157,7 @@
         {
             if (!this.User.Claims.Any())
             {
-                return this.Redirect("/Home/ErrorPage");
+                return this.Redirect("/ErrorPage");
             }
 
             if (name == null)
@@ -165,9 +165,18 @@
                 return this.NotFound();
             }
 
-            var result = await this.breedsRepository
+            var repo = await this.breedsRepository
                 .All()
                 .FirstOrDefaultAsync(x => x.Name == name);
+
+            var result = new BreedInputModel()
+            {
+                Name = repo.Name,
+                PicUrl = repo.PicUrl,
+                Description = repo.Description,
+                KingdomName = repo.KingdomName,
+                UserId = repo.UserId,
+            };
 
             if (result == null)
             {
@@ -183,7 +192,7 @@
             }
             else
             {
-                return this.Redirect("/Home/ErrorPage");
+                return this.Redirect("/ErrorPage");
             }
         }
 
@@ -248,7 +257,7 @@
         {
             if (!this.User.Claims.Any())
             {
-                return this.Redirect("/Home/ErrorPage");
+                return this.Redirect("/ErrorPage");
             }
 
             if (name == null)
@@ -279,7 +288,7 @@
             }
             else
             {
-                return this.Redirect("/Home/ErrorPage");
+                return this.Redirect("/ErrorPage");
             }
         }
 
