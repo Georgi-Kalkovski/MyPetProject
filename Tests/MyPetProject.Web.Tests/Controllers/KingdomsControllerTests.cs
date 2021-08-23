@@ -53,14 +53,6 @@
           .ValidModelState();
 
         [Fact]
-        public void KingdomsControllerWithEditGetActionShouldReturnViewPage()
-          => MyController<KingdomsController>
-          .Instance(i => i.WithUser())
-          .Calling(c => c.Edit("Cats"))
-          .ShouldHave()
-          .ValidModelState();
-
-        [Fact]
         public void KingdomsControllerWithEditPostActionShouldReturnViewPage()
         => MyController<KingdomsController>
         .Instance(i => i.WithUser())

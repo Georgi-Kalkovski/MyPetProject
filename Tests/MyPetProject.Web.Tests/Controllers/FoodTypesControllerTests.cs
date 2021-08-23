@@ -52,14 +52,6 @@
           .ValidModelState();
 
         [Fact]
-        public void FoodTypesControllerWithEditGetActionShouldReturnViewPage()
-          => MyController<FoodTypesController>
-          .Instance(i => i.WithUser())
-          .Calling(c => c.Edit("Fish"))
-          .ShouldHave()
-          .ValidModelState();
-
-        [Fact]
         public void FoodTypesControllerWithEditPostActionShouldReturnViewPage()
        => MyController<FoodTypesController>
        .Instance(i => i.WithUser())

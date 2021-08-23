@@ -55,7 +55,7 @@
             </p>
         }
         <p>
-            <a asp-controller="@back" asp-action="Index">Go Back</a>
+            <a href="javascript:history.back()">Go Back</a>
         </p>
 
         <table class="table">
@@ -69,9 +69,9 @@
                                 <div class="card-body">
                                 </div>
                                 @if (!item.PicUrl.StartsWith("http") &&
-                                !item.PicUrl.EndsWith(".jpg") &&
-                                !item.PicUrl.EndsWith(".png") &&
-                                !item.PicUrl.EndsWith(".jpeg"))
+                              !item.PicUrl.EndsWith(".jpg") &&
+                              !item.PicUrl.EndsWith(".png") &&
+                              !item.PicUrl.EndsWith(".jpeg"))
                                 {
                                     <img class="card-img-top" src="~/img/no-image.png" alt="Card image cap">
                                 }

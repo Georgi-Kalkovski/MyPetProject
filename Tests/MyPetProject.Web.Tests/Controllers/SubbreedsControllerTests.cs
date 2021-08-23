@@ -1,5 +1,6 @@
 ﻿namespace MyPetProject.Web.Tests.Controller
 {
+    using MyPetProject.Common;
     using MyPetProject.Web.Controllers;
     using MyPetProject.Web.ViewModels.Subbreeds;
     using MyTested.AspNetCore.Mvc;
@@ -49,14 +50,6 @@
               .Calling(c => c.Create(
               With.Empty<SubbreedInputModel>()))
               .ShouldHave()
-          .ValidModelState();
-
-        [Fact]
-        public void SubbreedsControllerWithEditActionShouldReturnViewPage()
-          => MyController<SubbreedsController>
-          .Instance(i => i.WithUser())
-          .Calling(c => c.Edit("Panda German Shepherd"))
-          .ShouldHave()
           .ValidModelState();
 
         [Fact]

@@ -11,21 +11,21 @@
         public void HomeAnimalsIndexPageShouldBeMapped()
                 => MyRouting
                     .Configuration()
-                    .ShouldMap("/HomeAnimals")
+                    .ShouldMap("/Kingdoms/HomeAnimals")
                     .To<HabitatsController>(p => p.HomeAnimals());
 
         [Fact]
         public void FarmAnimalsIndexPageShouldBeMapped()
                 => MyRouting
                     .Configuration()
-                    .ShouldMap("/FarmAnimals")
+                    .ShouldMap("/Kingdoms/FarmAnimals")
                     .To<HabitatsController>(p => p.FarmAnimals());
 
         [Fact]
         public void WildAnimalsIndexPageShouldBeMapped()
                 => MyRouting
                     .Configuration()
-                    .ShouldMap("/WildAnimals")
+                    .ShouldMap("/Kingdoms/WildAnimals")
                     .To<HabitatsController>(p => p.WildAnimals());
     }
 }

@@ -31,15 +31,14 @@
         public void ErrorRouteShouldBeMapped()
             => MyRouting
                 .Configuration()
-                .ShouldMap("/Home/Error")
-                .To<HomeController>(c => c.Error());
-
+                .ShouldMap("ErrorPage")
+                .To<HomeController>(c => c.ErrorPage());
 
         [Fact]
         public void ErrorPageRouteShouldBeMapped()
             => MyRouting
                 .Configuration()
-                .ShouldMap("Error")
-                .To<HomeController>(c => c.ErrorPage());
+                .ShouldMap("/Home/Error")
+                .To<HomeController>(c => c.Error());
     }
 }

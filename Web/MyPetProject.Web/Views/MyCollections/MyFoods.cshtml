@@ -57,7 +57,7 @@
                     @foreach (var item in Model.Foods)
                     {
                         <div class="card col-6 col-lg-3 text-center">
-                            <a asp-controller="" asp-action="@item.Name">
+                            <a asp-controller="Foods" asp-action="Details" asp-route-id="@item.Name">
                                 <div class="card-body">
                                 </div>
                                 @if (!item.PicUrl.StartsWith("http"))

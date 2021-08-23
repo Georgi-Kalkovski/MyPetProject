@@ -52,14 +52,6 @@
           .ValidModelState();
 
         [Fact]
-        public void BreedsControllerWithEditGetActionShouldReturnViewPage()
-          => MyController<BreedsController>
-          .Instance(i => i.WithUser())
-          .Calling(c => c.Edit("Bulldogs"))
-          .ShouldHave()
-          .ValidModelState();
-
-        [Fact]
         public void BreedsControllerWithEditPostActionShouldReturnViewPage()
         => MyController<BreedsController>
         .Instance(i => i.WithUser())

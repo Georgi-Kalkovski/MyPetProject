@@ -19,7 +19,7 @@
         <ol class="breadcrumb col-md-3">
             <li class="breadcrumb-item"><a asp-controller="Kingdoms" asp-action="Index">Kingdoms</a></li>
             <li class="breadcrumb-item"><a asp-controller="Breeds" asp-action="Index">Breeds</a></li>
-            <li class="breadcrumb-item active" aria-current="page" >Subbreeds</li>
+            <li class="breadcrumb-item active" aria-current="page">Subbreeds</li>
         </ol>
     </nav>
     @if (!Model.Any())
@@ -54,7 +54,7 @@
             </p>
         }
         <p>
-            <a asp-controller="@back" asp-action="Index">Go Back</a>
+            <a href="javascript:history.back()">Go Back</a>
         </p>
 
         <table class="table">
@@ -68,9 +68,9 @@
                                     <div class="card-body">
                                     </div>
                                     @if (!item.PicUrl.StartsWith("http") &&
-                                      !item.PicUrl.EndsWith(".jpg") &&
-                                      !item.PicUrl.EndsWith(".png") &&
-                                      !item.PicUrl.EndsWith(".jpeg"))
+                                    !item.PicUrl.EndsWith(".jpg") &&
+                                    !item.PicUrl.EndsWith(".png") &&
+                                    !item.PicUrl.EndsWith(".jpeg"))
                                     {
                                         <img class="card-img-top" src="~/img/no-image.png" alt="Card image cap">
                                     }
