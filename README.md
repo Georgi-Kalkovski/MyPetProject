@@ -43,6 +43,7 @@ Azure Website: https://mypets.azurewebsites.net/
   - [DataTables](https://datatables.net/ "DataTables")
   - [SimpleIcons](https://simpleicons.org/?q=git "SimpleIcons")
   - [BootsWatch (Sketchy)](https://bootswatch.com/sketchy/ "BootsWatch (Sketchy)")
+  - [Error Page 404](https://codepen.io/JuliaSS/pen/ZMaXQV "Error Page 404")
   - [Imgur](https://imgur.com/ "Imgur")
   - SVG
 - Testing
