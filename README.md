@@ -6,6 +6,7 @@ An Encyclopedia-like project for animals and their food.<br/>
 The project allows you to look around for animals or their food, and if you register, you can create some of your own . After the user creates something, he can also Edit and Delete it. There is also an option for the registered user to become an admin. Becoming admin gives you the power of editing or deleting of every object in the project. There is an About page, where you can read more about the project and what it contains. <br/>
 
 Azure Website: https://mypets.azurewebsites.net/
+Custom DNS without SSL certificate: https://www.mypetproject.space/
 
  🔨 Built With
  --
