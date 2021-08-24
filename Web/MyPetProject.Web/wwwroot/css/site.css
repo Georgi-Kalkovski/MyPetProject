@@ -344,8 +344,31 @@ justify-content: center;
 }
 
 .sorting_1 img:hover {
-    transform: scale(4);
+    transform: scale(5);
     position: absolute;
+    left:1%;
     transition: transform .2s;
     z-index:9999 !important;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu {
+    margin-top: 0;
+}
+
+.card-img, .card-img-top {
+    border-top-left-radius: 23px;
+    border-top-right-radius: 23px;
+    border-bottom-left-radius: 23px;
+    border-bottom-right-radius: 23px;
+}
+
+.rounded-start {
+    border-bottom-left-radius: 25px !important;
+    border-top-left-radius: 25px !important;
+    border-bottom-right-radius: 25px !important;
+    border-top-right-radius: 25px !important;
 }

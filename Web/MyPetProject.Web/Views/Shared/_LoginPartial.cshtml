@@ -9,9 +9,9 @@
     {
         <li class="dropdown">
 
-            <button class="btn dropdown-toggle nav-link text-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="btn dropdown-toggle nav-link text-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="dropdownMenu">My Collections</span>
-            </button>
+            </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="MyCollections" asp-action="MyKingdoms">Kingdoms</a>
                 <a class="dropdown-item dropdownMenu" asp-area="" asp-controller="MyCollections" asp-action="MyBreeds">Breeds</a>
@@ -21,14 +21,14 @@
             </div>
         </li>
         <li class="dropdown">
-            <button class="btn dropdown-toggle nav-link text-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="btn dropdown-toggle nav-link text-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 @{
                     var userName = this.User.Identity.Name;
                     int index = userName.IndexOf("@");
                     if (index >= 0) { userName = userName.Substring(0, index); }
                     <span class="dropdownMenu">@userName</span>
                 }
-            </button>
+            </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
                 <a class="dropdown-item dropdownMenu" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">User Settings</a>
