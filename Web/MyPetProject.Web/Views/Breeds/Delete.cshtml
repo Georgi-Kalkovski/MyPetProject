@@ -26,15 +26,15 @@
                     <p>
                         <div class="card col-12 col-lg-12 game-card">
                             @if (!picture.StartsWith("http") &&
-                        !picture.EndsWith(".jpg") &&
-                        !picture.EndsWith(".png") &&
-                        !picture.EndsWith(".jpeg"))
+                       !picture.EndsWith(".jpg") &&
+                       !picture.EndsWith(".png") &&
+                       !picture.EndsWith(".jpeg"))
                             {
                                 <img class="card-img-top" src="~/img/no-image.png" alt="Card image cap">
                             }
                             else
                             {
-                                <img class="card-img-top" src="@picture" alt="Card image cap">
+                                <img class="card-img-top" src="@picture" alt="Card image cap" onerror="this.onerror=null; src='https://i.imgur.com/VlZzxxX.png';">
                             }
                         </div>
                     </p>

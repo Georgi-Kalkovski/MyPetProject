@@ -68,15 +68,15 @@
                                     <div class="card-body">
                                     </div>
                                     @if (!item.PicUrl.StartsWith("http") &&
-                                    !item.PicUrl.EndsWith(".jpg") &&
-                                    !item.PicUrl.EndsWith(".png") &&
-                                    !item.PicUrl.EndsWith(".jpeg"))
+                                           !item.PicUrl.EndsWith(".jpg") &&
+                                           !item.PicUrl.EndsWith(".png") &&
+                                           !item.PicUrl.EndsWith(".jpeg"))
                                     {
                                         <img class="card-img-top" src="~/img/no-image.png" alt="Card image cap">
                                     }
                                     else
                                     {
-                                        <img class="card-img-top" src="@item.PicUrl" alt="Card image cap">
+                                        <img class="card-img-top" src="@item.PicUrl" alt="Card image cap" onerror="this.onerror=null; src='https://i.imgur.com/VlZzxxX.png';">
                                     }
                                     <div class="card-body d-flex flex-column">
                                         <div class="mt-auto">

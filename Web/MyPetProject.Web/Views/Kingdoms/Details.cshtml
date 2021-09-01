@@ -31,15 +31,15 @@
                 <h1>@name</h1>
                 <p class="lead mx-auto d-block" style="max-width: 70%; height: auto;">
                     @if (!picture.StartsWith("http") &&
-                      !picture.EndsWith(".jpg") &&
-                      !picture.EndsWith(".png") &&
-                      !picture.EndsWith(".jpeg"))
+                     !picture.EndsWith(".jpg") &&
+                     !picture.EndsWith(".png") &&
+                     !picture.EndsWith(".jpeg"))
                     {
                         <img class="card-img-top" src="~/img/no-image.png" alt="Card image cap">
                     }
                     else
                     {
-                        <img class="card-img-top" src="@picture" alt="Card image cap">
+                        <img class="card-img-top" src="@picture" alt="Card image cap" onerror="this.onerror=null; src='https://i.imgur.com/VlZzxxX.png';">
                     }
                 </p>
                 <p class="lead">Group: <a href="~/@modelName/@group">@group</a>  |  Diet: <a href="~/@modelName/@diet">@diet</a></p>
