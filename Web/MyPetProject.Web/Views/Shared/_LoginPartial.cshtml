@@ -37,7 +37,8 @@
                     var user = await this.UserManager.GetUserAsync(this.User);
                     if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) == false)
                     {
-                        <form asp-controller="Admins" asp-action="Index">
+                        <form asp-controller="Admins" asp-action="Index" name="myForm" onsubmit="return validateForm()" method="post">
+                            <input type="text" name="fname" placeholder="Admin password" class="form-control">
                             <button type="submit" class="dropdown-item dropdownMenu">Become Admin</button>
                         </form>
                     }
@@ -62,3 +63,13 @@
         </li>
     }
 </ul>
+
+<script>
+    function validateForm() {
+        let x = document.forms["myForm"]["fname"].value;
+        if (x != "becomeadmin123") {
+            alert("Wrong admin password.");
+            return false;
+        }
+    }
+</script>
