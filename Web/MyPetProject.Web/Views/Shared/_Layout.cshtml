@@ -17,7 +17,7 @@
             <div class="container" style="margin-bottom: -5px">
                 <a class="nav-link" style="color:black" asp-area="" asp-controller="Home" asp-action="Index"><h4>Zooing@*@GlobalConstants.SystemName*@</h4></a>
                 <a class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                   aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </a>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
@@ -71,7 +71,8 @@
     </header>
 
     <div class="container content">
-        <partial name="_CookieConsentPartial" />
+
+        <!--  <partial name="_CookieConsentPartial" />  -->
         <main role="main" class="pb-3">
             @this.RenderBody()
         </main>
