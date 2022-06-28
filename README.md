@@ -1,6 +1,8 @@
 
 
-# 🐱 MyPetProject
+# 🐱 Zooing
+Try the site ➜ [Zooing](http://zooing.somee.com/ "Somee App Service")
+ 
 An Encyclopedia-like project for animals and their food.<br/>
 
 The project allows you to look around for animals or their food, and if you register, you can create some of your own . After the user creates something, he can also Edit and Delete it. There is also an option for the registered user to become an admin. Becoming admin gives you the power of editing or deleting of every object in the project. There is an About page, where you can read more about the project and what it contains. <br/>
@@ -21,6 +23,7 @@ The project allows you to look around for animals or their food, and if you regi
   - [Microsoft SQL Server Management Studio 18](https://cloudblogs.microsoft.com/sqlserver/2019/04/24/sql-server-management-studio-ssms-18-0-released-for-general-availability/, "Microsoft SQL Server Management Studio 18")
 - Web Servers:
   - IIS
+  - [Somee App Service](https://somee.com/ "Somee App Service")
   - [Microsoft Azure App Service](https://azure.microsoft.com/en-us/services/app-service/ "Microsoft Ezure App Service")
   - [Microsoft Azure SQL Database](https://azure.microsoft.com/en-us/products/azure-sql/database/ "Azure SQL Database")
 - Back-End Language:
