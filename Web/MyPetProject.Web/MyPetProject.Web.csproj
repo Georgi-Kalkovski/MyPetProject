@@ -13,6 +13,10 @@
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
+
+  <ItemGroup>
+    <_WebToolingArtifacts Remove="Properties\PublishProfiles\zooing - Web Deploy.pubxml" />
+  </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
