@@ -38,24 +38,14 @@
                     if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) == false)
                     {
                         <form asp-controller="Admins" asp-action="Index" name="myForm" onsubmit="return validateForm()" method="post">
-                                <input type="text" name="fname" placeholder="Admin password" class="form-control">
-                                <button type="submit" class="dropdown-item dropdownMenu">Become Admin</button>
-                            <span asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new { area = string.Empty })"></span>
+                            <input type="text" name="fname" placeholder="Admin password" class="form-control">
+                            <button type="submit" class="dropdown-item dropdownMenu">Become Admin</button>
                         </form>
                     }
                 }
                 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
-                    var user = await this.UserManager.GetUserAsync(this.User);
-                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new { area = string.Empty })">
-                        <button type="submit" class="dropdown-item dropdownMenu" onclick=@{
-                        await this.UserManager.RemoveFromRoleAsync(user, "Administrator");
-                        }>
-                            Remove Admin
-                        </button>
-                    </form>
-
-                    <a class="dropdown-item dropdownMenu" asp-area="Administration" asp-controller="Dashboard" asp-action="Index" title="Admin">Admin Panel</a>
+                    <a class="dropdown-item dropdownMenu" asp-area="Administration" asp-controller="Dashboard" asp-action="Index" title="Admin">Admin</a>
                 }
                 <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new { area = string.Empty })">
                     <button type="submit" class="dropdown-item dropdownMenu">Logout</button>
